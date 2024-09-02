@@ -16,12 +16,6 @@
     <title>Silver Sands {% block extra_title %}{% endblock %}</title>
 
     {% block corecss %}
-    <!--FAVICON-->
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
-    <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
-
     <!--Google fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -57,16 +51,16 @@
                 <hr>
                 <ul class="navbar-nav mx-auto navbar-nav-center">
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == %}active{% endif %}" href="/">All Wines</a>
+                        <a class="nav-link {% if request.path == home_url %}active{% endif %}" href="/">All Wines</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == %}active{% endif %}" href="/">Our Story</a>
+                        <a class="nav-link {% if request.path == home_url %}active{% endif %}" href="/">Our Story</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == %}active{% endif %}" href="/">Visit Us</a>
+                        <a class="nav-link {% if request.path == home_url %}active{% endif %}" href="/">Visit Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == %}active{% endif %}" href="/">Contact</a>
+                        <a class="nav-link {% if request.path == home_url %}active{% endif %}" href="/">Contact</a>
                     </li>
                 </ul>
                 <hr>
@@ -84,12 +78,12 @@
                         
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == %}active{% endif %}" href="{{  }}">
+                        <a class="nav-link {% if request.path == home_url %}active{% endif %}" href="/">
                             <i class="fas fa-user"></i> <!-- Profile icon -->
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == %}active{% endif %}" href="{{  }}">
+                        <a class="nav-link {% if request.path == home_url %}active{% endif %}" href="/">
                             <i class="fas fa-shopping-basket"></i> <!-- Basket icon -->
                         </a>
                     </li>
