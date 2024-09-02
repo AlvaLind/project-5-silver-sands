@@ -1,0 +1,184 @@
+{% load static %}
+
+<!-- Add URL links -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silver Sands</title>
+    <!--FAVICON-->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
+
+    <!--Google fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    
+</head>
+
+<body>
+    <header>
+        <!-- Nav Bar -->
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="navbar-brand navbar-brand-custom" href="/">
+                Silver Sands
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <hr>
+                <ul class="navbar-nav mx-auto navbar-nav-center">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == %}active{% endif %}" href="/">All Wines</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == %}active{% endif %}" href="/">Our Story</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == %}active{% endif %}" href="/">Visit Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == %}active{% endif %}" href="/">Contact</a>
+                    </li>
+                </ul>
+                <hr>
+
+                <!-- Moved to the right -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <i class="fas fa-search search-icon"></i>
+                    </li>
+                    <li class="nav-item">
+                        <form class="form-inline my-2 my-lg-0" method="GET" action="">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                        </form>
+                    </li>
+                        
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == %}active{% endif %}" href="{{  }}">
+                            <i class="fas fa-user"></i> <!-- Profile icon -->
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == %}active{% endif %}" href="{{  }}">
+                            <i class="fas fa-shopping-basket"></i> <!-- Basket icon -->
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == logout_url %}active{% endif %}" href="{% url 'account_logout' %}">Logout</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == login_url %}active{% endif %}" href="{% url 'account_login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == signup_url %}active{% endif %}" href="{% url 'account_signup' %}">Sign up</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- displaying Django messages -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                {% for message in messages %}
+                <div class="alert {{ message.tags }} alert-dismissible
+                fade show" id="msg" role="alert">
+                {{ message | safe }}
+                <button type="button" class="btn-close"
+                    data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <main>
+        {% block content %}
+
+        {% endblock %}
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <!-- Column 1 -->
+            <div class="footer-column">
+                <div class="site-logo">
+                    <h2>Silver Sands</h2>
+                </div>
+                <p class="site-description">
+                    Dedicated to crafting exceptional wines that celebrate tradition, quality, and the beauty of nature.
+                    From handpicked grapes to expertly blended varietals, each bottle reflects our passion for winemaking
+                    and out commitment to sustainability.
+                </p>
+                <div class="social-links">
+                    <a href="https://x.com/" class="social-link" aria-label="Go to twitter page"><i class="fab fa-twitter"></i></a>
+                    <a href="https://facebook.com/" class="social-link" aria-label="Go to facebook page"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com/" class="social-link" aria-label="Go to instagram page"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <hr>
+            
+            <!-- Column 2 -->
+            <div class="footer-column">
+                <h3>Explore</h3>
+                <ul class="page-links">
+                    <li><a href="/" aria-label="Home page">Home</a></li>
+                    <li><a href="/" aria-label="Books page">Wines</a></li>
+                    <li><a href="/" aria-label="About us page">About Us</a></li>
+                    <li><a href="/" aria-label="Request a book page">Host an event with us</a></li>
+                </ul>
+            </div>
+            <hr>
+            
+            <!-- Column 3 -->
+            <div class="footer-column">
+                <ul class="contact-details">
+                    <li><h3>Need some help?</h3></li>
+                    <li><p>Email: info@silversands.com</p></li>
+                    <li><p>Open Hours: 1am - 9pm</p></li>
+                    <li><p>Wednesday - Sunday</p></li>
+                </ul>
+            </div>
+
+            
+        </div>
+        <!-- Copyright final row -->
+        <div class="copyright">
+            <p>&copy; 2024 Silver Sands. All rights reserved.</p>
+        </div>
+
+    </footer>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+
+    <!-- Base JS -->
+    <script src="{% static 'js/base.js' %}"></script>
+
+    {% block extras %}
+    {% endblock %}
+
+</body>
+</html>
+
