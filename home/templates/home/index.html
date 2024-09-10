@@ -4,4 +4,32 @@
 {% block content %}
 <!-- homepage.html content starts here -->
     <h1 class="display-4 text-sucess">It Works</h1>
+
+        <!-- Why choose us section  -->
+        <div class="container-fluid wine-banner">
+            <div class="row align-items-center flex-column flex-md-row">
+                <!-- Text Section -->
+                <div class="col-md-6 text-center text-md-start">
+                    <div class="banner-text-box wine-text">
+                        <h2><strong>Why Choose Silver Sands?</strong></h2>
+                        <p>Nestled in the heart of McLaren Vale, one of Australia’s most renowned wine regions, 
+                            Silver Sands Vineyard offers a unique blend of premium winemaking and stunning coastal charm. 
+                            Our proximity to the beautiful Silver Sands beach and the warm Mediterranean climate 
+                            of McLaren Vale create ideal conditions for producing rich, vibrant wines that capture 
+                            the essence of this extraordinary location.
+                        </p>               
+                        <a href="{{ home }}" class="btn btn-primary">Explore Our Wines</a>
+                    </div>
+                </div>
+    
+                <!-- Image Section -->
+                <div class="col-md-6 text-center mt-3 mt-md-0">
+                    <picture>
+                        <img src="{% static 'images/home_img_2.jpg' %}" alt="Silver Sands Estate" class="banner-image img-fluid">
+                    </picture>
+                </div>
+            </div>
+        </div>
+
+
 {% endblock %}
