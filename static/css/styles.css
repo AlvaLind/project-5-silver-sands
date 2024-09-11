@@ -87,7 +87,6 @@ footer a:hover {
 /* Index - Title header styles */
 .index-header{
     background-color: #fff460;
-    max-height: 600px;
 }
 
 .index-header-btn {
@@ -97,6 +96,10 @@ footer a:hover {
 }
 
 .header-index-image {
+    max-height: 600px;
+}
+
+.index-header-text{
     max-height: 600px;
 }
 
