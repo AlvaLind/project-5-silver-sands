@@ -3,39 +3,54 @@
 
 {% block content %}
 <!-- homepage.html content starts here -->
-    <h1 class="display-4 text-sucess">It Works</h1>
-
-        <!-- Why choose us section  -->
-        <div class="container-fluid wine-banner">
-            <div class="row align-items-center flex-column flex-md-row">
-                <!-- Text Section -->
-                <div class="col-md-6 text-center text-md-start">
-                    <div class="banner-text-box wine-text">
-                        <h2><strong>Why Choose Silver Sands?</strong></h2>
-                        <p>Nestled in the heart of McLaren Vale, one of Australia’s most renowned wine regions, 
-                            Silver Sands Estate offers a unique blend of premium winemaking and stunning coastal charm. 
-                            Our proximity to the beautiful Silver Sands beach and the warm Mediterranean climate 
-                            of McLaren Vale create ideal conditions for producing rich, vibrant wines that capture 
-                            the essence of this extraordinary location.
-                        </p>               
-                        <a href="{{ home }}" class="btn btn-primary">Explore Our Wines</a>
-                    </div>
-                </div>
+    <!-- Intro Banner -->
+    <div class="container-fluid index-header">
+        <div class="row align-items-center">
+            <!-- Image Section -->
+            <div class="col-12 col-md-6 d-flex justify-content-center mb-3 mb-md-0">
+                <img src="{% static 'images/1,5.png' %}" alt="Silver Sands" class="img-fluid header-index-image" aria-label="graphic hands holding two wine glasses">
+            </div>
     
-                <!-- Image Section -->
-                <div class="col-md-6 text-center mt-3 mt-md-0">
-                    <picture>
-                        <img src="{% static 'images/home_img_4.jpg' %}" alt="Silver Sands Estate" class="banner-image img-fluid" aria-label="A woman in a vineyard picking grapes]">
-                    </picture>
-                </div>
+            <!-- Text Section -->
+            <div class="col-12 col-md-6 text-center d-flex flex-column justify-content-center">
+                <h1 class="logo">SILVER SANDS <br> ESTATE</h1>
+                <h4>Crafted by Nature, Perfected in <br> McLaren Vale – Wine for Every Moment</h4>
+                <a href="{{ home }}" class="index-header-btn btn btn-primary mt-3">Shop Our Wines</a>
             </div>
         </div>
-
-        <!-- Host your event with us section  -->
-        <div class="container-fluid wine-banner">
+    </div>
+    
+    <!-- Why choose us section  -->
+    <div class="container-fluid wine-banner">
         <div class="row align-items-center flex-column flex-md-row">
-             <!-- Image Section -->
-             <div class="col-md-6 text-center mt-3 mt-md-0">
+            <!-- Text Section -->
+            <div class="col-md-6 text-center text-md-start">
+                <div class="banner-text-box wine-text">
+                    <h2><strong>Why Choose Silver Sands?</strong></h2>
+                    <p>Nestled in the heart of McLaren Vale, one of Australia’s most renowned wine regions, 
+                        Silver Sands Estate offers a unique blend of premium winemaking and stunning coastal charm. 
+                        Our proximity to the beautiful Silver Sands beach and the warm Mediterranean climate 
+                        of McLaren Vale create ideal conditions for producing rich, vibrant wines that capture 
+                        the essence of this extraordinary location.
+                    </p>               
+                    <a href="{{ home }}" class="btn btn-primary">Explore Our Wines</a>
+                </div>
+            </div>
+
+            <!-- Image Section -->
+            <div class="col-md-6 text-center mt-3 mt-md-0">
+                <picture>
+                    <img src="{% static 'images/home_img_4.jpg' %}" alt="Silver Sands Estate" class="banner-image img-fluid" aria-label="A woman in a vineyard picking grapes">
+                </picture>
+            </div>
+        </div>
+    </div>
+
+    <!-- Host your event with us section  -->
+    <div class="container-fluid wine-banner">
+        <div class="row align-items-center flex-column flex-md-row">
+            <!-- Image Section -->
+            <div class="col-md-6 text-center mt-3 mt-md-0">
                 <picture>
                     <img src="{% static 'images/home_img_2.jpg' %}" alt="Silver Sands Estate" class="banner-image img-fluid" aria-label="people cheering">
                 </picture>
@@ -48,14 +63,12 @@
                         our stunning vineyard and cellar offer a breath taking backdrop for weddings, 
                         corporate gatherings, and private events. Surrounded by rolling vines and rustic elegance, 
                         your guests will enjoy a truly unforgettable experience. Whether it's an intimate gathering
-                         or a grand affair, our team will work with you to create the perfect atmosphere, 
-                         complete with fine wines and personalized touches.
+                        or a grand affair, our team will work with you to create the perfect atmosphere, 
+                        complete with fine wines and personalized touches.
                     </p>               
                     <a href="{{ home }}" class="btn btn-primary">Contact Us</a>
                 </div>
             </div>
         </div>
     </div>
-
-
 {% endblock %}
