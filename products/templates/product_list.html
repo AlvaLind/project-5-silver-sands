@@ -56,6 +56,17 @@
                     </form>
                 </div>
             </div>
+            <!-- Sort By -->
+            <div class="dropdown">
+                <button id="sortDropdownBtn" class="dropdown-btn btn btn-secondary">Sort By</button>
+                <div id="sortDropdownContent" class="sort-dropdown-content m-2">
+                    <form method="get" action="{% url 'product_list' %}" class="d-flex flex-column m-3">
+                        <button type="submit" name="sort" value="name_asc" class="btn btn-primary mb-2">Name</button>
+                        <button type="submit" name="sort" value="rating_desc" class="btn btn-primary mb-2">Most Popular</button>
+                        <button type="submit" name="sort" value="price_asc" class="btn btn-primary">Affordability</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
