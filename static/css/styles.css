@@ -120,6 +120,12 @@ footer a:hover {
     object-fit: cover;
 }
 
+/* Login page styles */
+.form-container {
+    background-color: #fffef3; 
+    border: 2px solid #161616; 
+}
+
 /* About Us page styles */
 .about-us-box {
     max-width: 360px; 
