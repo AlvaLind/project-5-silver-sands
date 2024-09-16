@@ -13,34 +13,82 @@
         <div class="col-md-6">
             <img src="{{ wine.image.url }}" alt="{{ wine.name }}" class="img-fluid">
         </div>
-        <!-- Wine Details -->
+        <!-- Wine Primary Details -->
         <div class="col-md-6">
-            <h1>{{ wine.name }}</h1>
-            <p><strong>Price:</strong> ${{ wine.price }}</p>
-            <p><strong>Vintage:</strong> {{ wine.vintage }}</p>
-            <p><strong>Volume:</strong> {{ wine.volume }} ml</p>
-            <p><strong>ABV:</strong> {{ wine.abv }}%</p>
-            <p><strong>Closure:</strong> {{ wine.get_closure_display }}</p>
-            <p><strong>Category:</strong> {{ wine.category.name }}</p>
-            <p><strong>Description:</strong> {{ wine.description }}</p>
-            {% if wine.acidity %}
-                <p><strong>Acidity:</strong> {{ wine.acidity }}</p>
-            {% endif %}
-            {% if wine.residual_sugar %}
-                <p><strong>Residual Sugar:</strong> {{ wine.residual_sugar }}</p>
-            {% endif %}
-            {% if wine.ph %}
-                <p><strong>pH:</strong> {{ wine.ph }}</p>
-            {% endif %}
-            <p><strong>Stock:</strong> {{ wine.stock }} bottles</p>
-            <p><strong>Rating:</strong> {% if wine.rating %}{{ wine.rating }}{% else %}No rating yet{% endif %}</p>
-            <p><strong>Available:</strong> {% if wine.available %}Yes{% else %}No{% endif %}</p>
+            <div class="product-primary-details">
+                <h1>{{ wine.name }}</h1>
+                <p class="lead">Price: ${{ wine.price }}</p>
+                <p>Availability: 
+                    {% if wine.available %}
+                        In Stock, Limited quantaties available
+                    {% else %}
+                        Out of Stock
+                    {% endif %}
+                </p>
+                {%if wine.rating %}
+                    <p><strong>Rating</strong> {{ wine.rating }}</p>
+                {% endif %}
+            
+                <p><strong>Varietal</strong> <br> {{ wine.category.name }}</p>
+                <hr>
+                <p><strong>Vintage</strong> <br> {{ wine.vintage }}</p>
+                <hr>
+                <p><strong>Volume</strong> <br> {{ wine.volume }} ml</p>
+                <hr>
+                <p><strong>Closure</strong> <br> {{ wine.get_closure_display }}</p>
+                <hr>
+                <!-- Add to Basket Form -->
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Add to Basket</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
-            <!-- Add to Cart Form -->
-            <form action="" method="post">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-primary">Add to Cart</button>
-            </form>
+    <div class="row mt-3 mb-3">
+        <div class="container-fluid">
+            <div class="wine-description">
+                <h2 class="mb-3">Description</h2> 
+                <p>{{ wine.description }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3 mb-5">
+        <!-- Vintage Conditions -->
+        <h2 class="mb-3">Vintage Conditions</h2>
+        <div class="col-md-6 ">
+            <p>At Crimson Vine Cellars we pride ourselves on crafting wines that reflect our commitment to quality and tradition. 
+                Our winemaking philosophy blends time-honored techniques with innovative practices to produce wines of 
+                exceptional character and elegance.
+            </p>
+            <p>
+                The grapes for our 2014 Shiraz are sourced from our meticulously managed vineyards in the Adelaide Hills, 
+                known for its ideal growing conditions. The combination of well-drained soils and a temperate climate 
+                allows our Shiraz grapes to develop their rich, complex flavors
+            </p>
+        </div>
+        <!-- Wine Primary Details -->
+        <div class="col-md-6">
+            <div class="product-secondary-details">
+                <p><strong>Alcohol By Volume (ABV)</strong> <br> {{ wine.abv }}%</p>
+                <hr>
+                {% if wine.acidity %}
+                <p><strong>Acidity</strong> {{ wine.acidity }}</p>
+                <hr>
+                {% endif %}
+                {% if wine.residual_sugar %}
+                    <p><strong>Residual Sugar</strong> {{ wine.residual_sugar }}</p>
+                    <hr>
+                {% endif %}
+                {% if wine.ph %}
+                    <p><strong>pH</strong> {{ wine.ph }}</p>
+                    <hr>
+                {% endif %}
+                <p><strong>Rating:</strong> {% if wine.rating %}{{ wine.rating }}{% else %}No rating yet{% endif %}</p>
+                <hr>
+            </div>
         </div>
     </div>
 </div>
