@@ -1,6 +1,8 @@
 {% load static %}
 
 <!-- Add URL links -->
+{% url 'home' as home_url %}
+{% url 'product_list' as products_url %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -58,7 +60,7 @@
                 <hr>
                 <ul class="navbar-nav mx-auto navbar-nav-center">
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == home_url %}active{% endif %}" href="/">All Wines</a>
+                        <a class="nav-link {% if request.path == products_url %}active{% endif %}" href="{{ products_url }}">All Wines</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == home_url %}active{% endif %}" href="/">Our Story</a>
@@ -167,8 +169,8 @@
                 <div class="col-lg-4 col-md-12 footer-column mb-4 text-center text-lg-start">
                     <h4>Explore</h4>
                     <ul class="page-links list-unstyled">
-                        <li><a href="/" class="text-reset text-decoration-none" aria-label="Home page">Home</a></li>
-                        <li><a href="/" class="text-reset text-decoration-none" aria-label="Wines page">Wines</a></li>
+                        <li><a href="{{ home_url }}" class="text-reset text-decoration-none" aria-label="Home page">Home</a></li>
+                        <li><a href="{{ products_url }}" class="text-reset text-decoration-none" aria-label="Wines page">Wines</a></li>
                         <li><a href="/" class="text-reset text-decoration-none" aria-label="About us page">About Us</a></li>
                         <li><a href="/" class="text-reset text-decoration-none" aria-label="Host an event page">Host an event with us</a></li>
                     </ul>
