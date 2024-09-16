@@ -2,7 +2,8 @@
 
 <!-- Add URL links -->
 {% url 'home' as home_url %}
-{% url 'product_list' as products_url %}
+{% url 'product_list' as product_list_url %}
+{% url 'product_details' as product_details_url %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -60,7 +61,7 @@
                 <hr>
                 <ul class="navbar-nav mx-auto navbar-nav-center">
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == products_url %}active{% endif %}" href="{{ products_url }}">All Wines</a>
+                        <a class="nav-link {% if request.path == product_list_url %}active{% endif %}" href="{{ product_list_url }}">All Wines</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == home_url %}active{% endif %}" href="/">Our Story</a>
@@ -170,7 +171,7 @@
                     <h4>Explore</h4>
                     <ul class="page-links list-unstyled">
                         <li><a href="{{ home_url }}" class="text-reset text-decoration-none" aria-label="Home page">Home</a></li>
-                        <li><a href="{{ products_url }}" class="text-reset text-decoration-none" aria-label="Wines page">Wines</a></li>
+                        <li><a href="{{ product_list_url }}" class="text-reset text-decoration-none" aria-label="Wines page">Wines</a></li>
                         <li><a href="/" class="text-reset text-decoration-none" aria-label="About us page">About Us</a></li>
                         <li><a href="/" class="text-reset text-decoration-none" aria-label="Host an event page">Host an event with us</a></li>
                     </ul>
