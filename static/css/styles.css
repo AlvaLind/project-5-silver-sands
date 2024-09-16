@@ -120,6 +120,52 @@ footer a:hover {
     object-fit: cover;
 }
 
+/* About Us page styles */
+.about-us-box {
+    max-width: 360px; 
+    height: 585px;
+    display: inline-block; 
+    vertical-align: top;
+    border: 1.5px solid #c6c6c6; 
+    padding: 20px;
+    margin: 10px; 
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4); 
+    border-radius: 8px; 
+    text-align: center;
+}
+
+.about-box-1 {
+    background: rgba(255, 234, 74, 0.4);
+    margin-right: 20px;
+}
+
+.about-box-2 {
+    background: rgba(176, 189, 216, 0.3);
+    margin-right: 20px;
+}
+
+.about-box-3 {
+    background: rgba(255, 236, 232, 0.8);
+    margin-right: 20px;
+}
+
+.about-us-box img.box-image {
+    width: 100%; 
+    height: auto; 
+    max-height: 500px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px; 
+}
+
+.about-us-box h2 {
+    font-size: 1.5rem; 
+    margin-bottom: 10px; 
+}
+
+.about-us-box p {
+    font-size: 1rem; 
+}
+
 /* Product list page styles */
 .wine-item {
     position: relative;
