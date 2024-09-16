@@ -1,4 +1,3 @@
-<!-- Template to list all wines --> 
 {% extends 'base.html' %}
 {% load static %}
 
@@ -9,43 +8,43 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            {% if wines %}
-                <div class="col-md-12">
-                    <ul class="list-unstyled wine-list">
-                        {% for wine in wines %}
-                            <li class="wine-item mb-4 p-3 border rounded">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        {% if wine.image %}
-                                            <img src="{{ wine.image.url }}" alt="{{ wine.name }}" class="img-fluid">
-                                        {% else %}
-                                            <img src="{% static 'images/unlabelled-wine-bottle.jpg' %}" alt="Default Image" class="img-fluid">
-                                        {% endif %}
-                                    </div>
-                                    <div class="col-md-8">
-                                        <h2>{{ wine.name }}</h2>
-                                        <p><strong>Category:</strong> {{ wine.category.name }}</p>
-                                        <p><strong>Price:</strong> ${{ wine.price }}</p>
-                                        <p><strong>Vintage:</strong> {{ wine.vintage }}</p>
-                                        <p><strong>Volume:</strong> {{ wine.volume }} ml</p>
-                                        <p><strong>ABV:</strong> {{ wine.abv }}%</p>
-                                        <p><strong>Rating:</strong> {{ wine.rating }}</p>
-                                        <p><strong>Stock:</strong> {{ wine.stock }}</p>
-                                        <p><strong>Description:</strong> {{ wine.description|slice:":100" }}{% if wine.description|length > 100 %}...{% endif %}</p>
-                                        <a href="{% url 'product_details' wine_id=wine.id %}" class="btn btn-primary">View Details</a>
-                                    </div>
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
+<div class="container mt-3">
+    <div class="row">
+        {% if wines %}
+            {% for wine in wines %}
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 text-center p-3 wine-item">
+                    <div class="card-img-container" style="position: relative; width: 100%; padding-top: 100%; overflow: hidden;">
+                        {% if wine.image %}
+                        <img src="{{ wine.image.url }}" alt="{{ wine.name }}" class="img-fluid" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                        {% else %}
+                        <img src="{% static 'images/unlabelled-wine-bottle.jpg' %}" alt="Default Image" class="img-fluid" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ wine.name }}</h5>
+                        <p class="card-text"><strong>Category:</strong> {{ wine.category.name }}</p>
+                    </div>
+
+                    <!-- Hidden info box with button -->
+                    <div class="wine-info">
+                        <h5 class="card-title mb-2">{{ wine.name }}</h5>
+                        <p class="card-text mb-2"><strong>Category:</strong> {{ wine.category.name }}</p>
+                        <p class="card-text mb-2"><strong>Volume:</strong> {{ wine.volume }} ml</p>
+                        {% if wine.rating %}
+                        <p class="card-text mb-2"><strong>Rating:</strong> {{ wine.rating }}</p>
+                        {% endif %}
+                        <p class="card-text mb-2"><strong>Price:</strong> ${{ wine.price }}</p>
+                        <a href="{% url 'product_details' wine_id=wine.id %}" class="btn btn-light">View Details</a>
+                    </div>
                 </div>
-            {% else %}
-                <div class="col-md-12">
-                    <p class="text-center">No wines available.</p>
-                </div>
-            {% endif %}
+            </div>
+            {% endfor %}
+        {% else %}
+        <div class="col-md-12">
+            <p class="text-center">No wines available.</p>
         </div>
+        {% endif %}
     </div>
+</div>
 {% endblock %}

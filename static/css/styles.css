@@ -120,9 +120,46 @@ footer a:hover {
     object-fit: cover;
 }
 
+/* Product list page styles */
+.wine-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.wine-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.wine-item:hover .wine-info {
+    opacity: 1;
+}
+
+.card-body {
+    position: relative;
+    z-index: 1;
+}
+
 /* Styles for larger screens */
 @media (min-width: 992px) {
     .index-header .logo {
         font-size: 56px;
+    }
+}
+
+@media (max-width: 992px) {
+    footer .col-lg-4 {
+        text-align: center;
     }
 }
