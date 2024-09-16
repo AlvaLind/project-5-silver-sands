@@ -165,6 +165,29 @@ footer a:hover {
     display: block;
 }
 
+.sort-dropdown-content{
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Show dropdown content when dropdown is hovered */
+.dropdown-content.show {
+    display: block;
+}
+
+.sort-dropdown-content.show {
+    display: block;
+}
+
+.dropdown-btn {
+    width: 120px;
+}
+
+
 /* Styles for larger screens */
 @media (min-width: 992px) {
     .index-header .logo {
