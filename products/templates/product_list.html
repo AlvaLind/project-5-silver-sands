@@ -1,0 +1,50 @@
+<!-- Template to list all wines --> 
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_header %}
+    <header class="page-header text-center py-4">
+        <h1>Wine List</h1>
+    </header>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            {% if wines %}
+                <div class="col-md-12">
+                    <ul class="list-unstyled wine-list">
+                        {% for wine in wines %}
+                            <li class="wine-item mb-4 p-3 border rounded">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        {% if wine.image %}
+                                            <img src="{{ wine.image.url }}" alt="{{ wine.name }}" class="img-fluid">
+                                        {% else %}
+                                            <img src="{% static 'images/unlabelled-wine-bottle.jpg' %}" alt="Default Image" class="img-fluid">
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h2>{{ wine.name }}</h2>
+                                        <p><strong>Category:</strong> {{ wine.category.name }}</p>
+                                        <p><strong>Price:</strong> ${{ wine.price }}</p>
+                                        <p><strong>Vintage:</strong> {{ wine.vintage }}</p>
+                                        <p><strong>Volume:</strong> {{ wine.volume }} ml</p>
+                                        <p><strong>ABV:</strong> {{ wine.abv }}%</p>
+                                        <p><strong>Rating:</strong> {{ wine.rating }}</p>
+                                        <p><strong>Stock:</strong> {{ wine.stock }}</p>
+                                        <p><strong>Description:</strong> {{ wine.description|slice:":100" }}{% if wine.description|length > 100 %}...{% endif %}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <div class="col-md-12">
+                    <p class="text-center">No wines available.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
