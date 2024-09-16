@@ -37,6 +37,16 @@
                             <label for="price_max">Price Max:</label>
                             <input type="number" id="price_max" name="price_max" class="form-control" value="{{ request.GET.price_max }}" step="0.01">
                         </div>
+
+                        <!-- Availability Filter -->
+                        <div class="form-group m-3">
+                            <label for="available">Availability:</label>
+                            <select id="available" name="available" class="form-control">
+                                <option value="">All</option>
+                                <option value="true" {% if request.GET.available == 'true' %}selected{% endif %}>In Stock</option>
+                                <option value="false" {% if request.GET.available == 'false' %}selected{% endif %}>Out of Stock</option>
+                            </select>
+                        </div>
             
                         <!-- Submit Button -->
                         <div class="form-group d-flex justify-content-start m-3">
