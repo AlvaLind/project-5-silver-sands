@@ -1,7 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Wine, Category
+from django.contrib import messages
+from reviews.models import Review
 from datetime import datetime
-
+from reviews.forms import ReviewForm
+from django.db.models import Avg
 
 def product_list(request):
     """
@@ -68,10 +71,40 @@ def product_list(request):
 
 def product_details(request, wine_id):
     """
-    View to display the details of a single wine item and handle adding it to user basket.
+    View to display the details of a single wine item and handle adding it to user basket,
+    and handle the submission of a user review.
     """
     wine = get_object_or_404(Wine, id=wine_id)
+    
+    # Handle review form submission
+    if request.method == 'POST':
+        review_form = ReviewForm(request.POST)
+        if review_form.is_valid():
+            # Create a new review but don't save to DB yet
+            new_review = review_form.save(commit=False)
+            new_review.wine = wine
+            new_review.user = request.user
+            new_review.save()
+            messages.add_message(
+                request, messages.SUCCESS,
+                'Your review has been submitted and is awaiting approval'
+            )
+            print("Review submitted successfully")
+            return redirect('product_details', wine_id=wine.id)  # Redirect to avoid duplicate submissions
+    else:
+        review_form = ReviewForm()
+        
+    # Calculate the average rating for the wine, default to 0 if no reviews
+    average_rating = wine.reviews.aggregate(Avg('rating'))['rating__avg'] or 0
+
+    # Get all reviews for the wine (you might want to add pagination later)
+    reviews = wine.reviews.filter(approved=True).order_by('-created_at')
+
+
     context = {
         'wine': wine,
+        'average_rating': round(average_rating, 1),  # Rounded to 1 decimal
+        'reviews': reviews,
+        'review_form': review_form,
     }
     return render(request, 'product_details.html', context)
