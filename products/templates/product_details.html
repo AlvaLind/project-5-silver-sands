@@ -92,20 +92,22 @@
             </div>
         </div>
     </div>
+    
     <div class="row mt-3 mb-3">
         <div class="container-fluid">
-            <!-- Display the review form -->
-            <div class="review-submission">
-                {% if request.user.is_authenticated %}
-                    <form method="POST">
-                        {% csrf_token %}
-                        {{ review_form.as_p }}
-                        <button type="submit">Submit Review</button>
-                    </form>
-                {% else %}
-                    <p>You must be logged in to submit a review.</p>
-                {% endif %}
-            </div> 
+            <!-- Button to trigger modal -->
+            {% if request.user.is_authenticated %}
+                <div class="text-center mb-4">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addReviewModal">
+                        Add Your Own Review
+                    </button>
+                </div>
+            {% else %}
+                <div class="alert alert-info" role="alert">
+                    You must be logged in to submit a review.
+                </div>
+            {% endif %}
+
             <!-- Display reviews -->
             <div class="display-reviews">
                 <h2>Reviews</h2>
@@ -122,4 +124,38 @@
         </div>
     </div>
 </div>
+
+<!-- Modal for adding review -->
+<div class="modal fade" id="addReviewModal" tabindex="-1" aria-labelledby="addReviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addReviewModalLabel">Submit Your Review</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_rating" class="form-label">Rating</label>
+                        <select id="id_rating" name="rating" class="form-select" required>
+                            <option value="">Choose...</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_comment" class="form-label">Your Review</label>
+                        <textarea id="id_comment" name="comment" class="form-control" rows="4" placeholder="Write your review here..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
