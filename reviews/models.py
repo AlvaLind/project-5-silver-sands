@@ -28,7 +28,7 @@ class Review(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'Review for {self.wine.name} by {self.id}'
+        return f'Review for {self.wine.name} by {self.user}'
 
     class Meta:
         ordering = ['-created_at']
