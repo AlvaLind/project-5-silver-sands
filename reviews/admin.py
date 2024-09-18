@@ -8,5 +8,5 @@ class ReviewAdmin(admin.ModelAdmin):
     field filters,
     """
     search_fields = ['wine__name']
-    list_filter = ('rating', 'wine',)
+    list_filter = ('approved', 'rating', 'wine',)
     readonly_fields = ["wine", "user", "rating",]
