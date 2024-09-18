@@ -98,7 +98,7 @@
         <div class="row w-100">
             <div class="container mb-3 mt-3">
                 <div class="reviews-heading">
-                    <h2>What our Cutomers say</h2>
+                    <h2>What Our Customers Are Saying</h2>
                 </div>
                 <div class="reviews-carousel">
                     <div class="reviews-slider">
@@ -111,22 +111,21 @@
                             {% endif %}
                             <!-- Card display for each product-->
                             {% for review in reviews %}
-                            <div class="card mx-auto">
+                            <div class="card d-flex">
                                 <div class="card-body">
                                     <!-- Review text -->
                                     <p class="card-text">"{{ review.comment }}"</p>
                                     
                                     <!-- User info and rating -->
-                                    <div class="d-flex align-items-center pt-2">
+                                    <div class="review-card-footer d-flex align-items-center pt-2">
                                         <!-- User avatar, if available -->
-                                        {% if user.image %}
+                                        {% if review.user.profile.image %}
                                             <img src="{{ review.user.profile.image.url }}" alt="{{ review.user.username }}'s image" class="rounded-circle me-3" aria-label="User profile image" style="width: 50px; height: 50px;">
                                         {% else %}
-                                            <img src="{% static 'images/user_default.png' %}" alt="User icon" class="rounded-circle me-3" aria-label="Default user profile image">
-                                        <!-- User info -->
+                                            <img src="{% static 'images/user_default.jpg' %}" alt="User icon" class="rounded-circle me-3" aria-label="Default user profile image" style="width: 50px; height: 50px;">
                                         {% endif %}
                                         <div>
-                                            <h5 class="card-title fw-bold">{{ review.user.username }}</h5>
+                                            <h5 class="card-username fw-bold">{{ review.user.username }}</h5>
                                             
                                             <!-- Display stars based on rating -->
                                             <span class="text-secondary">
@@ -144,6 +143,7 @@
                                     </div>
                                 </div>
                             </div>
+                            
                             {% endfor %}
                         </div>
                         <!-- Right Arrow -->

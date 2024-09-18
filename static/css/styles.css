@@ -273,14 +273,32 @@ footer a:hover {
 }
 
 .card {
-    min-width: 300px; 
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    min-width: 300px;
+    height: 100%; /* Ensure full height if inside a container with height */
 }
 
 .card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1; 
+    padding: 20px;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    position: relative;
-    display: inline-block;
-    vertical-align: top;
+}
+
+.review-card-footer {
+    margin-top: auto; 
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.card-username{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }
 
 .review-arrow {
