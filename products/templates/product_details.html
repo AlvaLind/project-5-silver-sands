@@ -56,7 +56,7 @@
         </div>
     </div>
 
-    <div class="row mt-3 mb-5">
+    <div class="row mt-3 mb-">
         <!-- Vintage Conditions -->
         <h2 class="mb-3">Vintage Conditions</h2>
         <div class="col-md-6 ">
@@ -92,34 +92,79 @@
             </div>
         </div>
     </div>
-    
-    <div class="row mt-3 mb-3">
-        <div class="container-fluid">
-            <!-- Button to trigger modal -->
-            {% if request.user.is_authenticated %}
-                <div class="text-center mb-4">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addReviewModal">
-                        Add Your Own Review
-                    </button>
-                </div>
-            {% else %}
-                <div class="alert alert-info" role="alert">
-                    You must be logged in to submit a review.
-                </div>
-            {% endif %}
 
-            <!-- Display reviews -->
-            <div class="display-reviews">
-                <h2>Reviews</h2>
-                {% for review in reviews %}
-                    <div>
-                        <p>Rating: {{ review.rating }} / 5</p>
-                        <p>{{ review.comment }}</p>
-                        <p><small>Reviewed by {{ review.user.username }} on {{ review.created_at }}</small></p>
+    <!-- Reviews Section-->
+    <div class="reviews-display">
+        <div class="row w-100">
+            <div class="container mb-3 mt-3">
+                <div class="reviews-heading">
+                    <h2>What our Cutomers say</h2>
+                </div>
+                <div class="reviews-carousel">
+                    <div class="reviews-slider">
+                        <!-- Left Arrow -->
+                        <div class="review-arrow left" onclick="scrollReviews('left')">&#8249;</div>
+                        <!-- Reviews grid -->
+                        <div class="reviews-grid">
+                            {% if not reviews %}
+                                <p>No reviews available for this product</p>
+                            {% endif %}
+                            <!-- Card display for each product-->
+                            {% for review in reviews %}
+                            <div class="card mx-auto">
+                                <div class="card-body">
+                                    <!-- Review text -->
+                                    <p class="card-text">"{{ review.comment }}"</p>
+                                    
+                                    <!-- User info and rating -->
+                                    <div class="d-flex align-items-center pt-2">
+                                        <!-- User avatar, if available -->
+                                        {% if user.image %}
+                                            <img src="{{ review.user.profile.image.url }}" alt="{{ review.user.username }}'s image" class="rounded-circle me-3" aria-label="User profile image" style="width: 50px; height: 50px;">
+                                        {% else %}
+                                            <img src="{% static 'images/user_default.png' %}" alt="User icon" class="rounded-circle me-3" aria-label="Default user profile image">
+                                        <!-- User info -->
+                                        {% endif %}
+                                        <div>
+                                            <h5 class="card-title fw-bold">{{ review.user.username }}</h5>
+                                            
+                                            <!-- Display stars based on rating -->
+                                            <span class="text-secondary">
+                                                Rating: 
+                                                {% for i in "12345" %}
+                                                    {% if i|add:0 <= review.rating %}
+                                                        <i class="fas fa-star text-warning"></i>
+                                                    {% else %}
+                                                        <i class="far fa-star"></i>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </span>
+                                            <p class="text-muted small">Updated on {{ review.updated_at|date:"F j, Y" }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <!-- Right Arrow -->
+                        <div class="review-arrow right" onclick="scrollReviews('right')">&#8250;</div>
                     </div>
-                {% empty %}
-                    <p>No reviews yet.</p>
-                {% endfor %}
+                </div>
+            </div>
+
+            <div class="container-fluid mt-3 mb-3">
+                <!-- Button to trigger modal -->
+                {% if request.user.is_authenticated %}
+                    <div class="text-center mb-4">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addReviewModal">
+                            Add Your Own Review
+                        </button>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info" role="alert">
+                        You must be logged in to submit a review.
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -158,4 +203,8 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/product_details.js' %}"></script>
 {% endblock %}
