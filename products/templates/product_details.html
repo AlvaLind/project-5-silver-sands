@@ -154,12 +154,18 @@
 
             <div class="container-fluid mt-3 mb-3">
                 <!-- Button to trigger modal -->
-                {% if request.user.is_authenticated %}
+                {% if user.is_authenticated %}
+                    {% if existing_review %}
+                    <div class="text-center mb-4">
+                        <a href="{% url 'delete_review' wine.id existing_review.id %}" class="btn btn-danger">Delete Review</a>
+                    </div>
+                    {% else %}
                     <div class="text-center mb-4">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addReviewModal">
                             Add Your Own Review
                         </button>
                     </div>
+                    {% endif %}
                 {% else %}
                     <div class="alert alert-info" role="alert">
                         You must be logged in to submit a review.

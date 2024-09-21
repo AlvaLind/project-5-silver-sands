@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Wine, Category
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from reviews.models import Review
 from datetime import datetime
 from reviews.forms import ReviewForm
@@ -114,5 +115,32 @@ def product_details(request, wine_id):
         'average_rating': round(average_rating, 1),  # Rounded to 1 decimal
         'reviews': reviews,
         'review_form': review_form,
+        'existing_review': existing_review,
     }
     return render(request, 'product_details.html', context)
+
+
+@login_required
+def delete_review(request, wine_id, review_id):
+    """
+    Delete an individual review related to a wine.
+
+    Args:
+        request: The HTTP request object.
+        wine_id: The ID of the wine.
+        review_id: The ID of the review to delete.
+    """
+    wine = get_object_or_404(Wine, pk=wine_id)
+    review = get_object_or_404(Review, pk=review_id)
+
+    # Ensure the logged-in user is the review owner
+    if review.user == request.user:
+        review.delete()
+        messages.success(request, 'Your review has been deleted.')
+        print("Review deleted successfully")
+    else:
+        messages.error(request, 'You can only delete your own reviews.')
+        print("Error: Review delete failed - not user's review")
+
+    return redirect('product_details', wine_id=wine.id)
+
