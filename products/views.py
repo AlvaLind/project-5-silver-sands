@@ -76,8 +76,16 @@ def product_details(request, wine_id):
     """
     wine = get_object_or_404(Wine, id=wine_id)
     
+    # Check if the user has already reviewed this wine
+    existing_review = wine.reviews.filter(user=request.user).first()
+    
     # Handle review form submission
     if request.method == 'POST':
+        if existing_review:
+            # User already has a review, prevent submission
+            messages.error(request, 'You have already submitted a review for this wine.')
+            return redirect('product_details', wine_id=wine.id)
+        
         review_form = ReviewForm(request.POST)
         if review_form.is_valid():
             # Create a new review but don't save to DB yet
