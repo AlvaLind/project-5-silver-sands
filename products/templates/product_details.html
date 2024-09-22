@@ -113,7 +113,7 @@
                             {% endif %}
                             <!-- Card display for each product-->
                             {% for review in reviews %}
-                            <div class="card d-flex {% if review.user == user %} border border-warning {% endif %}">
+                            <div class="card {% if review.user == user %} border border-warning {% endif %}">
                                 <div class="card-body">
                                     <!-- Review text -->
                                     <p class="card-text">"{{ review.comment }}"</p>
@@ -179,7 +179,7 @@
 
             <div class="container-fluid mt-3 mb-3">
                 {% if user.is_authenticated %}
-                    {% if not existing_review %}
+                    {% if not user.existing_review %}
                         <div class="text-center mb-4">
                             <!-- Button to trigger the review modal -->
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addReviewModal">
