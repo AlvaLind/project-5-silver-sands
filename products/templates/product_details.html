@@ -157,10 +157,23 @@
                 {% if user.is_authenticated %}
                     {% if existing_review %}
                     <div class="text-center mb-4">
+                        <!-- Edit Review Button -->
+                        <button type="button" class="btn btn-primary edit-review-button" 
+                                data-review-id="{{ existing_review.id }}" 
+                                data-review-rating="{{ existing_review.rating }}" 
+                                data-review-comment="{{ existing_review.comment }}" 
+                                data-wine-id="{{ wine.id }}"
+                                data-bs-toggle="modal" 
+                                data-bs-target="#addReviewModal" 
+                                onclick="fillReviewForm('{{ existing_review.rating }}', '{{ existing_review.comment }}', '{{ existing_review.id }}', '{{ wine.id }}')">
+                            Edit Review
+                        </button>
+                        <!-- Delete Review Button -->
                         <a href="{% url 'delete_review' wine.id existing_review.id %}" class="btn btn-danger">Delete Review</a>
                     </div>
                     {% else %}
                     <div class="text-center mb-4">
+                        <!-- Add Review Button -->
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addReviewModal">
                             Add Your Own Review
                         </button>
@@ -176,7 +189,7 @@
     </div>
 </div>
 
-<!-- Modal for adding review -->
+<!-- Modal for adding/editing a review -->
 <div class="modal fade" id="addReviewModal" tabindex="-1" aria-labelledby="addReviewModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -185,8 +198,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" class="needs-validation" novalidate>
+                <form method="POST" class="needs-validation" novalidate id="reviewForm">
                     {% csrf_token %}
+                    <input type="hidden" id="wineId" name="wine_id" value="">
+                    <input type="hidden" id="reviewId" name="review_id" value="">
                     <div class="mb-3">
                         <label for="id_rating" class="form-label">Rating</label>
                         <select id="id_rating" name="rating" class="form-select" required>
@@ -208,7 +223,6 @@
         </div>
     </div>
 </div>
-
 {% endblock %}
 
 {% block extra_js %}
