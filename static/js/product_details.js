@@ -21,3 +21,9 @@ function fillReviewForm(rating, comment, reviewId, wineId) {
     let reviewForm = document.getElementById('reviewForm');
     reviewForm.setAttribute("action", `/products/${wineId}/review/${reviewId}/edit/`);
 }
+
+function setDeleteReviewAction(wineId, reviewId) {
+    // Set the action URL dynamically
+    let deleteForm = document.getElementById('deleteReviewForm');
+    deleteForm.setAttribute('action', `/products/${wineId}/review/${reviewId}/delete/`);
+}
