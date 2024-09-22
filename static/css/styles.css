@@ -276,6 +276,7 @@ footer a:hover {
     display: flex;
     flex-direction: column; /* Stack children vertically */
     min-width: 300px;
+    max-width: 350px;
     height: 100%; /* Ensure full height if inside a container with height */
 }
 
@@ -285,6 +286,12 @@ footer a:hover {
     flex: 1; 
     padding: 20px;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.icon-buttons {
+    display: flex; /* Arrange buttons in a row */
+    gap: 10px; /* Space between buttons */
+    justify-content: flex-end; /* Align to the right */
 }
 
 .review-card-footer {

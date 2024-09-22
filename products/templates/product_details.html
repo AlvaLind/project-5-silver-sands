@@ -113,10 +113,31 @@
                             {% endif %}
                             <!-- Card display for each product-->
                             {% for review in reviews %}
-                            <div class="card d-flex">
+                            <div class="card d-flex {% if review.user == user %} border border-warning {% endif %}">
                                 <div class="card-body">
                                     <!-- Review text -->
                                     <p class="card-text">"{{ review.comment }}"</p>
+
+                                    <!-- Edit/Delete Icons if the review belongs to the current user -->
+                                    {% if review.user == user %}
+                                    <div class="icon-buttons">
+                                        <!-- Edit Review Button triggers the edit modal-->
+                                        <button type="button" class="btn btn-link text-primary p-0" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#addReviewModal"
+                                                onclick="fillReviewForm('{{ review.rating }}', '{{ review.comment }}', '{{ review.id }}', '{{ wine.id }}')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+
+                                        <!-- Delete Review Button triggers the delete modal-->
+                                        <button type="button" class="btn btn-link text-danger p-0 ms-2" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#deleteReviewModal"
+                                                onclick="setDeleteReviewAction('{{ wine.id }}', '{{ review.id }}')">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                    {% endif %}
                                     
                                     <!-- User info and rating -->
                                     <div class="review-card-footer d-flex align-items-center pt-2">
@@ -152,48 +173,24 @@
                             <!-- Right Arrow -->
                             <div class="review-arrow right" onclick="scrollReviews('right')">&#8250;</div>
                         {% endif %}
-                        
-                        
                     </div>
                 </div>
             </div>
 
             <div class="container-fluid mt-3 mb-3">
-                <!-- Button to trigger modal -->
                 {% if user.is_authenticated %}
-                    {% if existing_review %}
-                    <div class="text-center mb-4">
-                        <!-- Edit Review Button triggers the edit modal-->
-                        <button type="button" class="btn btn-primary edit-review-button" 
-                                data-review-id="{{ existing_review.id }}" 
-                                data-review-rating="{{ existing_review.rating }}" 
-                                data-review-comment="{{ existing_review.comment }}" 
-                                data-wine-id="{{ wine.id }}"
-                                data-bs-toggle="modal" 
-                                data-bs-target="#addReviewModal" 
-                                onclick="fillReviewForm('{{ existing_review.rating }}', '{{ existing_review.comment }}', '{{ existing_review.id }}', '{{ wine.id }}')">
-                            Edit Review
-                        </button>
-                        <!-- Delete button triggers the delete modal -->
-                        <button type="button" class="btn btn-danger" 
-                                data-bs-toggle="modal" 
-                                data-bs-target="#deleteReviewModal"
-                                onclick="setDeleteReviewAction('{{ wine.id }}', '{{ existing_review.id }}')">
-                            Delete Review
-                        </button>
-                    </div>
-                    {% else %}
-                    <div class="text-center mb-4">
-                        <!-- Add Review Button -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addReviewModal">
-                            Add Your Own Review
-                        </button>
-                    </div>
+                    {% if not existing_review %}
+                        <div class="text-center mb-4">
+                            <!-- Button to trigger the review modal -->
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addReviewModal">
+                                Add Your Own Review
+                            </button>
+                        </div>
                     {% endif %}
-                {% else %}
-                    <div class="alert alert-info" role="alert">
-                        You must be logged in to submit a review.
-                    </div>
+                    {% else %}
+                        <div class="alert alert-info" role="alert">
+                            You must be logged in to submit a review.
+                        </div>
                 {% endif %}
             </div>
         </div>
