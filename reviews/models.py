@@ -20,7 +20,7 @@ class Review(models.Model):
             MaxValueValidator(5)
         ]
     )
-    comment = models.TextField(max_length=1000, blank=True, null=True)
+    comment = models.TextField(max_length=150, blank=True, null=True)
     approved = models.BooleanField(default=False)
 
     # Tracking fields
