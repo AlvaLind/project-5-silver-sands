@@ -157,7 +157,7 @@
                 {% if user.is_authenticated %}
                     {% if existing_review %}
                     <div class="text-center mb-4">
-                        <!-- Edit Review Button -->
+                        <!-- Edit Review Button triggers the edit modal-->
                         <button type="button" class="btn btn-primary edit-review-button" 
                                 data-review-id="{{ existing_review.id }}" 
                                 data-review-rating="{{ existing_review.rating }}" 
@@ -168,8 +168,13 @@
                                 onclick="fillReviewForm('{{ existing_review.rating }}', '{{ existing_review.comment }}', '{{ existing_review.id }}', '{{ wine.id }}')">
                             Edit Review
                         </button>
-                        <!-- Delete Review Button -->
-                        <a href="{% url 'delete_review' wine.id existing_review.id %}" class="btn btn-danger">Delete Review</a>
+                        <!-- Delete button triggers the delete modal -->
+                        <button type="button" class="btn btn-danger" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#deleteReviewModal"
+                                onclick="setDeleteReviewAction('{{ wine.id }}', '{{ existing_review.id }}')">
+                            Delete Review
+                        </button>
                     </div>
                     {% else %}
                     <div class="text-center mb-4">
@@ -223,6 +228,29 @@
         </div>
     </div>
 </div>
+
+<!-- Modal to confirm deleting a review -->
+<div class="modal fade" id="deleteReviewModal" tabindex="-1" aria-labelledby="deleteReviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteReviewModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this review? This action cannot be undone.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteReviewForm" method="POST" action="">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete Review</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block extra_js %}
