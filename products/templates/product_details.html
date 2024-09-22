@@ -102,8 +102,10 @@
                 </div>
                 <div class="reviews-carousel">
                     <div class="reviews-slider">
-                        <!-- Left Arrow -->
-                        <div class="review-arrow left" onclick="scrollReviews('left')">&#8249;</div>
+                        {% if reviews %}
+                            <!-- Left Arrow -->
+                            <div class="review-arrow left" onclick="scrollReviews('left')">&#8249;</div>
+                        {% endif %}
                         <!-- Reviews grid -->
                         <div class="reviews-grid">
                             {% if not reviews %}
@@ -146,8 +148,12 @@
                             
                             {% endfor %}
                         </div>
-                        <!-- Right Arrow -->
-                        <div class="review-arrow right" onclick="scrollReviews('right')">&#8250;</div>
+                        {% if reviews %}
+                            <!-- Right Arrow -->
+                            <div class="review-arrow right" onclick="scrollReviews('right')">&#8250;</div>
+                        {% endif %}
+                        
+                        
                     </div>
                 </div>
             </div>
