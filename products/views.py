@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from .models import Wine, Category
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 from reviews.models import Review
 from datetime import datetime
 from reviews.forms import ReviewForm
@@ -144,3 +145,38 @@ def delete_review(request, wine_id, review_id):
 
     return redirect('product_details', wine_id=wine.id)
 
+
+@login_required
+def edit_review(request, wine_id, review_id):
+    """
+    Edit an existing review related to a wine.
+
+    Args:
+        request: The HTTP request object.
+        wine_id: The ID of the wine.
+        review_id: The ID of the review to edit.
+    """
+    wine = get_object_or_404(Wine, pk=wine_id)
+    review = get_object_or_404(Review, pk=review_id)
+
+    # Check if the current user is the one who posted the review
+    if review.user != request.user:
+        messages.error(request, "You are not authorized to edit this review.")
+        return redirect('product_details', wine_id)
+
+    if request.method == 'POST':
+        review_form = ReviewForm(request.POST, instance=review)
+
+        if review_form.is_valid():
+            review = review_form.save(commit=False)
+            review.wine = wine
+            review.approved = False
+            review.save()
+            messages.success(request, 'Your review has been updated.')
+            print("Review edited successfully")
+            return redirect('product_details', wine_id)
+        else:
+            messages.error(request, "Error, unable to update review.")
+            print("Error: Failed to edit review")
+
+    return HttpResponseRedirect(reverse('product_details', args=[wine_id]))
