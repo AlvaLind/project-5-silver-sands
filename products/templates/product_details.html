@@ -8,6 +8,12 @@
 
 {% block content %}
 <div class="container mt-4">
+    <!-- Top left corner back button -->
+    <div class="return-button">
+        <button class="back-button" onclick="goBack()" aria-label="Go back">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+    </div>
     <div class="row">
         <!-- Wine Image -->
         <div class="col-md-6">
@@ -258,4 +264,5 @@
 
 {% block extra_js %}
 <script src="{% static 'js/product_details.js' %}"></script>
+<script src="{% static 'js/back_button.js' %}"></script>
 {% endblock %}
