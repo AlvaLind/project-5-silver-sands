@@ -217,6 +217,12 @@ footer a:hover {
     position: relative;
 }
 
+.btn-outline-black {
+    background: white;
+    color: black !important;
+    border: 1px solid black;
+}
+
 /* Hide filter options dropdowns initially */
 .dropdown-content {
     display: none;
