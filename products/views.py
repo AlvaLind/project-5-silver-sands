@@ -119,7 +119,7 @@ def product_details(request, wine_id):
         'review_form': review_form,
         'existing_review': existing_review,
     }
-    return render(request, 'product_details.html', context)
+    return render(request, 'products/product_list.html', context)
 
 
 @login_required
@@ -144,7 +144,7 @@ def delete_review(request, wine_id, review_id):
         messages.error(request, 'You can only delete your own reviews.')
         print("Error: Review delete failed - not user's review")
 
-    return redirect('product_details', wine_id=wine.id)
+    return redirect('products/product_details', wine_id=wine.id)
 
 
 @login_required
@@ -163,7 +163,7 @@ def edit_review(request, wine_id, review_id):
     # Check if the current user is the one who posted the review
     if review.user != request.user:
         messages.error(request, "You are not authorized to edit this review.")
-        return redirect('product_details', wine_id)
+        return redirect('products/product_details', wine_id)
 
     if request.method == 'POST':
         review_form = ReviewForm(request.POST, instance=review)
@@ -175,9 +175,9 @@ def edit_review(request, wine_id, review_id):
             review.save()
             messages.success(request, 'Your review has been updated.')
             print("Review edited successfully")
-            return redirect('product_details', wine_id)
+            return redirect('products/product_details', wine_id)
         else:
             messages.error(request, "Error, unable to update review.")
             print("Error: Failed to edit review")
 
-    return HttpResponseRedirect(reverse('product_details', args=[wine_id]))
+    return HttpResponseRedirect(reverse('products/product_details', args=[wine_id]))
