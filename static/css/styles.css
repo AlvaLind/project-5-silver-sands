@@ -223,6 +223,12 @@ footer a:hover {
     border: 1px solid black;
 }
 
+.btt-link,
+.update-link,
+.remove-item {
+    cursor: pointer;
+}
+
 /* Hide filter options dropdowns initially */
 .dropdown-content {
     display: none;
