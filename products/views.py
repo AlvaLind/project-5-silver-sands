@@ -68,7 +68,7 @@ def product_list(request):
         'wines': wines,
         'categories': categories,
     }
-    return render(request, 'product_list.html', context)
+    return render(request, 'products/product_list.html', context)
 
 
 def product_details(request, wine_id):
@@ -87,7 +87,7 @@ def product_details(request, wine_id):
         if existing_review:
             # User already has a review, prevent submission
             messages.error(request, 'You have already submitted a review for this wine.')
-            return redirect('product_details', wine_id=wine.id)
+            return redirect('products/product_details', wine_id=wine.id)
         
         review_form = ReviewForm(request.POST)
         if review_form.is_valid():
@@ -101,7 +101,7 @@ def product_details(request, wine_id):
                 'Your review has been submitted and is awaiting approval'
             )
             print("Review submitted successfully")
-            return redirect('product_details', wine_id=wine.id)  # Redirect to avoid duplicate submissions
+            return redirect('products/product_details', wine_id=wine.id)  # Redirect to avoid duplicate submissions
     else:
         review_form = ReviewForm()
         
@@ -119,7 +119,7 @@ def product_details(request, wine_id):
         'review_form': review_form,
         'existing_review': existing_review,
     }
-    return render(request, 'products/product_list.html', context)
+    return render(request, 'products/product_details.html', context)
 
 
 @login_required

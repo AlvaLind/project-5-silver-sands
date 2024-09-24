@@ -47,7 +47,7 @@
                                     <p class="my-0">${{ item.wine.price }}</p>
                                 </td>
                                 <td class="py-3 w-25">
-                                    <form class="form update-form" method="POST" action="">
+                                    <form class="form update-form" method="POST" action="{% url 'adjust_bag' item.item_id %}">
                                         {% csrf_token %}
                                         <div class="form-group">
                                             <div class="input-group">
@@ -61,6 +61,7 @@
                                                 <input class="form-control form-control-sm qty_input" type="number" 
                                                     name="quantity" value="{{ item.quantity }}" min="1" max="99" 
                                                     data-item_id="{{ item.item_id }}" id="id_qty_{{ item.item_id }}">
+
                                         
                                                 <button class="increment-qty btn rounded-0"
                                                     data-item_id="{{ item.item_id }}" id="increment-qty_{{ item.item_id }}">
@@ -129,23 +130,26 @@
     {% include 'products/includes/quantity_input_script.html' %}
 
     <script type="text/javascript">
-        // Update quantity on click
-        $('.update-link').click(function(e) {
-            var form = $(this).prev('.update-form');
-            form.submit();
-        });
+        $(document).ready(function() {
+            // Update quantity on clicking the 'Update' link
+            $('.update-link').click(function(e) {
+                e.preventDefault(); 
+                var form = $(this).closest('td').find('.update-form');
+                form.submit();
+            });
     
-        // Remove item and reload on click
-        $('.remove-item').click(function(e) {
-            var csrfToken = "{{ csrf_token }}";
-            var itemId = $(this).attr('id').split('remove_')[1];
-            var url = `/bag/remove/${itemId}`;
-            var data = {'csrfmiddlewaretoken': csrfToken};
-    
-            $.post(url, data)
-             .done(function() {
-                 location.reload();
-             });
+            // Remove item and reload on click
+            $('.remove-item').click(function(e) {
+                var csrfToken = "{{ csrf_token }}";
+                var itemId = $(this).attr('id').split('remove_')[1];
+                var url = `/bag/remove/${itemId}/`;
+                var data = {'csrfmiddlewaretoken': csrfToken};
+
+                $.post(url, data)
+                .done(function() {
+                    location.reload();
+                });
+            })
         });
     </script>
     
