@@ -48,6 +48,7 @@ class Wine(models.Model):
 
     # Fields
     name = models.CharField(max_length=50)
+    sku = models.CharField(max_length=254, null=True, blank=True)
     slug = models.SlugField(max_length=50, unique=True, blank=True)
     description = models.TextField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
@@ -84,4 +85,3 @@ class Wine(models.Model):
             raise ValidationError(f"A wine with the slug '{self.slug}' already exists.")
 
         super(Wine, self).save(*args, **kwargs)
-        
