@@ -39,7 +39,11 @@
                             <tr>
                                 <td class="p-3 w-25">
                                     <a href ="{% url 'product_details' wine_id=item.wine.id %}">
-                                        <img src="{{ item.wine.image.url }}" class="img-fluid rounded">
+                                        {% if item.wine.image %}
+                                        <img src="{{ item.wine.image.url }}" class="img-fluid rounded" alt="{{ item.wine.name }}">
+                                        {% else %}
+                                        <img class="img-fluid rounded" src="{% static 'images/default-image.jpg' %}" alt="{{ item.wine.name }}">
+                                        {% endif %}
                                     </a>
                                 </td>
                                 <td class="py-3">

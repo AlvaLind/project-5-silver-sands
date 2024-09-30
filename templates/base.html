@@ -8,6 +8,7 @@
 {% url 'view_bag' as bag_url %}
 {% url 'checkout' as checkout_url %}
 {% url 'profile' as profile_url %}
+{% url 'add_product' as add_product_url %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -99,9 +100,16 @@
                             <a class="nav-link {% if request.path == logout_url %}active{% endif %}" href="{% url 'account_logout' %}">Logout</a>
                         </li>
                         {% if user.is_superuser %}
-                        <li class="nav-item">
-                            <a class="nav-link {% if request.path == home_url %}active{% endif %}" href="/">Product Management</a>
-                        </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle {% if request.path == home_url %}active{% endif %}" href="#" id="productManagementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Product Management
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="productManagementDropdown">
+                                    <li><a class="dropdown-item" href="{{ add_product_url }}">Add Product</a></li>
+                                    <li><a class="dropdown-item" href="#">Edit Product</a></li>
+                                    <li><a class="dropdown-item" href="#">View Orders</a></li>
+                                </ul>
+                            </li>
                         {% endif %}
                     {% else %}
                         <li class="nav-item">
