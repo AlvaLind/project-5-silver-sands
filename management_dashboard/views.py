@@ -1,13 +1,18 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .forms import ProductForm
 from django.contrib import messages
 
 from products.models import Wine
 
 
-
+@login_required
 def add_product(request):
     """ Add a product to the store """
+    
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can do that.')
+        return redirect(reverse('home'))
     
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
@@ -29,8 +34,13 @@ def add_product(request):
     return render(request, template, context)
 
 
+@login_required
 def edit_product(request, wine_id):
     """ Edit a product in the store """
+    
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can do that.')
+        return redirect(reverse('home'))
     
     wine = get_object_or_404(Wine, pk=wine_id)
     if request.method == 'POST':
@@ -53,8 +63,13 @@ def edit_product(request, wine_id):
     return render(request, template, context)
 
 
+@login_required
 def delete_product(request, wine_id):
     """ Delete a product from the store """
+    
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can do that.')
+        return redirect(reverse('home'))
 
     wine = get_object_or_404(Wine, pk=wine_id)
     wines = Wine.objects.all() 
