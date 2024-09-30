@@ -49,11 +49,10 @@ def edit_product(request, wine_id):
             form.save()
             messages.success(request, 'Successfully updated product!')
             return redirect(reverse('product_details', args=[wine_id]))
-        else:
-            messages.error(request, 'Failed to update product. Please ensure the form is valid.')
     else:
         form = ProductForm(instance=wine)
         messages.info(request, f'You are editing {wine.name}')
+
     
     template = 'management_dashboard/edit_product.html'
     context = {
