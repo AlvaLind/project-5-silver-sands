@@ -51,3 +51,17 @@ def edit_product(request, wine_id):
         'wine': wine,
     }
     return render(request, template, context)
+
+
+def delete_product(request, wine_id):
+    """ Delete a product from the store """
+
+    wine = get_object_or_404(Wine, pk=wine_id)
+    wines = Wine.objects.all() 
+    wine.delete()
+    messages.success(request, 'Product deleted!')
+        
+    context = {
+        'wines': wines,
+    }
+    return render(request, 'products/product_list.html', context)

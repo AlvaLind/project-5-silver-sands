@@ -16,7 +16,7 @@
             <div class="dropdown me-3">
                 <button id="dropdown-btn" class="dropdown-btn btn btn-secondary">Filter By</button>
                 <div id="dropdown-content" class="dropdown-content m-2">
-                    <form method="get" action"{% url 'product_list' %}">
+                    <form method="get" action="{% url 'product_list' %}">
                         <!-- Category Dropdown -->
                         <div class="form-group m-3">
                             <label for="category">Category:</label>
@@ -98,6 +98,24 @@
                         {% endif %}
                         <p class="card-text mb-2"><strong>Price:</strong> ${{ wine.price }}</p>
                         <a href="{% url 'product_details' wine_id=wine.id %}" class="btn btn-light">View Details</a>
+                        
+                        <!-- Edit/Delete Icons if the review belongs to the current user -->
+                        {% if request.user.is_superuser %}
+                        <div class="icon-buttons">
+                            <!-- Edit Product Button redirects to the edit_product view with wine_id -->
+                            <a href="{% url 'edit_product' wine.id %}" class="btn btn-link text-primary p-0">
+                                <i class="fas fa-edit"></i>
+                            </a>
+
+                            <!-- Delete Product Button triggers the delete confirmation modal -->
+                            <button type="button" class="btn btn-link text-danger p-0 ms-2" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#deleteProductModal"
+                                    onclick="setDeleteProductAction('{{ wine.id }}')">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -107,6 +125,27 @@
             <p class="text-center">No wines available.</p>
         </div>
         {% endif %}
+    </div>
+</div>
+<!-- Modal to confirm deleting a product -->
+<div class="modal fade" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteProductModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this Product? This action cannot be undone.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteProductForm" method="POST" action="">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete Product</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

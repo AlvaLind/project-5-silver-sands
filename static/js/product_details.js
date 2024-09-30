@@ -27,3 +27,4 @@ function setDeleteReviewAction(wineId, reviewId) {
     let deleteForm = document.getElementById('deleteReviewForm');
     deleteForm.setAttribute('action', `/products/${wineId}/review/${reviewId}/delete/`);
 }
+

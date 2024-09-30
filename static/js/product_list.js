@@ -29,3 +29,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+function setDeleteProductAction(wineId) {
+    const form = document.getElementById('deleteProductForm');
+    form.action = `/management_dashboard/delete/${wineId}/`;
+}
