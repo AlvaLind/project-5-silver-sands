@@ -17,8 +17,13 @@ class ProductForm(forms.ModelForm):
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'border-black rounded-0'
     
-    def clean_slug(self):  # Assuming 'slug' is the name of your slug field
+    def clean_slug(self):
         slug = self.cleaned_data.get('slug')
-        if Wine.objects.filter(slug=slug).exists():  # Check if the slug already exists
-            raise ValidationError('This slug already exists. Please choose a different one.')
+        # Get the instance (if exists) to exclude it from validation
+        instance = self.instance
+        
+        # Check if a Wine with this slug already exists, excluding the current instance
+        if Wine.objects.filter(slug=slug).exclude(pk=instance.pk).exists():
+            raise ValidationError('This slug is already in use. Please choose a different one.')
+        
         return slug
