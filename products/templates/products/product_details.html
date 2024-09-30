@@ -17,10 +17,10 @@
     <div class="row">
         <!-- Wine Image -->
         <div class="col-md-6">
-            {% if item.wine.image %}
-                <img src="{{ item.wine.image.url }}" class="img-fluid rounded" alt="{{ item.wine.name }}">
+            {% if wine.image %}
+                <img src="{{ wine.image.url }}" class="img-fluid rounded" alt="{{ wine.name }}">
             {% else %}
-                <img class="img-fluid rounded" src="{% static 'images/default-image.jpg' %}" alt="{{ item.wine.name }}">
+                <img class="img-fluid rounded" src="{% static 'images/default-image.jpg' %}" alt="{{ wine.name }}">
             {% endif %}
         </div>
         <!-- Wine Primary Details -->
