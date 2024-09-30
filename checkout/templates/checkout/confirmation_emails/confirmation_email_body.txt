@@ -1,0 +1,23 @@
+Hello {{ order.full_name }},
+
+Thank you for choosing Silver Sands! We’re excited to confirm your order. Below are the details:
+
+Order Summary:
+
+Order Number: {{ order.order_number }}
+Order Date: {{ order.date }}
+Order Total: ${{ order.order_total }}
+Delivery Cost: ${{ order.delivery_cost }}
+Grand Total: ${{ order.grand_total }}
+
+Shipping Information: Your order will be shipped to: {{ order.street_address1 }}
+{{ order.town_or_city }}, {{ order.country }}
+
+Delivery Notifications: Once your order is out for delivery, you will receive a confirmation via text at: {{ order.phone_number }}.
+
+If you have any questions or need assistance, please don’t hesitate to reach out to us at {{ contact_email }}. We're here to help!
+
+Thank you for your order, and we hope you enjoy your experience with Silver Sands!
+
+Best regards,
+The Silver Sands Estate Team
