@@ -7,6 +7,7 @@
 {% url 'about_us' as our_story_url %}
 {% url 'view_bag' as bag_url %}
 {% url 'checkout' as checkout_url %}
+{% url 'profile' as profile_url %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -90,7 +91,7 @@
                     </li>
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == home_url %}active{% endif %}" href="/">
+                            <a class="nav-link {% if request.path == profile_url %}active{% endif %}" href="{{ profile_url }}">
                                 <i class="fas fa-user"></i> <!-- Profile icon -->
                             </a>
                         </li>
