@@ -87,7 +87,7 @@ def product_details(request, wine_id):
         if existing_review:
             # User already has a review, prevent submission
             messages.error(request, 'You have already submitted a review for this wine.')
-            return redirect('products/product_details', wine_id=wine.id)
+            return redirect('product_details', wine_id=wine.id)
         
         review_form = ReviewForm(request.POST)
         if review_form.is_valid():
@@ -101,7 +101,7 @@ def product_details(request, wine_id):
                 'Your review has been submitted and is awaiting approval'
             )
             print("Review submitted successfully")
-            return redirect('products/product_details', wine_id=wine.id)  # Redirect to avoid duplicate submissions
+            return redirect('product_details', wine_id=wine.id)
     else:
         review_form = ReviewForm()
         
@@ -110,6 +110,7 @@ def product_details(request, wine_id):
 
     # Get all reviews for the wine (you might want to add pagination later)
     reviews = wine.reviews.filter(approved=True).order_by('-created_at')
+    review_count = wine.reviews.filter(approved=True).count()
 
 
     context = {
@@ -118,6 +119,7 @@ def product_details(request, wine_id):
         'reviews': reviews,
         'review_form': review_form,
         'existing_review': existing_review,
+        'review_count': review_count,
     }
     return render(request, 'products/product_details.html', context)
 
@@ -144,7 +146,7 @@ def delete_review(request, wine_id, review_id):
         messages.error(request, 'You can only delete your own reviews.')
         print("Error: Review delete failed - not user's review")
 
-    return redirect('products/product_details', wine_id=wine.id)
+    return redirect('product_details', wine_id=wine.id)
 
 
 @login_required
@@ -163,7 +165,7 @@ def edit_review(request, wine_id, review_id):
     # Check if the current user is the one who posted the review
     if review.user != request.user:
         messages.error(request, "You are not authorized to edit this review.")
-        return redirect('products/product_details', wine_id)
+        return redirect('product_details', wine_id=wine.id)
 
     if request.method == 'POST':
         review_form = ReviewForm(request.POST, instance=review)
@@ -175,7 +177,7 @@ def edit_review(request, wine_id, review_id):
             review.save()
             messages.success(request, 'Your review has been updated.')
             print("Review edited successfully")
-            return redirect('products/product_details', wine_id)
+            return redirect('product_details', wine_id=wine.id)
         else:
             messages.error(request, "Error, unable to update review.")
             print("Error: Failed to edit review")

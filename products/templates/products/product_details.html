@@ -158,6 +158,13 @@
             <div class="container mb-3 mt-3">
                 <div class="reviews-heading">
                     <h2>What Our Customers Are Saying</h2>
+                    <strong class="text-secondary">
+                        {% if review_count == 1 %}
+                            <i class="far fa-comments"></i> {{ review_count }} Review
+                        {% else %}
+                            <i class="far fa-comments"></i> {{ review_count }} Reviews
+                        {% endif %}
+                    </strong>
                 </div>
                 <div class="reviews-carousel">
                     <div class="reviews-slider">
