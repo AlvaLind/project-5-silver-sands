@@ -1,1 +1,1 @@
-web: gunicorn silver_sands.wsgi
+web: gunicorn silver_sands_estate.wsgi
