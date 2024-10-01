@@ -23,6 +23,9 @@ class ProductForm(forms.ModelForm):
         if self.instance.pk:  # Check if the instance exists (is being edited)
             self.fields['slug'].widget.attrs['readonly'] = True
             self.fields['slug'].help_text = "This slug is auto-generated from the wine name and cannot be changed."
+        else:  # For new instances
+            self.fields['slug'].widget.attrs['readonly'] = True
+            self.fields['slug'].help_text = "This slug will be auto-generated based on the wine name."
     
     def clean_slug(self):
         slug = self.cleaned_data.get('slug')
