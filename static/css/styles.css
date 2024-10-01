@@ -24,7 +24,7 @@ nav {
 }
 
 /* Make navbar text black */
-.navbar-nav .nav-link {
+.navbar .nav-link {
     color: #000000 !important; 
 }
 
@@ -34,6 +34,19 @@ nav {
 
 .logo {
     font-family: 'Spectral', sans-serif;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.navbar-icons-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+}
+
+.collapse.show + .navbar-icons-container {
+    display: none; /* Hide the icons when the navbar menu is expanded */
 }
 
 /* Footer Styles */

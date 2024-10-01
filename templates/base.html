@@ -58,7 +58,8 @@
     <header>
         <!-- Nav Bar -->
         <nav class="navbar navbar-expand-lg navbar-light" id="navbar-lock">
-            <a class="logo navbar-brand navbar-brand-custom" href="/">
+            <!-- Logo for large screens -->
+            <a class="logo navbar-brand d-none d-lg-block" href="{{ home_url }}">
                 Silver Sands
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,7 +67,7 @@
             </button>
             <div class="collapse navbar-collapse text-black" id="navbarText">
                 <hr>
-                <ul class="navbar-nav mx-auto navbar-nav-center">
+                <ul class="navbar-nav ms-0">
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == product_list_url %}active{% endif %}" href="{{ product_list_url }}">All Wines</a>
                     </li>
@@ -80,7 +81,7 @@
                 <hr>
 
                 <!-- Moved to the right -->
-                <ul class="navbar-nav">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item my-auto me-2 d-none d-lg-block">
                         <i class="fas fa-search search-icon"></i>
                     </li>
@@ -92,7 +93,7 @@
                     {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link {% if request.path == profile_url %}active{% endif %}" href="{{ profile_url }}">
-                                <i class="fas fa-user"></i> <!-- Profile icon -->
+                                <i class="fas fa-user"></i>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -117,14 +118,22 @@
                             <a class="nav-link {% if request.path == signup_url %}active{% endif %}" href="{% url 'account_signup' %}">Sign up</a>
                         </li>
                     {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == bag_url %}active{% endif %}" href="{{ bag_url }}">
-                            <div class="text-center">
-                                <i class="fas fa-shopping-basket"></i> <!-- Basket icon -->
-                            </div>
-                        </a>
-                    </li>
                 </ul>
+            </div>
+            <!-- Logo for small and medium screens -->
+            <div class="navbar-icons-logo">
+                <a class="logo navbar-brand d-lg-none mx-auto" href="{{ home_url }}">
+                    Silver Sands
+                </a>
+            </div>
+            <div class="navbar-icons-basket">
+                <div class="nav-item">
+                    <a class="nav-link {% if request.path == bag_url %}active{% endif %}" href="{{ bag_url }}">
+                        <div class="text-center">
+                            <i class="fas fa-shopping-basket"></i>
+                        </div>
+                    </a>
+                </div>
             </div>
         </nav>
     </header>
