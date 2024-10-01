@@ -15,20 +15,20 @@ document.addEventListener("DOMContentLoaded", function() {
         form.classList.toggle('d-block');     // Show as block element
     });
 
-    // Handle navbar toggle events
+
+    // Handle navbar toggle events to hide nav logo and basket when nav toggle
     var navbarToggle = document.querySelector('.navbar-toggler');
     var navbarIconsLogo = document.querySelector('.navbar-icons-logo');
     var navbarIconsBasket = document.querySelector('.navbar-icons-basket');
 
-
     navbarToggle.addEventListener('click', function() {
-        // Check if the navbar is expanded
+        // Check if the navbar is expanded and hide and show logo and basket accordingly
         if (navbarIconsLogo.classList.contains('d-none') && navbarIconsBasket.classList.contains('d-none')) {
-            navbarIconsLogo.classList.remove('d-none'); // Show logo when opened
-            navbarIconsBasket.classList.remove('d-none'); // Show basket when opened
+            navbarIconsLogo.classList.remove('d-none');
+            navbarIconsBasket.classList.remove('d-none');
         } else {
-            navbarIconsLogo.classList.add('d-none'); // Hide logo when closed
-            navbarIconsBasket.classList.add('d-none'); // Hide basket when closed
+            navbarIconsLogo.classList.add('d-none');
+            navbarIconsBasket.classList.add('d-none');
         }
     });
 

@@ -82,9 +82,15 @@
 
                 <!-- Moved to the right -->
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item my-auto me-2 d-none d-lg-block">
+                    <li class="nav-item my-auto me-2 d-lg-block">
                         <i class="fas fa-search search-icon"></i>
-                    </li>
+                    </li> 
+                    <!-- Search Form -->
+                    <form class="form-inline d-none" method="GET" action="{% url 'search_products' %}">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search for products..." aria-label="Search" name="query">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>       
+
                     <li class="nav-item">
                         <form class="form-inline my-2 my-lg-0 d-none" method="GET" action="">
                             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
