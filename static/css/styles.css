@@ -170,7 +170,7 @@ footer a:hover {
 /* Ensure the button is the same height as the input field */
 .input-group {
     display: flex;
-    align-items: center;
+    align-items: ;
 }
 
 .input-group .btn {
