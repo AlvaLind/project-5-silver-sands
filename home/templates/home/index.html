@@ -71,4 +71,20 @@
             </div>
         </div>
     </div>
+
+    <div id="age-modal" class="modal">
+        <div class="modal-content">
+            <h2>Age Verification</h2>
+            <p>You must be 18 years or older to enter this site. Please confirm your age.</p>
+            <button id="confirm-age" class="btn btn-primary">I am 18 or older</button>
+            <button id="exit-site" class="btn btn-danger">I am under 18</button>
+        </div>
+    </div>
 {% endblock %}
+
+{% block extra_js %}
+<script>
+    const accessDeniedUrl = "{% url 'access_denied' %}";
+</script>
+<script src="{% static 'home/js/age_verification.js' %}"></script>
+{% endblock%}

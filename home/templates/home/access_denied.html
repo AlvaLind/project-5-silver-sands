@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}
+| Access Denied
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row access-denied-container">
+        <h2 class="access-denied-heading mb-3">We're Sorry, But Access to Silver Sands Is Restricted</h2>
+        <img src="{% static 'images/no-access.jpg' %}" alt="Access Denied" class="access-denied-image mb-3">
+        <p class="access-denied-text"> This website is intended for individuals aged 18 and older. Unfortunately, if you are under 18, you cannot browse our content at this time.
+            We take age restrictions seriously to ensure a safe and responsible environment for all our visitors. Please come back and visit us when you turn 18. Thank you for your understanding!
+        </p>
+        <div class="button-container">
+        <a href="https://www.google.com" class="leave-page-btn">Leave this page</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.querySelectorAll('#navbar-lock, #footer-lock a').forEach(function(link) {
+        link.onclick = function(event) {
+            event.preventDefault();
+        };
+    });
+</script>
+{% endblock %}

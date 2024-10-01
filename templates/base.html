@@ -9,6 +9,7 @@
 {% url 'checkout' as checkout_url %}
 {% url 'profile' as profile_url %}
 {% url 'add_product' as add_product_url %}
+{% url 'access_denied' as access_denied_url %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -55,7 +56,7 @@
 <body>
     <header>
         <!-- Nav Bar -->
-        <nav class="navbar navbar-expand-lg navbar-light">
+        <nav class="navbar navbar-expand-lg navbar-light" id="navbar-lock">
             <a class="logo navbar-brand navbar-brand-custom" href="/">
                 Silver Sands
             </a>
@@ -157,7 +158,7 @@
     </main>
 
     <footer>
-        <div class="container">
+        <div class="container" id="footer-lock">
             <div class="row mt-4">
                 <!-- Column 1 -->
                 <div class="col-lg-4 col-md-12 footer-column mb-4 text-center text-lg-start">
