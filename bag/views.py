@@ -18,6 +18,11 @@ def add_to_bag(request, item_id):
     redirect_url = request.POST.get('redirect_url')
     bag = request.session.get('bag', {})
     
+    # Validate the wine is stock and or availability
+    if wine.stock == 0 or not wine.availability:
+        messages.error(request, f'Sorry, {wine.name} is currently out of stock and unavailable.')
+        return redirect(redirect_url)
+    
     if item_id in list(bag.keys()):
         bag[item_id] += quantity
         messages.success(request, f'Updated {wine.name} quantity to {bag[item_id]}')
