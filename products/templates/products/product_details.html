@@ -33,13 +33,14 @@
                 {% if request.user.is_superuser %}
                 <div class="icon-buttons .d-flex justify-content-start mb-3">
                     <!-- Edit Product Button redirects to the edit_product view with wine_id -->
-                    <a href="{% url 'edit_product' wine.id %}" class="btn btn-link text-primary p-0">
+                    <a href="{% url 'edit_product' wine.id %}" class="btn btn-link text-primary p-0" title="Edit this product">
                         <i class="fas fa-edit"></i>
                     </a>
                     <!-- Delete Product Button triggers the delete confirmation modal -->
                     <button type="button" class="btn btn-link text-danger p-0 ms-2" 
                             data-bs-toggle="modal" 
                             data-bs-target="#deleteProductModal"
+                            title="Delete this product"
                             onclick="setDeleteProductAction('{{ wine.id }}')">
                         <i class="fas fa-trash-alt"></i>
                     </button>
@@ -192,6 +193,7 @@
                                         <button type="button" class="btn btn-link text-primary p-0" 
                                                 data-bs-toggle="modal" 
                                                 data-bs-target="#addReviewModal"
+                                                title="Edit your review"
                                                 onclick="fillReviewForm('{{ review.rating }}', '{{ review.comment }}', '{{ review.id }}', '{{ wine.id }}')">
                                             <i class="fas fa-edit"></i>
                                         </button>
@@ -200,6 +202,7 @@
                                         <button type="button" class="btn btn-link text-danger p-0 ms-2" 
                                                 data-bs-toggle="modal" 
                                                 data-bs-target="#deleteReviewModal"
+                                                title="Delete this review"
                                                 onclick="setDeleteReviewAction('{{ wine.id }}', '{{ review.id }}')">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
