@@ -10,6 +10,7 @@
 {% url 'profile' as profile_url %}
 {% url 'add_product' as add_product_url %}
 {% url 'access_denied' as access_denied_url %}
+{% url 'visit_us' as visit_us_url %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -73,10 +74,7 @@
                         <a class="nav-link {% if request.path == home_url %}active{% endif %}" href="{{ our_story_url }}">Our Story</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == home_url %}active{% endif %}" href="/">Visit Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == home_url %}active{% endif %}" href="/">Contact</a>
+                        <a class="nav-link {% if request.path == home_url %}active{% endif %}" href="{{ visit_us_url }}">Visit Us</a>
                     </li>
                 </ul>
                 <hr>
@@ -184,7 +182,7 @@
                         <li><a href="{{ home_url }}" class="text-reset text-decoration-none" aria-label="Home page">Home</a></li>
                         <li><a href="{{ product_list_url }}" class="text-reset text-decoration-none" aria-label="Wines page">Wines</a></li>
                         <li><a href="{{ our_story_url }}" class="text-reset text-decoration-none" aria-label="About us page">Our Story</a></li>
-                        <li><a href="/" class="text-reset text-decoration-none" aria-label="Host an event page">Host an event with us</a></li>
+                        <li><a href="{{ visit_us_url }}" class="text-reset text-decoration-none" aria-label="Visit us page">Visit Us</a></li>
                     </ul>
                 </div>
                 
