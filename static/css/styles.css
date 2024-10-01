@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Nunito', Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #ffffff;
@@ -168,6 +168,11 @@ footer a:hover {
 }
 
 /* Ensure the button is the same height as the input field */
+.input-group {
+    display: flex;
+    align-items: center;
+}
+
 .input-group .btn {
     height: 100%;
     padding: 0 5px;
@@ -453,6 +458,12 @@ footer a:hover {
 }
 
 /* Product details styles */
+.qty_input {
+    width: 50px;
+    border: none;
+    background: #dadadabb;
+    padding: 5px;
+}
 .reviews-display {
     display: flex;
     justify-content: center;
@@ -502,9 +513,9 @@ footer a:hover {
 }
 
 .icon-buttons {
-    display: flex; /* Arrange buttons in a row */
-    gap: 10px; /* Space between buttons */
-    justify-content: flex-end; /* Align to the right */
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
 }
 
 .review-card-footer {

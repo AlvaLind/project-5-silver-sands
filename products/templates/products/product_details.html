@@ -31,7 +31,7 @@
                 
                 <!-- Edit/Delete Icons if the review belongs to the current user -->
                 {% if request.user.is_superuser %}
-                <div class="icon-buttons">
+                <div class="icon-buttons .d-flex justify-content-start mb-3">
                     <!-- Edit Product Button redirects to the edit_product view with wine_id -->
                     <a href="{% url 'edit_product' wine.id %}" class="btn btn-link text-primary p-0">
                         <i class="fas fa-edit"></i>
@@ -45,15 +45,16 @@
                     </button>
                 </div>
                 {% endif %}
+                {% if rating in rating %}
+                    <p>Average Rating: {{ average_rating }} / 5</p>
+                {% else %}
+                    <p>No customer reviews available for the product yet</p>
+                {% endif %}
 
-                <p>Average Rating: {{ average_rating }} / 5</p>
-                <p>Availability: 
-                    {% if wine.available %}
-                        In Stock, Limited quantaties available
-                    {% else %}
-                        Out of Stock
-                    {% endif %}
-                </p>
+                {% if wine.available == False or wine.stock == 0 %}
+                    <p><strong>Out of Stock</strong></p>
+                {% endif %}
+
                 {%if wine.rating %}
                     <p><strong>Rating</strong> {{ wine.rating }}</p>
                 {% endif %}
@@ -83,7 +84,7 @@
                                     </span>
                                 </button>
                         
-                                <input class="form-control qty_input" type="number" 
+                                <input class="qty_input" type="number" 
                                     name="quantity" value="1" min="1" max="99" 
                                     data-item_id="{{ wine.id }}" id="id_qty_{{ wine.id }}">
                         
@@ -97,7 +98,7 @@
                             </div>
                         </div>
                         <div class="col-12">
-                            <input type="submit" class="btn btn-black rounded-0 text-uppercase mt-5" value="Add to Bag">
+                            <input type="submit" class="btn btn-primary rounded-0 text-uppercase mt-3" value="Add to Bag">
                         </div>
                         <input type="hidden" name="redirect_url" value="{{ request.path }}">
                     </div>
