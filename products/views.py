@@ -181,3 +181,24 @@ def edit_review(request, wine_id, review_id):
             print("Error: Failed to edit review")
 
     return HttpResponseRedirect(reverse('products/product_details', args=[wine_id]))
+
+
+def search_products(request):
+    """
+        Search for products by name and category
+    """
+    query = request.GET.get('query', '')
+    if query:
+        # Filter by wine name and category name
+        wine_list = Wine.objects.filter(
+            name__icontains=query
+        ) | Wine.objects.filter(
+            category__name__icontains=query  # Access the related model field correctly
+        )
+    else:
+        wine_list = Wine.objects.all()
+        
+    return render(request, 'products/search_products.html', {
+        'query': query,
+        'wine_list': wine_list,
+    })
