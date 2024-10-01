@@ -1,0 +1,614 @@
+body {
+    font-family: 'Nunito', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    color: #000000;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Set minimum height to fill the viewport */
+}
+
+/* Base html styles */
+header {
+    background-color: #fff460;
+}
+
+nav {
+    margin: 0 auto;
+    padding: 10px 20px;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    color: #000000;
+}
+
+/* Make navbar text black */
+.navbar .nav-link {
+    color: #000000 !important; 
+}
+
+.navbar-brand {
+    color: #000000 !important; 
+}
+
+.logo {
+    font-family: 'Spectral', sans-serif;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.navbar-icons-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+}
+
+.collapse.show + .navbar-icons-container {
+    display: none; /* Hide the icons when the navbar menu is expanded */
+}
+
+/* Footer Styles */
+footer {
+    background-color: #000000; /* Already set in HTML */
+    color: #fff
+}
+
+.social-links i {
+    transition: color 0.3s;
+}
+
+.social-links a:hover i {
+    color: #fff460;
+}
+
+.page-links a:hover {
+    color: #fff460;
+}
+
+/* Headings in Footer */
+footer h2, footer h3 {
+    font-weight: bold;
+}
+
+footer h4 {
+    border-bottom: 1.5px solid;
+    padding-bottom: 10px;
+}
+
+/* Footer Links */
+footer a:hover {
+    color: #fff460;
+}
+
+/* Universal styles */
+.btn-primary{
+    background-color: #9ba6db;
+    border: #9ba6db;
+    color: #000000;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary:hover {
+    background-color: #9ba6db;
+    border-bottom: #9ba6db;
+    transform: scale(1.05); 
+}
+
+/* bootstrap toasts */
+.message-container {
+    position: fixed;
+    top: 72px;
+    right: 15px;
+    z-index: 99999999999;
+}
+.custom-toast {
+    overflow: visible;
+}
+.toast-capper {
+    height: 2px;
+}
+
+/* from CSS-tricks.com: https://css-tricks.com/snippets/css/css-triangle/ */
+.arrow-up {
+    width: 0; 
+    height: 0; 
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent; 
+    border-bottom: 10px solid black;
+    position: absolute;
+    top: -10px;
+    right: 36px;
+}
+
+/* Convenience classes - colors copied from Bootstrap */
+.arrow-primary {
+    border-bottom-color: #007bff !important;
+}
+
+.arrow-secondary {
+    border-bottom-color: #6c757d !important;
+}
+
+.arrow-success {
+    border-bottom-color: #28a745 !important;
+}
+
+.arrow-danger {
+    border-bottom-color: #dc3545 !important;
+}
+
+.arrow-warning {
+    border-bottom-color: #ffc107 !important;
+}
+
+.arrow-info {
+    border-bottom-color: #17a2b8 !important;
+}
+
+.arrow-light {
+    border-bottom-color: #f8f9fa !important;
+}
+
+.arrow-dark {
+    border-bottom-color: #343a40 !important;
+}
+
+.bag-notification-wrapper {
+    height: 100px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+
+/* Search products styles */
+.search-bar {
+    width: 200px !important;
+}
+
+/* Ensure the button is the same height as the input field */
+.input-group {
+    display: flex;
+    align-items: end;
+}
+
+.input-group .btn {
+    height: 100%;
+    padding: 0 5px;
+}
+
+
+/* Index html styles - homepage */
+/* Index - Title header styles */
+.index-header{
+    background-color: #fff460;
+}
+
+.index-header-btn {
+    max-width: 150px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.header-index-image {
+    max-height: 600px;
+}
+
+.index-header-text{
+    max-height: 600px;
+}
+
+/* Wine text and image banner styles */
+.wine-banner {
+    max-width: 1400px;
+}
+
+.banner-text-box {
+    padding: 2rem;
+}
+
+.banner-image {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+}
+
+/* Login page styles */
+.form-container {
+    background-color: #fffef3; 
+    border: 2px solid #161616; 
+}
+
+/* Access denied page style */
+.access-heading{
+    text-align: center;
+    color: #333;
+}
+
+.access-denied-container {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.access-denied-text {
+    font-size: 1.2rem;
+    line-height: 1.3;
+    color: #333;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.leave-page-btn {
+    padding: 8px 12px;
+    font-size: 16px;
+    background-color: #9ba6db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-bottom: 30px;
+}
+
+.leave-page-btn:hover {
+    background-color:#fff460;
+    ;
+}
+
+.access-denied-image {
+    max-width: 100%;
+    height: auto; 
+    width: 500px;
+}
+
+/* About Us page styles */
+.about-us-box {
+    max-width: 360px; 
+    height: 585px;
+    display: inline-block; 
+    vertical-align: top;
+    border: 1.5px solid #c6c6c6; 
+    padding: 20px;
+    margin: 10px; 
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4); 
+    border-radius: 8px; 
+    text-align: center;
+}
+
+.about-box-1 {
+    background: rgba(255, 234, 74, 0.4);
+    margin-right: 20px;
+}
+
+.about-box-2 {
+    background: rgba(176, 189, 216, 0.3);
+    margin-right: 20px;
+}
+
+.about-box-3 {
+    background: rgba(255, 236, 232, 0.8);
+    margin-right: 20px;
+}
+
+.about-us-box img.box-image {
+    width: 100%; 
+    height: auto; 
+    max-height: 500px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px; 
+}
+
+.about-us-box h2 {
+    font-size: 1.5rem; 
+    margin-bottom: 10px; 
+}
+
+.about-us-box p {
+    font-size: 1rem; 
+}
+
+/* Visit Us page styles */
+.visit-us-header {
+    margin-bottom: 25px;
+    color: #000000;
+}
+
+.map-container {
+    margin-bottom: 20px;
+}
+
+.find-us-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+}
+
+.travel-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.transport-options {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+}
+
+.transport-card {
+    background-color: #fcf7bd; 
+    border: 1px solid #fff460;
+    border-radius: 8px;
+    padding: 20px;
+    transition: transform 0.2s;
+    height: auto;
+    min-height: 200px;
+    max-width: 450px; 
+    margin-top: 20px;
+}
+
+.transport-card:hover {
+    transform: scale(1.02); /* Slight scale on hover */
+}
+
+.transport-icon {
+    font-size: 2rem; /* Icon size */
+    color: #9ba6db; /* Matching icon color */
+}
+
+/* Product list page styles */
+.back-button {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; 
+    background-color: #fff460; 
+    border: none;
+    color: #333; 
+    font-size: 20px;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.wine-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.wine-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.wine-item:hover .wine-info {
+    opacity: 1;
+}
+
+.card-body-list {
+    position: relative;
+}
+
+.btn-outline-black {
+    background: white;
+    color: black !important;
+    border: 1px solid black;
+}
+
+.btt-link,
+.update-link,
+.remove-item {
+    cursor: pointer;
+}
+
+/* Hide filter options dropdowns initially */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 270px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Show dropdown content when dropdown is hovered */
+.dropdown-content.show {
+    display: block;
+}
+
+.sort-dropdown-content{
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Show dropdown content when dropdown is hovered */
+.dropdown-content.show {
+    display: block;
+}
+
+.sort-dropdown-content.show {
+    display: block;
+}
+
+.dropdown-btn {
+    width: 120px;
+}
+
+/* Product details styles */
+.qty_input {
+    width: 50px;
+    border: none;
+    background: #dadadabb;
+    padding: 5px;
+}
+.reviews-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0 10px 0;
+}
+
+.reviews-carousel {
+    display: flex;
+    justify-content: center;
+}
+
+.reviews-slider {
+    padding: 5px;
+    display: flex;
+    max-width: 1220px;
+    position: relative;
+    width: 100%
+}
+
+.reviews-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding: 10px;
+    width: 100%;
+}
+
+.reviews-grid::-webkit-scrollbar {
+    display: none;
+}
+
+.card {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    min-width: 300px;
+    max-width: 350px;
+    height: 100%; /* Ensure full height if inside a container with height */
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1; 
+    padding: 20px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.icon-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.review-card-footer {
+    margin-top: auto; 
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.card-username{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.review-arrow {
+    display: none;
+}
+
+/* Product Form */
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type="file"] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.custom-checkbox .custom-control-label::before {
+    border-radius: 0;
+    border-color: #dc3545;
+}
+
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    border-radius: 0;
+}
+
+
+/* Styles for larger screens */
+@media (min-width: 992px) {
+    .index-header .logo {
+        font-size: 56px;
+    }
+}
+
+@media (min-width: 768px){
+    .review-arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 30px;
+        height: 60px;
+        background-color: rgba(44, 44, 44, 0.65);
+        color: #d3d3d3;
+        font-size: 1.5rem;
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    .review-arrow.left {
+        left: 0;
+    }
+
+    .review-arrow.right {
+        right: 0;
+    }
+
+    /* Visit us styles for large screens */
+    .card-row {
+        display: flex;
+        width: 100%;
+    }
+        
+}
+
+
+
+/* Styles for small screens */
+@media (max-width: 992px) {
+    footer .col-lg-4 {
+        text-align: center;
+    }
+}
