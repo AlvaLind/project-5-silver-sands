@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}
+| Visit Us
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center visit-us-header mb-4">Visit Silver Sands Estate</h1>
+    
+    <div class="row">
+        <div class="col-md-6 find-us-container">
+            <h3><i class="fas fa-map-pin me-2"></i>How to Find Us</h3>
+            <p><strong>Silver Sands Estate</strong><br>
+                Osborn Rd<br>
+                5171, McLaren Vale<br>
+                South Australia
+            </p>
+            <h3><i class="fas fa-info-circle me-2"></i>Get in Touch</h3>
+            <p><strong>Phone:</strong> 0123 456 789<br>
+                <strong>Email:</strong> info@silversands.com<br>
+                <strong> Open Hours:</strong> 1:00am - 9:00pm<br>
+                Wednesday - Sunday
+            </p>
+        </div>
+
+        <div class="col-md-6 mb-5 map-container text-center">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3168.4327050582106!2d138.56922561535656!3d-35.22689708005187!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ab1a64e1f72f8a7%3A0x500c195635cc2f7d!2sOsborn+Rd%2C+McLaren+Vale+SA+5171%2C+Australia!5e0!3m2!1sen!2sus!4v1634236587672!5m2!1sen!2sus"
+                width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy">
+            </iframe>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="travel-container">
+            <h3>No Car, No Worries!</h3>
+            <p>Leave your car behind and sip away without the worry of driving! Here are some options if you don't want to travel by car:</p>
+            <div class="transport-options">
+                <div class="card-row">
+                    <div class="transport-card me-md-3 me-lg-4">
+                        <i class="fas fa-bus transport-icon"></i>
+                        <h4>Bus</h4>
+                        <p>Buses leave regularly from Seaford, with <em>Route 751</em> bringing you right to the region’s doorstep at the McLaren Vale & Fleurieu Visitor’s Information Centre (about a 40-minute ride).</p>
+                    </div>
+                    <div class="transport-card">
+                        <i class="fas fa-train transport-icon"></i>
+                        <h4>Train</h4>
+                        <p>The train service to Seaford has recently undergone an upgrade, with trains departing Adelaide Railway Station in North Terrace for Seaford every 25 mins (Mon-Sat), and every half hour on Sundays. It’s a 45-minute journey to Seaford from Adelaide Station.</p>
+                    </div>
+                </div>
+                
+                <div class="card-row">
+                    <div class="transport-card me-md-3 me-lg-4">
+                        <i class="fas fa-bicycle transport-icon"></i>
+                        <h4>Bike</h4>
+                        <p>A direct bike trail to McLaren Vale runs parallel to the Southern Expressway from the Bedford Park entrance to the Old Noarlunga exit and onto McLaren Vale & Fleurieu Visitor Centre. Cyclists can pick up the trail again to Willunga via the ‘former railway line’.</p>
+                    </div>
+                    <div class="transport-card">
+                        <i class="fas fa-bus-alt transport-icon"></i>
+                        <h4>Tours</h4>
+                        <p>Check out the local Hop On Hop Off service that runs every hour on weekends. Visit <a href="https://trailhopper.com.au/tour/mclaren-vale-north-hop-on-hop-off-tour/" target="_blank">TrailHopper</a> for more details.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
