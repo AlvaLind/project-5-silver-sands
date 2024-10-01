@@ -77,7 +77,7 @@ class Wine(models.Model):
     # Override the save method to auto generate the slug and check uniqueness
     def save(self, *args, **kwargs):
         # Automatically generate the slug from the name if not provided
-        if not self.slug:
+        if not self.slug or not self.slug == slugify(self.name):
             self.slug = slugify(self.name)
 
         # Check if the slug is unique before saving

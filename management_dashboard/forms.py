@@ -19,6 +19,10 @@ class ProductForm(forms.ModelForm):
         # Adding CSS classes to fields
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'border-black rounded-0'
+            
+        if self.instance.pk:  # Check if the instance exists (is being edited)
+            self.fields['slug'].widget.attrs['readonly'] = True
+            self.fields['slug'].help_text = "This slug is auto-generated from the wine name and cannot be changed."
     
     def clean_slug(self):
         slug = self.cleaned_data.get('slug')
