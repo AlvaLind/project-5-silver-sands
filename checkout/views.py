@@ -34,9 +34,7 @@ def checkout(request):
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
     
-    # If user submits checkout form
     if request.method == 'POST':
-        
         bag = request.session.get('bag', {})
         form_data = {
             'full_name': request.POST['full_name'],
@@ -52,32 +50,46 @@ def checkout(request):
         order_form = OrderForm(form_data)
         
         if order_form.is_valid():
+            # Validate stock before saving the order
+            for item_id, quantity in bag.items():
+                try:
+                    wine = Wine.objects.get(id=item_id)
+                    
+                    # Check if the wine is in stock and available
+                    if not wine.available or wine.stock == 0:
+                        messages.error(request, f'Sorry, {wine.name} is unfortunately out of stock.')
+                        return redirect(reverse('view_bag'))
+                    
+                    # Check if the requested quantity exceeds available stock
+                    if quantity > wine.stock:
+                        messages.error(request, f'Sorry, there are only {wine.stock} of {wine.name} left in stock. Please update your bag.')
+                        return redirect(reverse('view_bag'))
+                
+                except Wine.DoesNotExist:
+                    messages.error(request, f"One of the wines in your bag wasn't found in our database. Please contact us for assistance.")
+                    return redirect(reverse('view_bag'))
+
+            # If all items pass the stock check, proceed with order creation
             order = order_form.save(commit=False)
             pid = request.POST.get('client_secret').split('_secret')[0]
             order.stripe_pid = pid
             order.original_bag = json.dumps(bag)
             order.save()
-            for item_id, item_data in bag.items():
-                try:
-                    wine = Wine.objects.get(id=item_id)
-                    # Directly use item_data as the quantity
-                    quantity = item_data  # item_data will be an integer
-                    if quantity > 0:  # Only create order line item if quantity is greater than 0
-                        order_line_item = OrderLineItem(
-                            order=order,
-                            wine=wine,
-                            quantity=quantity,
-                        )
-                        order_line_item.save()
-                except Wine.DoesNotExist:
-                    messages.error(request, (
-                        "One of the wines in your bag wasn't found in our database. "
-                        "Please contact us for assistance!")
-                    )
-                    order.delete()
-                    return redirect(reverse('view_bag'))
 
-            request.session['save_info'] = 'save-info' in request.POST # Save the users profile info to the session 
+            for item_id, quantity in bag.items():
+                wine = Wine.objects.get(id=item_id)
+                order_line_item = OrderLineItem(
+                    order=order,
+                    wine=wine,
+                    quantity=quantity,
+                )
+                order_line_item.save()
+
+                # Reduce the stock of the product after successful order line creation
+                wine.stock -= quantity
+                wine.save()
+
+            request.session['save_info'] = 'save-info' in request.POST
             return redirect(reverse('checkout_success', args=[order.order_number]))
         else:
             messages.error(request, 'There was an error with completing the order. Please double check your information.')
@@ -93,12 +105,11 @@ def checkout(request):
         stripe_total = round(total * 100)
         stripe.api_key = stripe_secret_key
         intent = stripe.PaymentIntent.create(
-            amount = stripe_total,
-            currency = settings.STRIPE_CURRENCY,
+            amount=stripe_total,
+            currency=settings.STRIPE_CURRENCY,
         )
         client_secret = intent.client_secret
-        print(intent)
-        
+
         if request.user.is_authenticated:
             try:
                 profile = UserProfile.objects.get(user=request.user)
@@ -119,8 +130,7 @@ def checkout(request):
             order_form = OrderForm()
     
     if not stripe_public_key:
-        messages.warning(request, 'Stripe public key is missing. \
-            Did you forget to set it in your environment?')
+        messages.warning(request, 'Oh no, something happend. Please contact us.')
         
     template = 'checkout/checkout.html'
     context = {
@@ -130,6 +140,7 @@ def checkout(request):
     }
 
     return render(request, template, context)
+
 
 
 def checkout_success(request, order_number):

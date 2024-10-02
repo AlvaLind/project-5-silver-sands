@@ -18,11 +18,19 @@ def add_to_bag(request, item_id):
     redirect_url = request.POST.get('redirect_url')
     bag = request.session.get('bag', {})
     
+    # Get the current quantity of the product in the user's bag (if any)
+    current_bag_quantity = bag.get(item_id, 0)
+    
     # Validate the wine is stock and or availability
-    if wine.stock == 0 or not wine.availability:
+    if wine.stock == 0 or not wine.available:
         messages.error(request, f'Sorry, {wine.name} is currently out of stock and unavailable.')
         return redirect(redirect_url)
     
+    # Check if the total quantity (current + new) exceeds available stock
+    if current_bag_quantity + quantity > wine.stock:
+        messages.error(request, f'Sorry, there are only {wine.stock} {wine.name} left in stock.')
+        return redirect(redirect_url)
+        
     if item_id in list(bag.keys()):
         bag[item_id] += quantity
         messages.success(request, f'Updated {wine.name} quantity to {bag[item_id]}')
@@ -39,7 +47,18 @@ def adjust_bag(request, item_id):
     wine = get_object_or_404(Wine, pk=item_id)
     quantity = int(request.POST.get('quantity'))
     bag = request.session.get('bag', {})
-    
+
+    # Validate the wine is in stock and available
+    if not wine.available or wine.stock == 0:
+        messages.error(request, f'Sorry, {wine.name} is currently out of stock and unavailable.')
+        return redirect(reverse('view_bag'))
+
+    # Check if the requested quantity exceeds available stock
+    if quantity > wine.stock:
+        messages.error(request, f'Sorry, there are only {wine.stock} {wine.name} left in stock.')
+        return redirect(reverse('view_bag'))
+
+    # If quantity is valid and within the stock limits
     if quantity > 0:
         bag[item_id] = quantity
         messages.success(request, f'Updated {wine.name} quantity to {bag[item_id]}')
