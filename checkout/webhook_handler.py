@@ -49,13 +49,15 @@ class StripeWH_Handler:
         """
         # Extract payment intent details from the event
         intent = event.data.object
+        print(intent)
+        
         pid = intent.id
         bag = intent.metadata.bag
         save_info = intent.metadata.save_info
         
         stripe_charge = stripe.Charge.retrieve(
         intent.latest_charge
-)
+        )
         
         # Extract billing and shipping details from the intent
         billing_details = stripe_charge.billing_details
