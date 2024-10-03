@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
+from .views import handler404, handler500
 
 
 urlpatterns = [
@@ -14,4 +15,7 @@ urlpatterns = [
     path('checkout/',include('checkout.urls')),
     path('profile/', include('profiles.urls')),
     path('management_dashboard/', include('management_dashboard.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+handler404 = 'silver_sands.views.handler404'
+handler500 = 'silver_sands.views.handler500'

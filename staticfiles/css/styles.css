@@ -498,10 +498,10 @@ footer a:hover {
 
 .card {
     display: flex;
-    flex-direction: column; /* Stack children vertically */
+    flex-direction: column; /* Stack cards vertically */
     min-width: 300px;
     max-width: 350px;
-    height: 100%; /* Ensure full height if inside a container with height */
+    height: 100%;
 }
 
 .card-body {
@@ -563,6 +563,16 @@ footer a:hover {
     border-radius: 0;
 }
 
+/* Error handeling page styles */
+.error-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.error-container {
+    display: flex;
+    margin: 2%;
+}
 
 /* Styles for larger screens */
 @media (min-width: 992px) {

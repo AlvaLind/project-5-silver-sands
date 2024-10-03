@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}404 Error{% endblock %}
+
+{% block content %}
+  <div class="error-container d-flex flex-column align-items-center text-center">
+      <section class="error">
+        <h2 class="error__title">Page 500</h2>
+        <p>Oh No, Something went wrong. The page is not found!</p>
+        <a href="{{ home_url }}" aria-label="Go to Home page" class="btn account__btn">Go to the Home page</a>
+      </section>
+      <div class="access__error--image">
+        <img src="{% static 'images/error500.jpg' %}" class= "error-image" alt="Image reflecting setting issues" aria-label="error image">
+      </div>
+  </div>
+{% endblock %}

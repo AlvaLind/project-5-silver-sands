@@ -28,7 +28,7 @@ def add_product(request):
         except ValidationError as e:
             messages.error(request, f"Error: {e.message}")
         except IntegrityError:
-            messages.error(request, 'Failed to add product. A product with that slug already exists.')
+            messages.error(request, 'Failed to add product. A product with that name already exists.')
     else:
         form = ProductForm()
 
@@ -62,7 +62,7 @@ def edit_product(request, wine_id):
         except ValidationError as e:
             messages.error(request, f"Error: {e.message}")
         except IntegrityError:
-            messages.error(request, 'Failed to update product. A product with that slug already exists.')
+            messages.error(request, 'Failed to update product. A product with that name already exists.')
     else:
         form = ProductForm(instance=wine)
         messages.info(request, f'You are editing {wine.name}')
