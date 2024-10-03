@@ -7,8 +7,11 @@ from products.models import Wine
 # Create your views here.
 def view_bag(request):
     """ A view to renders the bag contents page """
+    context = {
+        'on_bag_page': True
+    }
     
-    return render(request, 'bag/bag.html')
+    return render(request, 'bag/bag.html', context)
 
 def add_to_bag(request, item_id):
     """ Add a quantity of the specified product to the shopping bag """
