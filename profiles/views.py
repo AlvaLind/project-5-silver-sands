@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -12,6 +13,12 @@ def profile(request):
     """ Display the user's profile. """
     
     user_profile = UserProfile.objects.get(user=request.user)
+    
+    orders = user_profile.orders.all().order_by('-date')
+     
+    paginator = Paginator(orders, 9)  # Show 10 orders per page
+    page_number = request.GET.get('page')  # Get the current page number from the query string
+    page_obj = paginator.get_page(page_number)
      
     if request.method == 'POST':
         form = UserProfileForm(request.POST, instance=user_profile)
@@ -28,7 +35,7 @@ def profile(request):
     template = 'profiles/profile.html'
     context = {
             'form': form,
-            'orders': orders,
+            'orders': page_obj,
             'on_profile_page': True
         }
     

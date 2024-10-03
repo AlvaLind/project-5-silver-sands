@@ -1,5 +1,5 @@
 .order-history {
-    max-height: 416px;
+    max-height: 650px;
     overflow-y: auto;
 }
 
@@ -18,4 +18,29 @@
 
 #id_default_country option:first-child {
     color: #9ba6db;
+}
+
+/* Change pagination button background color */
+.pagination .page-link {
+    background-color: #c1caf3;
+    color: #000000;
+    border: 1px solid #000000;
+}
+
+.pagination .page-link:hover {
+    background-color: #9ba6db;
+    color: #fff;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #9ba6db;
+    color: #ffffff;
+    border-color: #000000;
+}
+
+@media (min-width: 768px){
+    .order-history {
+        max-height: 580px;
+        overflow-y: auto;
+    }
 }
