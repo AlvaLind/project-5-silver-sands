@@ -347,7 +347,7 @@ footer a:hover {
 
 .transport-options {
     display: flex;
-    flex-direction: column; /* Stack items vertically */
+    flex-direction: column;
 }
 
 .transport-card {
@@ -363,12 +363,12 @@ footer a:hover {
 }
 
 .transport-card:hover {
-    transform: scale(1.02); /* Slight scale on hover */
+    transform: scale(1.02);
 }
 
 .transport-icon {
-    font-size: 2rem; /* Icon size */
-    color: #9ba6db; /* Matching icon color */
+    font-size: 2rem;
+    color: #9ba6db;
 }
 
 /* Product list page styles */
@@ -385,6 +385,11 @@ footer a:hover {
     text-align: center;
     cursor: pointer;
     transition: background-color 0.3s ease;
+}
+
+.card-section{
+    display: flex;
+    justify-content: center;
 }
 
 .wine-item {
@@ -426,6 +431,29 @@ footer a:hover {
 .update-link,
 .remove-item {
     cursor: pointer;
+}
+
+/* Pagination button styles */
+.pagination-controls{
+    display: flex;
+    justify-content: center;
+}
+
+.pagination .page-link {
+    background-color: #c1caf3;
+    color: #000000;
+    border: 1px solid #000000;
+}
+
+.pagination .page-link:hover {
+    background-color: #9ba6db;
+    color: #fff;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #9ba6db;
+    color: #ffffff;
+    border-color: #000000;
 }
 
 /* Hide filter options dropdowns initially */
@@ -614,9 +642,9 @@ footer a:hover {
 
 
 
-/* Styles for small screens */
+/* Styles for small screens
 @media (max-width: 992px) {
     footer .col-lg-4 {
         text-align: center;
     }
-}
+}*/

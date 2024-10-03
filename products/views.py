@@ -7,6 +7,7 @@ from reviews.models import Review
 from datetime import datetime
 from reviews.forms import ReviewForm
 from django.db.models import Avg
+from django.core.paginator import Paginator
 
 def product_list(request):
     """
@@ -64,8 +65,14 @@ def product_list(request):
     elif sort == 'price_asc':
         wines = wines.order_by('price')
         
+    # Pagination
+    paginator = Paginator(wines, 9)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+        
     context = {
         'wines': wines,
+        'page_obj': page_obj,
         'categories': categories,
     }
     return render(request, 'products/product_list.html', context)
