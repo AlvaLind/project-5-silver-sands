@@ -12,7 +12,7 @@
 
 {% block content %}
 <div class="overlay"></div>
-<div class="container mb-2">
+<div class="container mb-4">
     <div class="row">
         <div class="col">
             <hr>
@@ -21,9 +21,10 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row ">
         <div class="col">
             {% if bag_items %}
+            <div class="d-none d-md-block">
                 <div class="table-responsive rounded">
                     <table class="table table-sm table-borderless">
                         <thead class="text-black">
@@ -81,52 +82,113 @@
                                         </div>
                                     </form>
                                     <div class="qty-form-buttons d-flex">
-                                    <a class="update-link text-info"><small>Update</small></a>
-                                    <a class="remove-item text-danger ms-auto" id="remove_{{ item.item_id }}"><small>Remove</small></a>                
+                                        <a class="update-link text-info"><small>Update</small></a>
+                                        <a class="remove-item text-danger ms-auto" id="remove_{{ item.item_id }}"><small>Remove</small></a>
+                                    </div>              
                                 </td>
                                 <td class="py-3">
                                     <p class="my-0">${{ item.wine.price | calc_subtotal:item.quantity }}</p>
                                 </td>
                             </tr>
                         {% endfor %}
-                        <tr>
-                            <td colspan="5" class="pt-5 text-right">
-                                <h6><strong>Total: ${{ total|floatformat:2 }}</strong></h6>
-                                <h6>Delivery: ${{ delivery|floatformat:2 }}</h6>
-                                <h4 class="mt-4"><strong>Grand Total: ${{ grand_total|floatformat:2 }}</strong></h4>
-                                {% if free_delivery_delta > 0 %}
-                                    <p class="mb-1 text-danger">
-                                        You are only <strong>${{ free_delivery_delta }}</strong> away from free delivery!
-                                    </p>
-                                {% endif %}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="5" class="text-right">
-                                <a href="{{ product_list_url }}" class="btn btn-secondary rounded-0">
-                                    <span class="icon">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </span>
-                                    <span>Keep Shopping</span>
-                                </a>
-                                <a href="{{ checkout_url }}" class="btn btn-primary rounded-0 ms-2">
-                                    <span>Secure Checkout</span>
-                                    <span class="icon">
-                                        <i class="fas fa-lock"></i>
-                                    </span>
-                                </a>
-                            </td>
-                        </tr>
                     </table>
                 </div>
+            </div>
+
+            <!-- Card layout for small screens -->
+            <div class="d-block d-md-none">
+                <div class="row">
+                    {% for item in bag_items %}
+                    <div class="col-12 mb-3">
+                        <div class="card">
+                            <div class="card-body d-flex">
+                                <a href="{% url 'product_details' wine_id=item.wine.id %}" class="me-3">
+                                    {% if item.wine.image %}
+                                    <img src="{{ item.wine.image.url }}" class="img-fluid rounded" alt="{{ item.wine.name }}" style="width: 80px;">
+                                    {% else %}
+                                    <img class="img-fluid rounded" src="{% static 'images/default-image.jpg' %}" alt="{{ item.wine.name }}" style="width: 80px;">
+                                    {% endif %}
+                                </a>
+                                <div class="flex-grow-1">
+                                    <h5 class="card-title mb-2">{{ item.wine.name }}</h5>
+                                    <p class="card-text small text-muted mb-2">SKU: {{ item.wine.sku|upper }}</p>
+                                    <p class="mb-2">Price: ${{ item.wine.price }}</p>
+                                    <form class="form update-form" method="POST" action="{% url 'adjust_bag' item.item_id %}">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <button class="decrement-qty-sm btn fa-sm rounded-0" 
+                                                    data-item_id="{{ item.item_id }}" id="decrement-qty-sm_{{ item.item_id }}">
+                                                    <span>
+                                                        <i class="fas fa-minus fa-sm"></i>
+                                                    </span>
+                                                </button>
+                                            
+                                                <input class="form-control form-control-sm qty_input" type="number" 
+                                                    name="quantity" value="{{ item.quantity }}" min="1" max="99" 
+                                                    data-item_id="{{ item.item_id }}" id="id_qty_{{ item.item_id }}">
+                                            
+                                                <button class="increment-qty-sm btn rounded-0"
+                                                    data-item_id="{{ item.item_id }}" id="increment-qty-sm_{{ item.item_id }}">
+                                                    <span>
+                                                        <i class="fas fa-plus fa-sm"></i>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="qty-form-buttons d-flex">
+                                        <a class="update-link text-info me-2"><small>Update</small></a>
+                                        <a class="remove-item text-danger ms-auto" id="remove_{{ item.item_id }}"><small>Remove</small></a>
+                                    </div>
+                                </div>
+                                <div class="py-3">
+                                    <p class="my-0">Subtotal: ${{ item.wine.price | calc_subtotal:item.quantity }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <table>
+                <tr>
+                    <td colspan="5" class="pt-5 text-right">
+                        <h6><strong>Total: ${{ total|floatformat:2 }}</strong></h6>
+                        <h6>Delivery: ${{ delivery|floatformat:2 }}</h6>
+                        <h4 class="mt-4"><strong>Grand Total: ${{ grand_total|floatformat:2 }}</strong></h4>
+                        {% if free_delivery_delta > 0 %}
+                            <p class="mb-1 text-danger">
+                                You are only <strong>${{ free_delivery_delta }}</strong> away from free delivery!
+                            </p>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="text-right">
+                        <a href="{{ product_list_url }}" class="btn btn-secondary rounded-0">
+                            <span class="icon">
+                                <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span>Keep Shopping</span>
+                        </a>
+                        <a href="{{ checkout_url }}" class="btn btn-primary rounded-0 ms-2">
+                            <span>Secure Checkout</span>
+                            <span class="icon">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                        </a>
+                    </td>
+                </tr>
+            </table>
             {% else %}
-                <p class="lead mb-5">Your bag is empty.</p>
-                <a href="{{ product_list_url }}" class="btn btn-outline-black rounded-0 btn-lg">
-                    <span class="icon">
-                        <i class="fas fa-chevron-left"></i>
-                    </span>
-                    <span class="text-uppercase">Keep Shopping</span>
-                </a>
+            <p class="lead mb-5">Your bag is empty.</p>
+            <a href="{{ product_list_url }}" class="btn btn-outline-black rounded-0 btn-lg">
+                <span class="icon">
+                    <i class="fas fa-chevron-left"></i>
+                </span>
+                <span class="text-uppercase">Keep Shopping</span>
+            </a>
             {% endif %}
         </div>
     </div>
@@ -139,7 +201,27 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            // Update quantity on clicking the 'Update' link
+            // Update quantity on clicking the increment and decrement buttons
+            $('.increment-qty-sm, .decrement-qty-sm').click(function(e) {
+                e.preventDefault();
+                e.stopPropagation(); 
+                var $input = $(this).siblings('input.qty_input'); // Adjusted to target the input correctly
+                var currentVal = parseInt($input.val());
+                if ($(this).hasClass('increment-qty-sm')) {
+                    $input.val(currentVal + 1);
+                } else if ($(this).hasClass('decrement-qty-sm') && currentVal > 1) {
+                    $input.val(currentVal - 1);
+                }
+            });
+    
+            // Update quantity on clicking the 'Update' link - small screens
+            $('.update-link').click(function(e) {
+                e.preventDefault(); 
+                var form = $(this).closest('div.card-body').find('.update-form'); // Adjusted to find the form correctly
+                form.submit();
+            });
+
+            // Update quantity on clicking the 'Update' link - large screens
             $('.update-link').click(function(e) {
                 e.preventDefault(); 
                 var form = $(this).closest('td').find('.update-form');
@@ -152,13 +234,12 @@
                 var itemId = $(this).attr('id').split('remove_')[1];
                 var url = `/bag/remove/${itemId}/`;
                 var data = {'csrfmiddlewaretoken': csrfToken};
-
+    
                 $.post(url, data)
                 .done(function() {
                     location.reload();
                 });
-            })
+            });
         });
     </script>
-    
 {% endblock %}
