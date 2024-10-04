@@ -98,7 +98,7 @@ def checkout(request):
         bag = request.session.get('bag', {})
         if not bag:
             messages.error(request, "Your bag is empty at the moment!")
-            return redirect(reverse('wine_list'))
+            return redirect(reverse('product_list'))
         
         current_bag = bag_contents(request)
         total = current_bag['grand_total']
@@ -147,6 +147,8 @@ def checkout_success(request, order_number):
     """
     Handle a users successful checkout
     """
+    if 'bag' not in request.session:
+        return redirect('home')
 
     save_info = request.session.get('save_info')
     order = get_object_or_404(Order, order_number=order_number)
