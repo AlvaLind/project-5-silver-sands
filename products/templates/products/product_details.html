@@ -46,11 +46,33 @@
                     </button>
                 </div>
                 {% endif %}
-                {% if rating in rating %}
-                    <p>Average Rating: {{ average_rating }} / 5</p>
+                {% if average_rating %}
+                <!-- Display products stars -->
+                    <div class="-star-ratings">
+                        <div class="star-ratings-foreground">
+                            <ul class="product-stars">
+                                <li><i class="fa-star product-rating-star far" data-value="1"></i></li>
+                                <li><i class="fa-star product-rating-star far" data-value="2"></i></li>
+                                <li><i class="fa-star product-rating-star far" data-value="3"></i></li>
+                                <li><i class="fa-star product-rating-star far" data-value="4"></i></li>
+                                <li><i class="fa-star product-rating-star far" data-value="5"></i></li>
+                            </ul>    
+                        </div>            
+                    </div>
+
+                    <!-- Display books text rating -->
+                    <div id="average-rating">
+                        {% if total_ratings == 1 %}
+                            <p>{{ average_rating }} from {{ review_count }} rating</p>
+                        {% else %}
+                            <p>{{ average_rating }} from {{ review_count }} ratings</p>
+                        {% endif %}
+                    </div>
+
                 {% else %}
-                    <p>No customer reviews available for the product yet</p>
+                    <p>No ratings</p>
                 {% endif %}
+
 
                 {% if wine.available == False or wine.stock == 0 %}
                     <p><strong>Out of Stock</strong></p>
@@ -351,10 +373,11 @@
     {% include 'products/includes/quantity_input_script.html' %}
     <script src="{% static 'js/product_details.js' %}"></script>
     <script src="{% static 'js/back_button.js' %}"></script>
+    <script src="{% static 'js/ratings.js' %}"></script>
     <script>
         function setDeleteProductAction(wineId) {
             const form = document.getElementById('deleteProductForm');
-            form.action = `/management_dashboard/delete/${wineId}/`;
+            form.action = /management_dashboard/delete/${wineId}/;
         }
     </script>        
 {% endblock %}

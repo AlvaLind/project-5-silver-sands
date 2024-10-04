@@ -54,12 +54,12 @@ nav {
 }
 
 .collapse.show + .navbar-icons-container {
-    display: none; /* Hide the icons when the navbar menu is expanded */
+    display: none;
 }
 
 /* Footer Styles */
 footer {
-    background-color: #000000; /* Already set in HTML */
+    background-color: #000000;
     color: #fff
 }
 
@@ -541,10 +541,10 @@ footer a:hover {
 
 .card {
     display: flex;
-    flex-direction: column; /* Stack children vertically */
+    flex-direction: column;
     min-width: 300px;
     max-width: 350px;
-    height: 100%; /* Ensure full height if inside a container with height */
+    height: 100%;
 }
 
 .card-body {
@@ -577,6 +577,44 @@ footer a:hover {
 
 .review-arrow {
     display: none;
+}
+
+/* Product details star rating */ 
+.product-star-ratings {
+    display: inline-block;
+    position: relative;
+    font-size: 24px;
+    color: #777777;
+}
+
+.star-ratings-foreground {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+.star-ratings-foreground .product-stars {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.product-stars li {
+    display: inline-block;
+    text-align: center;
+}
+
+.product-rating-star {
+    color: #777777;
+}
+
+.product-rating-star.fas {
+    color: #f5c518;
+}
+
+.product-rating-star.half-filled::before {
+    content: '\f089';
+    display: inline-flex;
+    overflow: hidden;
 }
 
 /* Product Form */
@@ -651,12 +689,3 @@ footer a:hover {
         width: 66.66667%;
     }
 }
-
-
-
-/* Styles for small screens
-@media (max-width: 992px) {
-    footer .col-lg-4 {
-        text-align: center;
-    }
-}*/
