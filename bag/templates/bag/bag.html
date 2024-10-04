@@ -95,23 +95,21 @@
                 </div>
             </div>
 
-            <!-- Card layout for small screens -->
             <div class="d-block d-md-none">
                 <div class="row">
                     {% for item in bag_items %}
                     <div class="col-12 mb-3">
-                        <div class="card">
-                            <div class="card-body d-flex">
+                        <div class="d-flex flex-col w-100">
+                            <div class="card-body d-flex flex-row w-100"> <!-- Flexbox layout -->
                                 <a href="{% url 'product_details' wine_id=item.wine.id %}" class="me-3">
                                     {% if item.wine.image %}
-                                    <img src="{{ item.wine.image.url }}" class="img-fluid rounded" alt="{{ item.wine.name }}" style="width: 80px;">
+                                    <img src="{{ item.wine.image.url }}" class="img-fluid rounded" alt="{{ item.wine.name }}" style="width: auto; max-height: 150px;"> <!-- Maintain aspect ratio -->
                                     {% else %}
-                                    <img class="img-fluid rounded" src="{% static 'images/default-image.jpg' %}" alt="{{ item.wine.name }}" style="width: 80px;">
+                                    <img class="img-fluid rounded" src="{% static 'images/default-image.jpg' %}" alt="{{ item.wine.name }}" style="width: 80px; height: auto;">
                                     {% endif %}
                                 </a>
-                                <div class="flex-grow-1">
+                                <div>
                                     <h5 class="card-title mb-2">{{ item.wine.name }}</h5>
-                                    <p class="card-text small text-muted mb-2">SKU: {{ item.wine.sku|upper }}</p>
                                     <p class="mb-2">Price: ${{ item.wine.price }}</p>
                                     <form class="form update-form" method="POST" action="{% url 'adjust_bag' item.item_id %}">
                                         {% csrf_token %}
@@ -123,11 +121,11 @@
                                                         <i class="fas fa-minus fa-sm"></i>
                                                     </span>
                                                 </button>
-                                            
-                                                <input class="form-control form-control-sm qty_input" type="number" 
+                                                
+                                                <input class="form-control form-control-sm qty_input" style="max-width:50px;" type="number" 
                                                     name="quantity" value="{{ item.quantity }}" min="1" max="99" 
                                                     data-item_id="{{ item.item_id }}" id="id_qty_{{ item.item_id }}">
-                                            
+                                                
                                                 <button class="increment-qty-sm btn rounded-0"
                                                     data-item_id="{{ item.item_id }}" id="increment-qty-sm_{{ item.item_id }}">
                                                     <span>
@@ -137,13 +135,17 @@
                                             </div>
                                         </div>
                                     </form>
-                                    <div class="qty-form-buttons d-flex">
-                                        <a class="update-link text-info me-2"><small>Update</small></a>
-                                        <a class="remove-item text-danger ms-auto" id="remove_{{ item.item_id }}"><small>Remove</small></a>
+                                    <div class="qty-form-buttons d-flex mt-1">
+                                        <a class="update-link text-info me-2">Update</a>
+                                    </div>
+                                    <div class="py-3">
+                                        <p class="my-0">Subtotal: ${{ item.wine.price | calc_subtotal:item.quantity }}</p>
                                     </div>
                                 </div>
-                                <div class="py-3">
-                                    <p class="my-0">Subtotal: ${{ item.wine.price | calc_subtotal:item.quantity }}</p>
+                                <div class="qty-form-buttons d-flex ms-auto">
+                                    <a class="remove-item text-danger ms-auto" id="remove_{{ item.item_id }}">
+                                        <i class="fas fa-times fa-2x"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -151,6 +153,7 @@
                     {% endfor %}
                 </div>
             </div>
+            
             <table>
                 <tr>
                     <td colspan="5" class="pt-5 text-right">
