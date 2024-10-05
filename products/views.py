@@ -127,6 +127,7 @@ def product_details(request, wine_id):
         'review_form': review_form,
         'existing_review': existing_review,
         'review_count': review_count,
+        'on_product_details_page': True,
     }
     return render(request, 'products/product_details.html', context)
 

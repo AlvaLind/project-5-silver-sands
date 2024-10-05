@@ -35,7 +35,7 @@ def add_product(request):
     template = 'management_dashboard/add_product.html'
     context = {
         'form': form,
-        'on_add_product_page': True,
+        
     }
     
     return render(request, template, context)
@@ -72,6 +72,7 @@ def edit_product(request, wine_id):
     context = {
         'form': form,
         'wine': wine,
+        'no_bag_on_success': False,
     }
     return render(request, template, context)
 

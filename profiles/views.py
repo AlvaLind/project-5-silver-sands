@@ -36,7 +36,6 @@ def profile(request):
     context = {
             'form': form,
             'orders': page_obj,
-            'on_profile_page': True
         }
     
     return render(request, template, context)
