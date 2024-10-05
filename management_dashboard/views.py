@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 
 from products.models import Wine
+from checkout.models import Order
 
 
 @login_required
@@ -93,3 +94,39 @@ def delete_product(request, wine_id):
         'wines': wines,
     }
     return render(request, 'products/product_list.html', context)
+
+
+from .forms import OrderStatusForm
+
+@login_required
+def manage_orders(request):
+    """ View all store orders and update order status """
+    
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can do that.')
+        return redirect(reverse('home'))
+    
+    orders = Order.objects.all().order_by('-date')
+    status_filter = request.GET.get('status')
+    
+    if status_filter:
+        orders = orders.filter(status=status_filter)
+        
+    if request.method == 'POST':
+        order_id = request.POST.get('order_id')
+        order = Order.objects.get(id=order_id)
+        form = OrderStatusForm(request.POST, instance=order)
+        
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Order status updated successfully.')
+        else:
+            messages.error(request, 'Error updating order status.')
+
+    context = {
+        'orders': orders,
+    }
+    
+    return render(request, 'management_dashboard/manage_orders.html', context)
+
+    

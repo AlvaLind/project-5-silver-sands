@@ -11,6 +11,7 @@
 {% url 'add_product' as add_product_url %}
 {% url 'access_denied' as access_denied_url %}
 {% url 'visit_us' as visit_us_url %}
+{% url 'manage_orders' as manage_orders_url %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -137,8 +138,8 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#" aria-label="View orders">
-                                            View Orders
+                                        <a class="dropdown-item" href="{{ manage_orders_url }}" aria-label="Manage orders">
+                                            Manage Orders
                                         </a>
                                     </li>
                                 </ul>
