@@ -1,7 +1,10 @@
 from django import forms
+from django.core.exceptions import ValidationError
+
 from .widgets import CustomClearableFileInput
 from products.models import Wine, Category
-from django.core.exceptions import ValidationError
+from checkout.models import Order
+
 
 class ProductForm(forms.ModelForm):
 
@@ -41,3 +44,13 @@ class ProductForm(forms.ModelForm):
             raise ValidationError('This slug is already in use. Please choose a different one.')
         
         return slug
+
+
+class OrderStatusForm(forms.ModelForm):
+    
+    class Meta:
+        model = Order
+        fields = ['status']
+        widgets = {
+            'status': forms.Select(choices=Order.ORDER_STATUS_CHOICES),
+        }
