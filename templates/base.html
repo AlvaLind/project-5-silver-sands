@@ -18,12 +18,15 @@
     {% block meta %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover the finest wines from McLaren Vale at Silver Sands Estate. Shop our premium wines, join our wine club, and enjoy exclusive discounts, offers, and updates.">
+    <meta name="keywords" content="wines, McLaren Vale, wine club, winery, premium wines, Silver Sands Estate, online wine store">
+
+    <title>Silver Sands Estate - {% block extra_title %}McLaren Vale Wines{% endblock %}</title>
+
     {% endblock %}
 
     {% block extra_meta %}
     {% endblock %}
-
-    <title>Silver Sands {% block extra_title %}{% endblock %}</title>
 
     {% block corecss %}
     <!--FAVICON-->
@@ -59,23 +62,34 @@
         <!-- Nav Bar -->
         <nav class="navbar navbar-expand-lg navbar-light" id="navbar-lock">
             <!-- Logo for large screens -->
-            <a class="logo navbar-brand d-none d-lg-block" href="{{ home_url }}">
+            <a class="logo navbar-brand d-none d-lg-block" href="{{ home_url }}" 
+                aria-label="Go to Silver Sands homepage">
                 Silver Sands
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" 
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse text-black" id="navbarText">
                 <hr>
                 <ul class="navbar-nav ms-0">
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == product_list_url %}active{% endif %}" href="{{ product_list_url }}">All Wines</a>
+                        <a class="nav-link {% if request.path == product_list_url %}active{% endif %}" href="{{ product_list_url }}" 
+                            aria-label="View all wines available at Silver Sands">
+                            All Wines
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == home_url %}active{% endif %}" href="{{ our_story_url }}">Our Story</a>
+                        <a class="nav-link {% if request.path == home_url %}active{% endif %}" href="{{ our_story_url }}" 
+                            aria-label="Learn more about Silver Sands' story">
+                            Our Story
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == home_url %}active{% endif %}" href="{{ visit_us_url }}">Visit Us</a>
+                        <a class="nav-link {% if request.path == home_url %}active{% endif %}" href="{{ visit_us_url }}" 
+                            aria-label="Find out how to visit Silver Sands">
+                            Visit Us
+                        </a>
                     </li>
                 </ul>
                 <hr>
@@ -97,43 +111,66 @@
                     </li>
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == profile_url %}active{% endif %}" href="{{ profile_url }}">
+                            <a class="nav-link {% if request.path == profile_url %}active{% endif %}" href="{{ profile_url }}"
+                                aria-label="View user profile">
                                 <i class="fas fa-user"></i>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == logout_url %}active{% endif %}" href="{% url 'account_logout' %}">Logout</a>
+                            <a class="nav-link {% if request.path == logout_url %}active{% endif %}" href="{% url 'account_logout' %}"
+                                aria-label="Logout from the account">
+                                Logout
+                            </a>
                         </li>
                         {% if user.is_superuser %}
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle {% if request.path == home_url %}active{% endif %}" href="#" id="productManagementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle {% if request.path == home_url %}active{% endif %}" href="#" 
+                                    id="productManagementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" 
+                                    aria-label="Open product management options">
                                     Product Management
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="productManagementDropdown">
-                                    <li><a class="dropdown-item" href="{{ add_product_url }}">Add Product</a></li>
-                                    <li><a class="dropdown-item" href="#">View Orders</a></li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ add_product_url }}"
+                                            aria-label="Add a new product">
+                                            Add Product
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#" aria-label="View orders">
+                                            View Orders
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                         {% endif %}
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == login_url %}active{% endif %}" href="{% url 'account_login' %}">Login</a>
+                            <a class="nav-link {% if request.path == login_url %}active{% endif %}" 
+                                href="{% url 'account_login' %}" aria-label="Login to your account">
+                                Login
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == signup_url %}active{% endif %}" href="{% url 'account_signup' %}">Sign up</a>
+                            <a class="nav-link {% if request.path == signup_url %}active{% endif %}" 
+                                href="{% url 'account_signup' %}" aria-label="Sign up for a new account">
+                                Sign up
+                            </a>
                         </li>
                     {% endif %}
                 </ul>
             </div>
             <!-- Logo for small and medium screens -->
             <div class="navbar-icons-logo">
-                <a class="logo navbar-brand d-lg-none mx-auto" href="{{ home_url }}">
+                <a class="logo navbar-brand d-lg-none mx-auto" href="{{ home_url }}"
+                    aria-label="Go to Silver Sands homepage">
                     Silver Sands
                 </a>
             </div>
             <div class="navbar-icons-basket">
                 <div class="nav-item">
-                    <a class="nav-link {% if request.path == bag_url %}active{% endif %}" href="{{ bag_url }}">
+                    <a class="nav-link {% if request.path == bag_url %}active{% endif %}" 
+                        href="{{ bag_url }}" aria-label="View shopping basket">
                         <div class="text-center">
                             <i class="fas fa-shopping-basket"></i>
                         </div>
@@ -197,9 +234,18 @@
                         and our commitment to sustainability.
                     </p>
                     <div class="social-links">
-                        <a href="https://x.com/" class="social-link text-reset text-decoration-none me-3" aria-label="Go to twitter page"><i class="fab fa-twitter fa-2x"></i></a>
-                        <a href="https://www.facebook.com/profile.php?id=61566537640118" class="social-link text-reset text-decoration-none me-3" aria-label="Go to facebook page"><i class="fab fa-facebook-f fa-2x"></i></a>
-                        <a href="https://instagram.com/" class="social-link text-reset text-decoration-none" aria-label="Go to instagram page"><i class="fab fa-instagram fa-2x"></i></a>
+                        <a href="https://x.com/" class="social-link text-reset text-decoration-none me-3" 
+                            aria-label="Go to twitter page">
+                            <i class="fab fa-twitter fa-2x"></i>
+                        </a>
+                        <a href="https://www.facebook.com/profile.php?id=61566537640118" class="social-link text-reset text-decoration-none me-3" 
+                            aria-label="Go to facebook page">
+                            <i class="fab fa-facebook-f fa-2x"></i>
+                        </a>
+                        <a href="https://instagram.com/" class="social-link text-reset text-decoration-none" 
+                            aria-label="Go to instagram page">
+                            <i class="fab fa-instagram fa-2x"></i>
+                        </a>
                     </div>
                 </div>
                 
@@ -207,10 +253,22 @@
                 <div class="col-lg-4 col-md-12 footer-column mb-4 text-center text-lg-start">
                     <h4>Explore</h4>
                     <ul class="page-links list-unstyled">
-                        <li><a href="{{ home_url }}" class="text-reset text-decoration-none" aria-label="Home page">Home</a></li>
-                        <li><a href="{{ product_list_url }}" class="text-reset text-decoration-none" aria-label="Wines page">Wines</a></li>
-                        <li><a href="{{ our_story_url }}" class="text-reset text-decoration-none" aria-label="About us page">Our Story</a></li>
-                        <li><a href="{{ visit_us_url }}" class="text-reset text-decoration-none" aria-label="Visit us page">Visit Us</a></li>
+                        <li>
+                            <a href="{{ home_url }}" class="text-reset text-decoration-none" 
+                            aria-label="View the Silver Sands Home page">Home</a>
+                        </li>
+                        <li>
+                            <a href="{{ product_list_url }}" class="text-reset text-decoration-none" 
+                            aria-label="View all wines available at Silver Sands">Wines</a>
+                        </li>
+                        <li>
+                            <a href="{{ our_story_url }}" class="text-reset text-decoration-none" 
+                            aria-label="Learn more about Silver Sands' story">Our Story</a>
+                        </li>
+                        <li>
+                            <a href="{{ visit_us_url }}" class="text-reset text-decoration-none" 
+                            aria-label="Find out how to visit Silver Sands">Visit Us</a>
+                        </li>
                     </ul>
                 </div>
                 
@@ -224,10 +282,14 @@
                     </ul>
                 </div>
             </div>
-            <!-- Copyright final row -->
+            <!-- Copyright and privacy policy final row -->
             <div class="row">
-                <div class="col-12 text-center">
+                <div class="col-12 text-center mb-5">
                     <p>&copy; 2024 Silver Sands. All rights reserved.</p>
+                    <a class="policy" href="https://www.termsfeed.com/live/fd845bad-5bdf-48db-9fc8-93082126da85" 
+                        target="_blank" aria-label="View Privacy Policy">
+                        Privacy Policy
+                    </a>
                 </div>
             </div>
         </div>

@@ -12,14 +12,18 @@
         <div class="row align-items-center">
             <!-- Image Section -->
             <div class="col-12 col-md-6 d-flex justify-content-center mb-3 mb-md-0">
-                <img src="{% static 'images/1,5.png' %}" alt="Silver Sands" class="img-fluid header-index-image" aria-label="graphic hands holding two wine glasses">
+                <img src="{% static 'images/1,5.png' %}" alt="Hands holding two wine glasses"
+                    class="img-fluid header-index-image">
             </div>
     
             <!-- Text Section -->
             <div class="col-12 col-md-6 text-center d-flex flex-column justify-content-center index-header-text">
                 <h1 class="logo">SILVER SANDS <br> ESTATE</h1>
                 <h4>Crafted by Nature, Perfected in <br> McLaren Vale – Wine for Every Moment</h4>
-                <a href="{{ product_list_url }}" class="index-header-btn btn btn-primary mt-3">Shop Our Wines</a>
+                <a href="{{ product_list_url }}" class="index-header-btn btn btn-primary mt-3"
+                    aria-label="Shop for premium wines at Silver Sands Estate">
+                    Shop Our Premium Wines
+                </a>
             </div>
         </div>
     </div>
@@ -37,14 +41,19 @@
                         of McLaren Vale create ideal conditions for producing rich, vibrant wines that capture 
                         the essence of this extraordinary location.
                     </p>               
-                    <a href="{{ product_list_url }}" class="btn btn-primary">Explore Our Wines</a>
+                    <a href="{{ product_list_url }}" class="btn btn-primary"
+                        aria-label="Button to see all Silver Sands exclusive wines">
+                        Explore Our Exclusive Wines
+                    </a>
                 </div>
             </div>
 
             <!-- Image Section -->
             <div class="col-md-6 text-center mt-3 mt-md-0">
                 <picture>
-                    <img src="{% static 'images/home_img_4.jpg' %}" alt="Silver Sands Estate" class="banner-image img-fluid" aria-label="A woman in a vineyard picking grapes">
+                    <img src="{% static 'images/home_img_4.jpg' %}"
+                    alt="A woman in a vineyard picking grapes at Silver Sands Estate"
+                    class="banner-image img-fluid">
                 </picture>
             </div>
         </div>
@@ -56,7 +65,8 @@
             <!-- Image Section -->
             <div class="col-md-6 text-center mt-3 mt-md-0">
                 <picture>
-                    <img src="{% static 'images/home_img_2.jpg' %}" alt="Silver Sands Estate" class="banner-image img-fluid" aria-label="people cheering">
+                    <img src="{% static 'images/home_img_2.jpg' %}" alt="Red wine glasses clinking in a toast" 
+                        class="banner-image img-fluid">
                 </picture>
             </div>
             <!-- Text Section -->
@@ -70,7 +80,10 @@
                         or a grand affair, our team will work with you to create the perfect atmosphere, 
                         complete with fine wines and personalized touches.
                     </p>               
-                    <a href="{{ visit_us_url }}" class="btn btn-primary">Get in touch</a>
+                    <a href="{{ visit_us_url }}" class="btn btn-primary" 
+                        aria-label="Contact Silver Sands Estate for event details">
+                        Get in touch
+                    </a>
                 </div>
             </div>
         </div>
@@ -80,8 +93,12 @@
         <div class="modal-content">
             <h2>Age Verification</h2>
             <p>You must be 18 years or older to enter this site. Please confirm your age.</p>
-            <button id="confirm-age" class="btn btn-primary">I am 18 or older</button>
-            <button id="exit-site" class="btn btn-danger">I am under 18</button>
+            <button id="confirm-age" class="btn btn-primary" aria-label="Confirm age of 18 or older">
+                I am 18 or older
+            </button>
+            <button id="exit-site" class="btn btn-danger" aria-label="Exit the site due to being under 18">
+                I am under 18
+            </button>
         </div>
     </div>
 {% endblock %}
