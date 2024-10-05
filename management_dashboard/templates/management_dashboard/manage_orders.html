@@ -1,8 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Order List</h2>
+<h2>Order Management</h2>
 
+<!-- Analytics Section -->
+<div class="analytics">
+    <h3>Order Analytics</h3>
+    <ul>
+        <li>Total Fulfilled Orders: {{ total_fulfilled }}</li>
+        <li>Total Unfulfilled Orders: {{ total_unfulfilled }}</li>
+        <li>Total Refunded Orders: {{ total_refunded }}</li>
+        <li>Total Sales: ${{ total_sales|floatformat:2 }}</li>
+    </ul>
+</div>
+
+<!-- Order Filtering Section -->
 <form method="get">
     <label for="status">Filter by Status:</label>
     <select name="status" id="status" onchange="this.form.submit()">
@@ -10,7 +22,8 @@
         <option value="pending">Pending</option>
         <option value="processing">Processing</option>
         <option value="shipped">Shipped</option>
-        <option value="delivered">Delivered</option>
+        <option value="fulfilled">Fulfilled</option>
+        <option value="returned">Returned & Refunded</option>
     </select>
 </form>
 
@@ -25,20 +38,29 @@
     </thead>
     <tbody>
         {% for order in orders %}
-        <tr>
-            <td>{{ order.order_number }}</td>
-            <td>{{ order.date }}</td>
-            <td>
-                <form method="post" action="{% url 'manage_orders' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="order_id" value="{{ order.id }}">
-                    {{ form.status }}
-                    <button type="submit">Update Status</button>
-                </form>
-            </td>
-        </tr>
+            <tr>
+                <td>{{ order.order_number }}</td>
+                <td>{{ order.date }}</td>
+                <td>
+                    <form method="post" action="{% url 'manage_orders' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                        <select name="status">
+                            {% for choice in order_status_choices %}
+                                <option value="{{ choice.0 }}" {% if order.status == choice.0 %}selected{% endif %}>
+                                    {{ choice.1 }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit">Update Status</button>
+                    </form>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4">No orders found.</td>
+            </tr>
         {% endfor %}
-    </tbody>
-    
-</table>
+        </tbody>    
+    </table>
 {% endblock %}

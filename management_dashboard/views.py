@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .forms import ProductForm
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
+from django.db.models import Sum
 
 from products.models import Wine
 from checkout.models import Order
+from .forms import ProductForm
+from .forms import OrderStatusForm
 
 
 @login_required
@@ -112,6 +114,14 @@ def manage_orders(request):
     if status_filter:
         orders = orders.filter(status=status_filter)
         
+    # Calculating analytics
+    total_fulfilled = orders.filter(status='fulfilled').count()
+    total_refunded = orders.filter(status='returned').count()
+    total_unfulfilled = orders.exclude(status__in=['fulfilled', 'returned']).count()
+    total_sales = orders.aggregate(Sum('grand_total'))['grand_total__sum'] or 0
+    
+    order_status_choices = Order.ORDER_STATUS_CHOICES
+        
     if request.method == 'POST':
         order_id = request.POST.get('order_id')
         order = Order.objects.get(id=order_id)
@@ -120,13 +130,17 @@ def manage_orders(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Order status updated successfully.')
+            return redirect('manage_orders')
         else:
             messages.error(request, 'Error updating order status.')
 
     context = {
         'orders': orders,
+        'total_fulfilled': total_fulfilled,
+        'total_refunded': total_refunded,
+        'total_unfulfilled': total_unfulfilled,
+        'total_sales': total_sales,
+        'order_status_choices': order_status_choices,
     }
     
     return render(request, 'management_dashboard/manage_orders.html', context)
-
-    
