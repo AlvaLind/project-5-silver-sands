@@ -34,8 +34,7 @@ def add_product(request):
 
     template = 'management_dashboard/add_product.html'
     context = {
-        'form': form,
-        
+        'form': form,   
     }
     
     return render(request, template, context)
