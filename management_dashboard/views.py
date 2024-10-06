@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
-from django.db.models import Sum
+from django.db.models import Sum, Q, Avg, Count
+from django.utils import timezone
+
 
 from products.models import Wine
-from checkout.models import Order
+from checkout.models import Order, OrderLineItem
 from .forms import ProductForm
 from .forms import OrderStatusForm
 
@@ -109,18 +112,54 @@ def manage_orders(request):
         return redirect(reverse('home'))
     
     orders = Order.objects.all().order_by('-date')
-    status_filter = request.GET.get('status')
     
-    if status_filter:
-        orders = orders.filter(status=status_filter)
-        
-    # Calculating analytics
+    # Calculating order analytics
+    total_orders = orders.count()
     total_fulfilled = orders.filter(status='fulfilled').count()
     total_refunded = orders.filter(status='returned').count()
     total_unfulfilled = orders.exclude(status__in=['fulfilled', 'returned']).count()
-    total_sales = orders.aggregate(Sum('grand_total'))['grand_total__sum'] or 0
+    
+    # Total sales value excluding orders with status returned and total qty or items sold
+    total_sales = orders.filter(~Q(status='returned')).aggregate(Sum('grand_total'))['grand_total__sum'] or 0
+    total_items_sold = OrderLineItem.objects.aggregate(total=Sum('quantity'))['total'] or 0
+    
+    # Calculate total quantity sold for each wine
+    most_sold_product = (OrderLineItem.objects.values('wine__name').annotate(total_quantity_sold=Sum('quantity')).order_by('-total_quantity_sold').first())
+    # Extracting the wine name and quantity sold
+    most_sold_product_name = most_sold_product['wine__name'] if most_sold_product else None
+    most_sold_product_qty = most_sold_product['total_quantity_sold'] if most_sold_product else 0
+
+    # Calculate the top selling category by qty sold
+    category_sales_by_qty = Wine.objects.values('category__name').annotate(total_quantity_sold=Sum('orderlineitem__quantity'))
+    ordered_categories_by_qty = category_sales_by_qty.order_by('-total_quantity_sold')
+    top_selling_category_by_qty = ordered_categories_by_qty.first()
+    
+    # Extracting category name and total quantity sold into separate variables
+    top_selling_category_name = top_selling_category_by_qty['category__name'] if top_selling_category_by_qty else None
+    top_selling_category_qty = top_selling_category_by_qty['total_quantity_sold'] if top_selling_category_by_qty else 0
+    
+    # Calculate todays analytics
+    today = timezone.now().date()
+    orders_today = orders.filter(date__date=today)
+    orders_today_count = orders_today.count()
+    todays_sales = orders_today.filter(~Q(status='returned')).aggregate(Sum('grand_total'))['grand_total__sum'] or 0
+
+    # Calculate the average order value and size
+    average_order_value = total_sales / total_orders if total_orders > 0 else 0
+    average_order_size = total_items_sold / total_orders if total_orders > 0 else 0
+
+    # Apply filters
+    status_filter = request.GET.get('status')
+    if status_filter:
+        if status_filter != '':
+            orders = orders.filter(status=status_filter)
     
     order_status_choices = Order.ORDER_STATUS_CHOICES
+    
+    # pagination by 20 orders per page
+    paginator = Paginator(orders, 20)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
         
     if request.method == 'POST':
         order_id = request.POST.get('order_id')
@@ -136,11 +175,24 @@ def manage_orders(request):
 
     context = {
         'orders': orders,
+        'page_obj': page_obj,
+        'total_orders': total_orders,
         'total_fulfilled': total_fulfilled,
         'total_refunded': total_refunded,
         'total_unfulfilled': total_unfulfilled,
         'total_sales': total_sales,
         'order_status_choices': order_status_choices,
+        'average_order_value': average_order_value,
+        'average_order_size': average_order_size,
+        'most_sold_product': most_sold_product,
+        'most_sold_product_name': most_sold_product_name,
+        'most_sold_product_qty': most_sold_product_qty,
+        'top_selling_category_name': top_selling_category_name,
+        'top_selling_category_qty': top_selling_category_qty,
+        'orders_today_count': orders_today_count,
+        'todays_sales': todays_sales,
+        'order_status_choices': order_status_choices,
+        'status_filter': status_filter,
     }
     
     return render(request, 'management_dashboard/manage_orders.html', context)

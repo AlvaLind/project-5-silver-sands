@@ -1,66 +1,169 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Order Management</h2>
+    <div class="order-management d-flex p-4 mt-4">
+        <div class="order-analytics">
+            <h2>Order Management</h2>
 
-<!-- Analytics Section -->
-<div class="analytics">
-    <h3>Order Analytics</h3>
-    <ul>
-        <li>Total Fulfilled Orders: {{ total_fulfilled }}</li>
-        <li>Total Unfulfilled Orders: {{ total_unfulfilled }}</li>
-        <li>Total Refunded Orders: {{ total_refunded }}</li>
-        <li>Total Sales: ${{ total_sales|floatformat:2 }}</li>
-    </ul>
-</div>
+            <!-- Analytics Section -->
+            <div class="analytics mt-3 p-4 bg-light border rounded shadow-sm">
+                <h3 class="analytics-title text-center mb-4">Order Analytics</h3>
+                <ul class="order-analytics list-unstyled text-center">
+                    <h4 class="mt-3">Today's Statistics</h4>
+                    <li class="analytics-item">
+                        <span class="analytics-label">Orders Processed Today:</span>
+                        <span class="analytics-value">{{ orders_today_count }}</span>
+                    </li>
+                    <li class="analytics-item">
+                        <span class="analytics-label">Today's Sales:</span>
+                        <span class="analytics-value">${{ todays_sales|floatformat:2 }}</span>
+                    </li>
+                    <h4 class="mt-3">Historic Statistics</h4>
+                    <li class="analytics-item">
+                        <span class="analytics-label">Total Orders:</span>
+                        <span class="analytics-value">{{ total_orders }}</span>
+                    </li>
+                    <li class="analytics-item">
+                        <span class="analytics-label">Total Sales:</span>
+                        <span class="analytics-value">${{ total_sales|floatformat:2 }}</span>
+                    </li>
+                    <li class="analytics-item">
+                        <span class="analytics-label">Average Order Value:</span>
+                        <span class="analytics-value">${{ average_order_value|floatformat:2 }}</span>
+                    </li>
+                    <div id="moreStats" class="d-none">
+                        <h4 class="mt-3">Order's Breakdown</h4>                        
+                        <li class="analytics-item">
+                            <span class="analytics-label">Fulfilled Orders:</span>
+                            <span class="analytics-value">{{ total_fulfilled }}</span>
+                        </li>
+                        <li class="analytics-item">
+                            <span class="analytics-label">Unfulfilled Orders:</span>
+                            <span class="analytics-value">{{ total_unfulfilled }}</span>
+                        </li>
+                        <li class="analytics-item">
+                            <span class="analytics-label">Refunded Orders:</span>
+                            <span class="analytics-value">{{ total_refunded }}</span>
+                        </li>
+                        <h4 class="mt-3">More Metric's</h4>   
+                        <li class="analytics-item">
+                            <span class="analytics-label">Average Order Size:</span>
+                            <span class="analytics-value">{{ average_order_size|floatformat:2 }}</span>
+                        </li>
+                        <li class="analytics-item">
+                            <span class="analytics-label" title="Top selling product by qty">Most Sold Product:</span>
+                            <span class="analytics-value">{{ most_sold_product_name }} ({{ most_sold_product_qty }} sold)</span>
+                        </li>
+                        <li class="analytics-item">
+                            <span class="analytics-label" title="Top selling category by qty">Top Selling Category:</span>
+                            <span class="analytics-value">{{ top_selling_category_name }} ({{ top_selling_category_qty }} sold)</span>
+                        </li>
+                    </div>
+                </ul>
+                <!-- Show More Button -->
+                <div class="text-center mt-3">
+                    <button id="showMoreButton" class="btn btn-primary" onclick="toggleMoreStats()">Show More Data</button>
+                </div>
+            </div>
 
-<!-- Order Filtering Section -->
-<form method="get">
-    <label for="status">Filter by Status:</label>
-    <select name="status" id="status" onchange="this.form.submit()">
-        <option value="">All</option>
-        <option value="pending">Pending</option>
-        <option value="processing">Processing</option>
-        <option value="shipped">Shipped</option>
-        <option value="fulfilled">Fulfilled</option>
-        <option value="returned">Returned & Refunded</option>
-    </select>
-</form>
 
-<table>
-    <thead>
-        <tr>
-            <th>Order Number</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for order in orders %}
-            <tr>
-                <td>{{ order.order_number }}</td>
-                <td>{{ order.date }}</td>
-                <td>
-                    <form method="post" action="{% url 'manage_orders' %}">
-                        {% csrf_token %}
-                        <input type="hidden" name="order_id" value="{{ order.id }}">
-                        <select name="status">
-                            {% for choice in order_status_choices %}
-                                <option value="{{ choice.0 }}" {% if order.status == choice.0 %}selected{% endif %}>
-                                    {{ choice.1 }}
-                                </option>
-                            {% endfor %}
-                        </select>
-                        <button type="submit">Update Status</button>
-                    </form>
-                </td>
-            </tr>
-        {% empty %}
-            <tr>
-                <td colspan="4">No orders found.</td>
-            </tr>
-        {% endfor %}
-        </tbody>    
-    </table>
+
+            
+        <div class="all-orders mt-3">
+            <h3>All Orders</h3>
+            <!-- Order Filtering Section -->
+            <form method="get">
+                <label for="status">Filter by Status:</label>
+                <select name="status" id="status" onchange="this.form.submit()">
+                    <option value="" {% if not status_filter %}selected{% endif %}>All</option>
+                    <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
+                    <option value="processing" {% if status_filter == 'processing' %}selected{% endif %}>Processing</option>
+                    <option value="shipped" {% if status_filter == 'shipped' %}selected{% endif %}>Shipped</option>
+                    <option value="fulfilled" {% if status_filter == 'fulfilled' %}selected{% endif %}>Fulfilled</option>
+                    <option value="returned" {% if status_filter == 'returned' %}selected{% endif %}>Returned & Refunded</option>
+                </select>
+            </form>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order Number</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for order in page_obj.object_list %}
+                    <tr>
+                        <td>{{ order.order_number }}</td>
+                        <td>{{ order.date }}</td>
+                        <td>
+                            <form method="post" action="{% url 'manage_orders' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="order_id" value="{{ order.id }}">
+                                <select name="status">
+                                    {% for choice in order_status_choices %}
+                                        <option value="{{ choice.0 }}" {% if order.status == choice.0 %}selected{% endif %}>
+                                            {{ choice.1 }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                                <button type="submit">Update Status</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4">No orders found.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>    
+            </table>
+            <!-- Pagination controls -->
+            <nav class="pagination-controls" aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+            
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+            
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+<script>
+    // JavaScript to toggle 'show more data' statistics
+    function toggleMoreStats() {
+        var moreStats = document.getElementById("moreStats");
+        var button = document.getElementById("showMoreButton");
+        
+        if (moreStats.classList.contains("d-none")) {
+            moreStats.classList.remove("d-none");
+            button.textContent = "Show Less";
+        } else {
+            moreStats.classList.add("d-none");
+            button.textContent = "Show More";
+        }
+    }
+</script>
+    
 {% endblock %}

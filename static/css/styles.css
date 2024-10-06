@@ -74,6 +74,7 @@ nav {
     background-color: #9ba6db;
     color: #000000;
 }
+
 /* Footer Styles */
 footer {
     background-color: #000000;
@@ -105,6 +106,10 @@ footer h4 {
 /* Footer Links */
 footer a:hover {
     color: #fff460;
+}
+
+.policy {
+    color: #fff;
 }
 
 /* Universal styles */
@@ -206,7 +211,6 @@ footer a:hover {
     width: 200px !important;
 }
 
-/* Ensure the button is the same height as the input field */
 .input-group {
     display: flex;
     align-items: end;
@@ -217,6 +221,46 @@ footer a:hover {
     padding: 0 5px;
 }
 
+/* Management Dashboard - Manage Orders styles */
+.analytics {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 650px;
+}
+
+.analytics-title {
+    font-weight: bold;
+    color: #333;
+}
+
+.order-analytics {
+    font-size: 1.1rem;
+    line-height: 2.2;
+}
+
+.analytics-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.analytics-item:last-child {
+    border-bottom: none;
+}
+
+.analytics-label {
+    font-weight: 600;
+    color: #555;
+    margin-right: 20px;
+}
+
+.analytics-value {
+    color: #6082ff;
+    font-weight: bold;
+}
 
 /* Index html styles - homepage */
 /* Index - Title header styles */
