@@ -1,13 +1,17 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
-from .models import Wine, Category
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from reviews.models import Review
-from datetime import datetime
-from reviews.forms import ReviewForm
-from django.db.models import Avg
+from django.db.models import Avg, Value, FloatField
+from django.db.models.functions import Coalesce, Lower 
 from django.core.paginator import Paginator
+
+from datetime import datetime
+
+from reviews.forms import ReviewForm
+from reviews.models import Review
+from .models import Wine, Category
+
 
 def product_list(request):
     """
@@ -29,8 +33,10 @@ def product_list(request):
     Sorting:
         - Orders wines based on the selected sorting option.
     """
-    # Fetch all Wine and Category items
-    wines = Wine.objects.all() 
+    # Fetch all Wine and Category items, and annotate with the average rating
+    wines = Wine.objects.annotate(
+        average_rating=Coalesce(Avg('reviews__rating'), Value(0.0), output_field=FloatField())  # Set NULL ratings to 0.0 and ensure FloatField
+    )
     categories = Category.objects.all() 
 
     # Fetch all filter inputs
@@ -59,9 +65,9 @@ def product_list(request):
 
     # Apply sorting based on the selected option
     if sort == 'rating_desc':
-        wines = wines.order_by('-rating')
+        wines = wines.order_by('-average_rating')
     elif sort == 'name_asc':
-        wines = wines.order_by('name')
+        wines = wines.order_by(Lower('name'))
     elif sort == 'price_asc':
         wines = wines.order_by('price')
         
