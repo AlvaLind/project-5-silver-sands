@@ -158,9 +158,13 @@ def manage_orders(request):
     order_status_choices = Order.ORDER_STATUS_CHOICES
     
     # pagination by 20 orders per page
-    paginator = Paginator(orders, 20)
+    paginator = Paginator(orders, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    
+    query_params = request.GET.copy()
+    if 'page' in query_params:
+        query_params.pop('page')
         
     if request.method == 'POST':
         order_id = request.POST.get('order_id')
@@ -194,6 +198,7 @@ def manage_orders(request):
         'todays_sales': todays_sales,
         'order_status_choices': order_status_choices,
         'status_filter': status_filter,
+        'query_params': query_params.urlencode()
     }
     
     return render(request, 'management_dashboard/manage_orders.html', context)
