@@ -11,6 +11,7 @@ from datetime import datetime
 from reviews.forms import ReviewForm
 from reviews.models import Review
 from .models import Wine, Category
+from profiles.models import Favourite
 
 
 def product_list(request):
@@ -125,6 +126,11 @@ def product_details(request, wine_id):
     # Get all reviews for the wine (you might want to add pagination later)
     reviews = wine.reviews.filter(approved=True).order_by('-created_at')
     review_count = wine.reviews.filter(approved=True).count()
+    
+    in_favourites = False
+    if request.user.is_authenticated:
+        in_favourites = Favourite.objects.filter(user=request.user, wine=wine).exists()
+
 
 
     context = {
@@ -136,6 +142,7 @@ def product_details(request, wine_id):
         'review_count': review_count,
         'show_toast_bag': True,
         'show_signup_form': True,
+        'in_favourites': in_favourites,
     }
     return render(request, 'products/product_details.html', context)
 
