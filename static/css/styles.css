@@ -663,6 +663,10 @@ footer a:hover {
     display: none;
 }
 
+.colour-heart-red {
+    color: red;
+}
+
 /* Product details star rating */ 
 .product-star-ratings {
     display: inline-block;
