@@ -229,24 +229,25 @@ footer a:hover {
 .analytics {
     background-color: #f9f9f9;
     border: 1px solid #e0e0e0;
-    padding: 20px;
+    padding: 15px; /* Reduced padding for mobile */
     border-radius: 10px;
-    max-width: 600px;
+    max-width: 100%; /* Allow full width on mobile */
 }
 
 .analytics-title {
     font-weight: bold;
     color: #333;
+    text-align: center; /* Center the title for better mobile view */
 }
 
 .order-analytics {
-    font-size: 1.1rem;
-    line-height: 2.2;
+    font-size: 1rem; /* Slightly smaller font size for mobile */
+    line-height: 1.8; /* Reduced line height */
 }
 
 .analytics-item {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column; /* Stack items vertically on mobile */
     padding: 10px;
     border-bottom: 1px solid #ccc;
 }
@@ -258,12 +259,29 @@ footer a:hover {
 .analytics-label {
     font-weight: 600;
     color: #555;
-    margin-right: 20px;
+    margin-bottom: 5px; /* Margin adjusted for vertical stacking */
 }
 
 .analytics-value {
     color: #6082ff;
     font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .analytics-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .analytics-label {
+        margin-right: 0;
+        margin-bottom: 5px;
+    }
+
+    .table-responsive {
+        margin-bottom: 20px; /* Extra spacing for mobile */
+    }
 }
 
 /* Index html styles - homepage */
@@ -753,5 +771,21 @@ footer a:hover {
     .card .col-8 {
         flex: 0 0 auto;
         width: 66.66667%;
+    }
+
+    /* Mange orders styles */
+    .analytics {
+        padding: 20px;
+        max-width: 600px;
+    }
+
+    .order-analytics {
+        font-size: 1.1rem;
+        line-height: 2.2;
+    }
+
+    .analytics-item {
+        flex-direction: row;
+        justify-content: space-between;
     }
 }

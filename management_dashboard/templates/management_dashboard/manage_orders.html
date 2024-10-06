@@ -45,7 +45,7 @@
                             <span class="analytics-label">Refunded Orders:</span>
                             <span class="analytics-value">{{ total_refunded }}</span>
                         </li>
-                        <h5 class="mt-3"><strong>More Metric's</strong></h5>   
+                        <h5 class="mt-3"><strong>More Metrics</strong></h5>   
                         <li class="analytics-item">
                             <span class="analytics-label">Average Order Size:</span>
                             <span class="analytics-value">{{ average_order_size|floatformat:2 }}</span>
@@ -62,20 +62,17 @@
                 </ul>
                 <!-- Show More Button -->
                 <div class="text-center mt-3">
-                    <button id="showMoreButton" class="btn btn-primary" onclick="toggleMoreStats()">Show More Data</button>
+                    <button id="showMoreButton" class="btn btn-primary" onclick="toggleMoreStats()" aria-label="Show more data metrics">Show More Data</button>
                 </div>
             </div>
         </div>
 
-
-
-            
         <div class="all-orders mt-5">
             <h3>All Orders</h3>
             <!-- Order Filtering Section -->
-            <form method="get">
+            <form method="get" class="mb-3">
                 <label for="status">Filter by Status:</label>
-                <select name="status" id="status" onchange="this.form.submit()">
+                <select name="status" id="status" onchange="this.form.submit()" class="form-select">
                     <option value="" {% if not status_filter %}selected{% endif %}>All</option>
                     <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
                     <option value="processing" {% if status_filter == 'processing' %}selected{% endif %}>Processing</option>
@@ -96,21 +93,21 @@
                     </thead>
                     <tbody>
                         {% for order in page_obj.object_list %}
-                            <tr onclick="fetchOrderDetails({{ order.id }})" style="cursor: pointer;"> <!-- Add onclick event here -->
-                                <td>{{ order.order_number }}</td>
+                            <tr>
+                                <td onclick="fetchOrderDetails({{ order.id }})" style="cursor: pointer;">{{ order.order_number }}</td>
                                 <td>{{ order.date }}</td>
                                 <td>
                                     <form method="post" action="{% url 'manage_orders' %}">
                                         {% csrf_token %}
                                         <input type="hidden" name="order_id" value="{{ order.id }}">
-                                        <select name="status">
+                                        <select name="status" class="form-select">
                                             {% for choice in order_status_choices %}
                                                 <option value="{{ choice.0 }}" {% if order.status == choice.0 %}selected{% endif %}>
                                                     {{ choice.1 }}
                                                 </option>
                                             {% endfor %}
                                         </select>
-                                        <button type="submit" class="btn-secondary">Update Status</button>
+                                        <button type="submit" class="btn btn-secondary btn-yellow" aria-label="Update the order status">Update</button>
                                     </form>
                                 </td>
                             </tr>
@@ -136,9 +133,9 @@
             
                     {% for num in page_obj.paginator.page_range %}
                         {% if page_obj.number == num %}
-                            <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
+                            <li class="page-item active"><a class="page-link" href="#" aria-label="Current page number">{{ num }}</a></li>
                         {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                            <li class="page-item"><a class="page-link" href="?page={{ num }}" aria-label="Next page number">{{ num }}</a></li>
                         {% endif %}
                     {% endfor %}
             
@@ -153,13 +150,14 @@
             </nav>
         </div>
     </div>
+    
     <!-- Modal for Order Details -->
     <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="orderDetailsModalLabel">Order Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close the order details modal"></button>
                 </div>
                 <div class="modal-body">
                     <div id="orderDetailsContent">
@@ -188,7 +186,7 @@
 <script>
     // JavaScript to handle modal data population
     function fetchOrderDetails(orderId) {
-        fetch(`/management_dashboard/orders/${orderId}/details/`)  // Adjust this URL based on your URL configuration
+        fetch(`/management_dashboard/orders/${orderId}/details/`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
