@@ -33,9 +33,9 @@ def product_list(request):
     Sorting:
         - Orders wines based on the selected sorting option.
     """
-    # Fetch all Wine and Category items, and annotate with the average rating
+    # Fetch all Wine and Category items, and annotate with the average rating, set wine with rating null to 0
     wines = Wine.objects.annotate(
-        average_rating=Coalesce(Avg('reviews__rating'), Value(0.0), output_field=FloatField())  # Set NULL ratings to 0.0 and ensure FloatField
+        average_rating=Coalesce(Avg('reviews__rating'), Value(0.0), output_field=FloatField())
     )
     categories = Category.objects.all() 
 
