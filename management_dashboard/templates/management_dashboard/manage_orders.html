@@ -204,6 +204,8 @@
                     <p><strong>Customer Details:</strong></p>
                     <p>Name: ${data.customer_name}</p>
                     <p>Email: ${data.customer_email}</p>
+                    <p>Street: ${data.customer_street}</p>
+                    <p>Town/City: ${data.customer_town}</p>
                     <p><strong>Items Purchased:</strong>
                     <ul>
                         ${data.items.map(item => `<li>${item.quantity} x ${item.name}</li>`).join('')}

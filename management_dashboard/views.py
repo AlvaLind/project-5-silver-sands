@@ -218,6 +218,7 @@ def order_details(request, order_id):
         'status': order.status,
         'customer_name': order.full_name,
         'customer_email': order.email,
+        'customer_street': order.street_address1,
         'customer_town': order.town_or_city,
         'items': items,
     }
