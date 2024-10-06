@@ -93,9 +93,15 @@ def favourites(request):
     
     # Get all the favourite wines of the logged-in user
     favourite_wines = Favourite.objects.filter(user=request.user).select_related('wine')
+    
+    # Paginate the favourite wines, 9 per page
+    paginator = Paginator(favourite_wines, 9)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     context = {
         'favourite_wines': favourite_wines,
+        'page_obj': page_obj,
     }
 
     return render(request, 'profiles/favourites.html', context)

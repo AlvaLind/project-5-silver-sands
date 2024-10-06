@@ -9,8 +9,8 @@
 <div class="container mt-5">
     <h1 class="text-center mb-4">My Favourite Wines</h1>
     <div class="row">
-        {% if favourite_wines %}
-            {% for fav in favourite_wines %}
+        {% if page_obj %}
+            {% for fav in page_obj %}
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm">
                         <div class="card-body">
@@ -35,9 +35,39 @@
         {% else %}
             <div class="col-12 text-center">
                 <p>You haven't added any wines to your favourites yet.</p>
-                <a href="{% url 'product_list' %}" class="btn btn-secondary">Browse Wines</a>
+                <a href="{% url 'products' %}" class="btn btn-secondary">Browse Wines</a>
             </div>
         {% endif %}
+    </div>
+    <!-- Pagination controls -->
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% for page_num in page_obj.paginator.page_range %}
+                        <li class="page-item {% if page_num == page_obj.number %}active{% endif %}">
+                            <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                        </li>
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
     </div>
 </div>
 {% endblock %}
