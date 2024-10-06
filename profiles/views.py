@@ -85,3 +85,17 @@ def remove_from_favourites(request, wine_id):
     referer_url = request.META.get('HTTP_REFERER') or reverse('product_details', args=[wine_id])
     return HttpResponseRedirect(referer_url)
 
+
+
+@login_required
+def favourites(request):
+    """ View to display the list of wines the user has added to their favourites """
+    
+    # Get all the favourite wines of the logged-in user
+    favourite_wines = Favourite.objects.filter(user=request.user).select_related('wine')
+
+    context = {
+        'favourite_wines': favourite_wines,
+    }
+
+    return render(request, 'profiles/favourites.html', context)
