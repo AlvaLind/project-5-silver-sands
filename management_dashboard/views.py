@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.db.models import Sum, Q, Avg, Count
+from django.http import JsonResponse
 from django.utils import timezone
 
 
@@ -196,3 +197,29 @@ def manage_orders(request):
     }
     
     return render(request, 'management_dashboard/manage_orders.html', context)
+
+
+@login_required
+def order_details(request, order_id):
+    """ Get order details for the given order ID """
+    order = get_object_or_404(Order, pk=order_id)
+    order_line_items = OrderLineItem.objects.filter(order=order)
+
+    items = []
+    for item in order_line_items:
+        items.append({
+            'name': item.wine.name,
+            'quantity': item.quantity
+        })
+
+    context = {
+        'order_number': order.order_number,
+        'total_value': order.grand_total,
+        'status': order.status,
+        'customer_name': order.full_name,
+        'customer_email': order.email,
+        'customer_town': order.town_or_city,
+        'items': items,
+    }
+
+    return JsonResponse(context)

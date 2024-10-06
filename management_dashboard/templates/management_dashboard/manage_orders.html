@@ -96,27 +96,27 @@
                     </thead>
                     <tbody>
                         {% for order in page_obj.object_list %}
-                            <tr>
+                            <tr onclick="fetchOrderDetails({{ order.id }})" style="cursor: pointer;"> <!-- Add onclick event here -->
                                 <td>{{ order.order_number }}</td>
                                 <td>{{ order.date }}</td>
                                 <td>
-                                    <form method="post" action="{% url 'manage_orders' %}" class="d-flex align-items-center">
+                                    <form method="post" action="{% url 'manage_orders' %}">
                                         {% csrf_token %}
                                         <input type="hidden" name="order_id" value="{{ order.id }}">
-                                        <select name="status" class="form-select me-2">
+                                        <select name="status">
                                             {% for choice in order_status_choices %}
                                                 <option value="{{ choice.0 }}" {% if order.status == choice.0 %}selected{% endif %}>
                                                     {{ choice.1 }}
                                                 </option>
                                             {% endfor %}
                                         </select>
-                                        <button type="submit" class="btn btn-secondary btn-yellow btn-sm" aria-label="Update order status">Update</button>
+                                        <button type="submit" class="btn-secondary">Update Status</button>
                                     </form>
                                 </td>
                             </tr>
                         {% empty %}
                             <tr>
-                                <td colspan="3" class="text-center">No orders found.</td>
+                                <td colspan="3">No orders found.</td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -153,6 +153,22 @@
             </nav>
         </div>
     </div>
+    <!-- Modal for Order Details -->
+    <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="orderDetailsModalLabel">Order Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="orderDetailsContent">
+                        <!-- Order details will be populated here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <script>
     // JavaScript to toggle 'show more data' statistics
@@ -169,5 +185,38 @@
         }
     }
 </script>
+<script>
+    // JavaScript to handle modal data population
+    function fetchOrderDetails(orderId) {
+        fetch(`/management_dashboard/orders/${orderId}/details/`)  // Adjust this URL based on your URL configuration
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Populate the modal with the order details
+                document.getElementById('orderDetailsModalLabel').innerText = `Order #${data.order_number}`;
+                const orderDetailsContent = `
+                    <p><strong>Total Value:</strong> $${data.total_value}</p>
+                    <p><strong>Status:</strong> ${data.status}</p>
+                    <p><strong>Customer Details:</strong></p>
+                    <p>Name: ${data.customer_name}</p>
+                    <p>Email: ${data.customer_email}</p>
+                    <p><strong>Items Purchased:</strong>
+                    <ul>
+                        ${data.items.map(item => `<li>${item.quantity} x ${item.name}</li>`).join('')}
+                    </ul>
+                `;
+                document.getElementById('orderDetailsContent').innerHTML = orderDetailsContent;
     
+                // Show the modal
+                const modal = new bootstrap.Modal(document.getElementById('orderDetailsModal'));
+                modal.show();
+            })
+            .catch(error => console.error('Error fetching order details:', error));
+    }   
+</script>
+
 {% endblock %}
