@@ -1,12 +1,13 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse, HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404, reverse
 
-from .models import UserProfile
 from .forms import UserProfileForm
-
+from .models import UserProfile, Favourite
 from checkout.models import Order
+from products.models import Wine
 
 @login_required
 def profile(request):
@@ -56,3 +57,31 @@ def order_history(request, order_number):
     }
     
     return render(request, template, context)
+
+
+@login_required
+def add_to_favourites(request, wine_id):
+    """ Add a product to favourites """
+    
+    wine = get_object_or_404(Wine, id=wine_id)
+    favourite_entry, created = Favourite.objects.get_or_create(
+        user=request.user, wine=wine)
+    
+    messages.success(request, f'{wine.name} has been added to your favourites')
+    
+    return HttpResponseRedirect(reverse('product_details', args=[wine_id]))
+
+
+@login_required
+def remove_from_favourites(request, wine_id):
+    """ Remove a product from favourites """
+
+    wine = get_object_or_404(Wine, id=wine_id)
+    favourite_entry = get_object_or_404(Favourite, user=request.user,
+        wine=wine)
+    favourite_entry.delete()
+    messages.success(request, f'{wine.name} has been removed from your favourites')
+    
+    referer_url = request.META.get('HTTP_REFERER') or reverse('product_details', args=[wine_id])
+    return HttpResponseRedirect(referer_url)
+
