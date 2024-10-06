@@ -158,7 +158,7 @@ def manage_orders(request):
     order_status_choices = Order.ORDER_STATUS_CHOICES
     
     # pagination by 20 orders per page
-    paginator = Paginator(orders, 3)
+    paginator = Paginator(orders, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
