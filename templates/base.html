@@ -314,14 +314,14 @@
 
     <!-- Base JS -->
     <script src="{% static 'js/base.js' %}"></script>
-    {% endblock %}
-
-    {% block extra_js %}
     <script type="text/javascript">
         $(document).ready(function() {
             $('.toast').toast('show');
         });
     </script>
+    {% endblock %}
+
+    {% block extra_js %}
     {% endblock %}
 
 </body>
