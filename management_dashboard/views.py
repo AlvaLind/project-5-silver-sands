@@ -207,6 +207,11 @@ def manage_orders(request):
 @login_required
 def order_details(request, order_id):
     """ Get order details for the given order ID """
+    
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can do that.')
+        return redirect(reverse('home'))
+    
     order = get_object_or_404(Order, pk=order_id)
     order_line_items = OrderLineItem.objects.filter(order=order)
 
@@ -229,3 +234,24 @@ def order_details(request, order_id):
     }
 
     return JsonResponse(context)
+
+    
+@login_required
+def delete_order(request, order_id):
+    """ Delete an order only if the status is 'pending'. """
+    
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can do that.')
+        return redirect('home')
+    
+    order = get_object_or_404(Order, pk=order_id)
+
+    # Only allow deletion if the status is 'pending'
+    if order.status != 'pending':
+        messages.error(request, 'Order can only be deleted if the status is "Pending".')
+        return redirect('manage_orders')
+
+    # Delete the order
+    order.delete()
+    messages.success(request, 'Order deleted successfully.')
+    return redirect('manage_orders')
