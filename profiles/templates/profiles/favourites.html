@@ -28,6 +28,7 @@
                             
                             <!-- Link to view wine details -->
                             <a href="{% url 'product_details' fav.wine.id %}" class="btn btn-primary">View Details</a>
+                            <a href="{% url 'remove_from_favourites' fav.wine.id %}" class= "btn btn-secondary mt-3"> Remove From Favourites</a>
                         </div>
                     </div>
                 </div>
