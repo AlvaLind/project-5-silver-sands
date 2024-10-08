@@ -1,6 +1,8 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
+import re
+
 from .widgets import CustomClearableFileInput
 from products.models import Wine, Category
 from checkout.models import Order
@@ -44,16 +46,21 @@ class ProductForm(forms.ModelForm):
             self.fields['rating'].help_text = "This rating will be auto-generated based on the reviews."
     
     def clean_name(self):
-        """ Name must not be empty and name length to be between 3 and 50 characters """
+        """ Name must not be empty and name length to be between 3 and 50 characters 
+        Name can only contain letters, numbers and spaces no special characters """
+        
         name = self.cleaned_data.get('name')
         if not name:
             raise ValidationError('Name is required.')
         if len(name) > 50:
             raise ValidationError('Name cannot exceed 50 characters.')
+        if not re.match("^[a-zA-Z0-9\s]*$", name):
+            raise ValidationError('Name must contain only letters, numbers and spaces.')
         return name
     
     def clean_sku(self):
         """ Sku cannot be greater than 254 characters in length """
+        
         sku = self.cleaned_data.get('sku')
         if sku and len(sku) > 254:
             raise ValidationError('SKU cannot exceed 254 characters.')
@@ -61,22 +68,27 @@ class ProductForm(forms.ModelForm):
     
     def clean_description(self):
         """ Description cannot be empty """
+        
         description = self.cleaned_data.get('description')
         if not description:
             raise ValidationError('Description is required.')
         return description
     
     def clean_price(self):
-        """ Price cannot be empty and is greater than 0 """
+        """ Price cannot be empty, must be greater than 0 and must be a number """
+        
         price = self.cleaned_data.get('price')
         if price is None:
             raise ValidationError('Price is required.')
         if price <= 0:
             raise ValidationError('Price must be greater than $0.')
+        if not isinstance(price, (int, float)):  # Ensures it’s a number
+            raise ValidationError('Price must be a valid number.')
         return price
     
     def clean_vintage(self):
         """ Vintage cannot be empty and must be between 1900 and 2100 """
+        
         vintage = self.cleaned_data.get('vintage')
         if vintage is None:
             raise ValidationError('Vintage is required.')
@@ -86,6 +98,7 @@ class ProductForm(forms.ModelForm):
     
     def clean_volume(self):
         """ Volume cannot be empty and must be between 0 - 5000 ml """
+        
         volume = self.cleaned_data.get('volume')
         if volume is None:
             raise ValidationError('Volume is required.')
@@ -95,6 +108,7 @@ class ProductForm(forms.ModelForm):
     
     def clean_closure(self):
         """ Closure cannot be empty """
+        
         closure = self.cleaned_data.get('closure')
         if not closure:
             raise ValidationError('Closure is required.')
@@ -102,6 +116,7 @@ class ProductForm(forms.ModelForm):
     
     def clean_abv(self):
         """ Abv must be between 0 - 100 as it is a percentage """
+        
         abv = self.cleaned_data.get('abv')
         if abv < 0 or abv > 100:
             raise ValidationError('ABV must be between 0 and 100 percent.')
@@ -109,6 +124,7 @@ class ProductForm(forms.ModelForm):
     
     def clean_acidity(self):
         """ Acidity must be between 0 - 14, the ph scale """
+        
         acidity = self.cleaned_data.get('acidity')
         if acidity and (acidity < 0 or acidity > 14):
             raise ValidationError('Acidity must be between ph 0 and 14.')
@@ -116,6 +132,7 @@ class ProductForm(forms.ModelForm):
     
     def clean_residual_sugar(self):
         """ Residual sugar must be greater than 0 """
+        
         residual_sugar = self.cleaned_data.get('residual_sugar')
         if residual_sugar and (residual_sugar < 0):
             raise ValidationError('Residual sugar cannot be negative.')
@@ -123,6 +140,7 @@ class ProductForm(forms.ModelForm):
 
     def clean_stock(self):
         """ Ensure stock is not empty and is between 0 - 99,999 """
+        
         stock = self.cleaned_data.get('stock')
         if stock is None:
             raise ValidationError('Stock is required.')
@@ -133,13 +151,14 @@ class ProductForm(forms.ModelForm):
         return stock
     
     def clean_slug(self):
+        """ Slug and therefore name must be unique """
+        
         slug = self.cleaned_data.get('slug')
-        # Get the instance (if exists) to exclude it from validation
         instance = self.instance
         
         # Check if a Wine with this slug already exists, excluding the current instance
         if Wine.objects.filter(slug=slug).exclude(pk=instance.pk).exists():
-            raise ValidationError('This slug is already in use. Please choose a different one.')
+            raise ValidationError('This Name is already in use. Please choose a different one.')
         
         return slug
 
