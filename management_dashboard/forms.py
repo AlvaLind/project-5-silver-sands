@@ -1,11 +1,12 @@
+from decimal import Decimal, InvalidOperation
+import re
+
 from django import forms
 from django.core.exceptions import ValidationError
 
-import re
-
 from .widgets import CustomClearableFileInput
-from products.models import Wine, Category
 from checkout.models import Order
+from products.models import Wine, Category
 
 
 class ProductForm(forms.ModelForm):
@@ -75,15 +76,22 @@ class ProductForm(forms.ModelForm):
         return description
     
     def clean_price(self):
-        """ Price cannot be empty, must be greater than 0 and must be a number """
+        """ Price cannot be empty, must be greater than 0 and must be a number.
+        Price will be stored with 2 decimal places if whole number is entered """
         
         price = self.cleaned_data.get('price')
-        if price is None:
+        if not price:
             raise ValidationError('Price is required.')
+        
+        try:
+            price = Decimal(price)
+        except InvalidOperation:
+            raise ValidationError('Price must be a valid number.')         
         if price <= 0:
             raise ValidationError('Price must be greater than $0.')
-        if not isinstance(price, (int, float)):  # Ensures it’s a number
-            raise ValidationError('Price must be a valid number.')
+        if not re.match(r'^\d+(\.\d{1,2})?$', str(price)):
+            raise ValidationError('Price must be a valid decimal number with a max. of two decimal places.')
+
         return price
     
     def clean_vintage(self):
