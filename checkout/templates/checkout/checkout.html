@@ -72,22 +72,40 @@
             </div>
             <div class="col-12 col-lg-6">
                 <p class="text-muted">Please fill out the information below to complete your order</p>
-                <form action="{% url 'checkout' %}" method="POST" id="payment-form">
+                <form action="{% url 'checkout' %}" method="POST" id="payment-form" novalidate>
                     {% csrf_token %}
                     <fieldset class="rounded px-3 mb-5">
                         <legend class="fieldset-label small text-black px-2 w-auto">Details</legend>
-                        {{ order_form.full_name | as_crispy_field }}
-                        {{ order_form.email | as_crispy_field }}
+                        <div class="form-group">
+                            {{ order_form.full_name | as_crispy_field }}
+                        </div>
+                        <div class="form-group">
+                            {{ order_form.email | as_crispy_field }}
+                        </div>
                     </fieldset>
                     <fieldset class="rounded px-3 mb-5">
                         <legend class="fieldset-label small text-black px-2 w-auto">Delivery</legend>
-                        {{ order_form.phone_number | as_crispy_field }}
-                        {{ order_form.street_address1 | as_crispy_field }}
-                        {{ order_form.street_address2 | as_crispy_field }}
-                        {{ order_form.town_or_city | as_crispy_field }}
-                        {{ order_form.county | as_crispy_field }}
-                        {{ order_form.postcode | as_crispy_field }}
-                        {{ order_form.country | as_crispy_field }}
+                        <div class="form-group">
+                            {{ order_form.phone_number | as_crispy_field }}
+                        </div>
+                        <div class="form-group">
+                            {{ order_form.street_address1 | as_crispy_field }}
+                        </div>
+                        <div class="form-group">
+                            {{ order_form.street_address2 | as_crispy_field }}
+                        </div>
+                        <div class="form-group">
+                            {{ order_form.town_or_city | as_crispy_field }}
+                        </div>
+                        <div class="form-group">
+                            {{ order_form.county | as_crispy_field }}
+                        </div>
+                        <div class="form-group">
+                            {{ order_form.postcode | as_crispy_field }}
+                        </div>
+                        <div class="form-group">
+                            {{ order_form.country | as_crispy_field }}
+                        </div>
                         
                         <div class="form-check form-check-inline float-end me-0">
                             {% if user.is_authenticated %}
