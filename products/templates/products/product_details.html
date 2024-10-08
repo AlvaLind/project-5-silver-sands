@@ -189,10 +189,6 @@
                     <p><strong>Residual Sugar</strong> {{ wine.residual_sugar }}</p>
                     <hr>
                 {% endif %}
-                {% if wine.ph %}
-                    <p><strong>pH</strong> {{ wine.ph }}</p>
-                    <hr>
-                {% endif %}
                 <p><strong>Rating:</strong> {% if wine.rating %}{{ wine.rating }}{% else %}No ratings yet{% endif %}</p>
                 <hr>
             </div>

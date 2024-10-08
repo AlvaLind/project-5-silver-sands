@@ -58,7 +58,6 @@ class Wine(models.Model):
     abv = models.DecimalField(max_digits=4, decimal_places=2)
     acidity = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
     residual_sugar = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-    ph = models.DecimalField(max_digits=3, decimal_places=2, blank=True, null=True)
     stock = models.PositiveIntegerField()
     image = CloudinaryField('image', blank=True, null=True)
     rating = models.FloatField(blank=True, null=True)
