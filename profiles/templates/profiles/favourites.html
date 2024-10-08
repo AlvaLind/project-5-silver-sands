@@ -27,8 +27,8 @@
                             <p class="card-text">Vintage: {{ fav.wine.vintage }}</p>
                             
                             <!-- Link to view wine details -->
-                            <a href="{% url 'product_details' fav.wine.id %}" class="btn btn-primary">View Details</a>
-                            <a href="{% url 'remove_from_favourites' fav.wine.id %}" class= "btn btn-secondary mt-3"> Remove From Favourites</a>
+                            <a href="{% url 'product_details' fav.wine.id %}" class="btn btn-primary" aria-label="View wine details page">View Details</a>
+                            <a href="{% url 'remove_from_favourites' fav.wine.id %}" class= "btn btn-secondary mt-3" aria-label="Remove from your favourites"> Remove From Favourites</a>
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
         {% else %}
             <div class="col-12 text-center">
                 <p>You haven't added any wines to your favourites yet.</p>
-                <a href="{% url 'product_list' %}" class="btn btn-primary">Browse Wines</a>
+                <a href="{% url 'product_list' %}" class="btn btn-primary" aria-label="See all of Silver sands wines">Browse Wines</a>
             </div>
         {% endif %}
     </div>

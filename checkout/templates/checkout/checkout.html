@@ -138,13 +138,13 @@
                         <span>Your card will be charged <strong>${{ grand_total|floatformat:2 }}</strong></span>
                     </p>
                     <div class="submit-button text-right mt-5">                    
-						<a href="{% url 'view_bag' %}" class="btn btn-secondary rounded-0">
+						<a href="{% url 'view_bag' %}" class="btn btn-secondary rounded-0" aria-label="Adjust the shopping bag">
 							<span class="icon">
 								<i class="fas fa-chevron-left"></i>
 							</span>
 							<span class="font-weight-bold">Adjust Bag</span>
 						</a>
-						<button id="submit-button" class="btn btn-primary rounded-0 ms-3">
+						<button id="submit-button" class="btn btn-primary rounded-0 ms-3" aria-label="Finalize purchase">
 							<span class="font-weight-bold">Complete Order</span>
 							<span class="icon">
 								<i class="fas fa-lock"></i>

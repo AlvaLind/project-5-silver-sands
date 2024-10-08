@@ -14,7 +14,7 @@
         <div class="button-container d-flex justify-content-start mb-3">
             <!-- Filters -->
             <div class="dropdown me-3">
-                <button id="dropdown-btn" class="dropdown-btn btn btn-secondary">Filter By</button>
+                <button id="dropdown-btn" class="dropdown-btn btn btn-secondary" aria-label="Filter wine by">Filter By</button>
                 <div id="dropdown-content" class="dropdown-content m-2">
                     <form method="get" action="{% url 'product_list' %}">
                         <!-- Category Dropdown -->
@@ -50,20 +50,20 @@
             
                         <!-- Submit Button -->
                         <div class="form-group d-flex justify-content-start m-3">
-                            <button type="submit" class="btn btn-primary me-2">Apply Filters</button>
-                            <a href="{% url 'product_list' %}" class="btn btn-secondary">Clear Filters</a>
+                            <button type="submit" class="btn btn-primary me-2" aria-label="Apply the selected filters">Apply Filters</button>
+                            <a href="{% url 'product_list' %}" class="btn btn-secondary" aria-label="Remove all applied filters">Clear Filters</a>
                         </div>
                     </form>
                 </div>
             </div>
             <!-- Sort By -->
             <div class="dropdown">
-                <button id="sortDropdownBtn" class="dropdown-btn btn btn-secondary">Sort By</button>
+                <button id="sortDropdownBtn" class="dropdown-btn btn btn-secondary" aria-label="Sort wines by">Sort By</button>
                 <div id="sortDropdownContent" class="sort-dropdown-content m-2">
                     <form method="get" action="{% url 'product_list' %}" class="d-flex flex-column m-3">
-                        <button type="submit" name="sort" value="name_asc" class="btn btn-secondary mb-2">Name</button>
-                        <button type="submit" name="sort" value="rating_desc" class="btn btn-secondary mb-2">Most Popular</button>
-                        <button type="submit" name="sort" value="price_asc" class="btn btn-secondary">Affordability</button>
+                        <button type="submit" name="sort" value="name_asc" class="btn btn-secondary mb-2" aria-label="sort by name in ascending order">Name</button>
+                        <button type="submit" name="sort" value="rating_desc" class="btn btn-secondary mb-2" aria-label="sort by highest rated wine">Most Popular</button>
+                        <button type="submit" name="sort" value="price_asc" class="btn btn-secondary" aria-label="sort by price, cheapest to most expensive">Affordability</button>
                     </form>
                 </div>
             </div>
@@ -78,9 +78,9 @@
                 <div class="card h-100 text-center p-3 wine-item">
                     <div class="card-img-container" style="position: relative; width: 100%; padding-top: 100%; overflow: hidden;">
                         {% if wine.image %}
-                        <img src="{{ wine.image.url }}" alt="{{ wine.name }}" class="img-fluid" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                        <img src="{{ wine.image.url }}" alt="{{ wine.name }}" class="img-fluid" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" alt="Product image of Silver Sands quality {{ item.wine.name }}">
                         {% else %}
-                        <img class="img-fluid rounded" src="{% static 'images/default-image.jpg' %}" alt="{{ item.wine.name }}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                        <img class="img-fluid rounded" src="{% static 'images/default-image.jpg' %}" alt="{{ item.wine.name }}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" alt="{{ item.wine.name }}">
                         {% endif %}
                     </div>
                     <div class="card-body-list">
@@ -97,18 +97,18 @@
                         <p class="card-text mb-2"><strong>Rating:</strong> {{ wine.rating }}</p>
                         {% endif %}
                         <p class="card-text mb-2"><strong>Price:</strong> ${{ wine.price }}</p>
-                        <a href="{% url 'product_details' wine_id=wine.id %}" class="btn btn-light">View Details</a>
+                        <a href="{% url 'product_details' wine_id=wine.id %}" class="btn btn-light" aria-label="View the wine details page">View Details</a>
                         
                         <!-- Edit/Delete Icons if the review belongs to the current user -->
                         {% if request.user.is_superuser %}
                         <div class="icon-buttons mt-3">
                             <!-- Edit Product Button redirects to the edit_product view with wine_id -->
-                            <a href="{% url 'edit_product' wine.id %}" class="btn btn-link text-primary p-0" title="Edit this product">
+                            <a href="{% url 'edit_product' wine.id %}" class="btn btn-link text-primary p-0" aria-label="Edit the product" title="Edit this product">
                                 <i class="fas fa-edit"></i>
                             </a>
 
                             <!-- Delete Product Button triggers the delete confirmation modal -->
-                            <button type="button" class="btn btn-link text-danger p-0 ms-2" 
+                            <button type="button" class="btn btn-link text-danger p-0 ms-2" aria-label="Delete product from database" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#deleteProductModal"
                                     title="Delete this product"
@@ -174,10 +174,10 @@
                 Are you sure you want to delete this Product? This action cannot be undone.
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Cancel the action">Cancel</button>
                 <form id="deleteProductForm" method="POST" action="">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">Delete Product</button>
+                    <button type="submit" class="btn btn-danger"aria-label="Confirm deleting product">Delete Product</button>
                 </form>
             </div>
         </div>

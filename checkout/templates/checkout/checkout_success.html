@@ -96,7 +96,7 @@
                             <p class="mb-0 text-black font-weight-bold">Address 2</p>
                         </div>
                         <div class="col-12 col-md-8 text-md-right">
-                            <p class="mb-0">{{ order.street_address2 }}</p> <!-- Fixed the field reference -->
+                            <p class="mb-0">{{ order.street_address2 }}</p>
                         </div>
                     </div>
                     {% endif %}
@@ -180,14 +180,14 @@
         <div class="row">
 			<div class="col-12 col-lg-7 text-right">
                 {% if from_profile %}
-                    <a href="{% url 'profile' %}" class="btn btn-primary rounded-0 mt-4 mb-5">
+                    <a href="{% url 'profile' %}" class="btn btn-primary rounded-0 mt-4 mb-5" aria-label="Go back to your profile">
                         <span class="icon mr-2">
                             <i class="fas fa-arrow-left"></i>
                         </span>
                         <span class="text-uppercase">Back to Profile</span>
                     </a>
                 {% else %}
-                <a href="{{ product_list_url }}" class="btn btn-primary rounded-0 mt-4 mb-5">
+                <a href="{{ product_list_url }}" class="btn btn-primary rounded-0 mt-4 mb-5" aria-label="Return to the Silver Sands wine list">
 					<span class="icon mr-2">
 						<i class="fas fa-arrow-left"></i>
 					</span>

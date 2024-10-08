@@ -41,7 +41,7 @@
                                 <td class="p-3 w-25">
                                     <a href ="{% url 'product_details' wine_id=item.wine.id %}">
                                         {% if item.wine.image %}
-                                        <img src="{{ item.wine.image.url }}" class="img-fluid rounded" alt="{{ item.wine.name }}">
+                                        <img src="{{ item.wine.image.url }}" class="img-fluid rounded" alt="{{ item.wine.name }}" alt="Product image of Silver Sands quality {{ item.wine.name }}>
                                         {% else %}
                                         <img class="img-fluid rounded" src="{% static 'images/default-image.jpg' %}" alt="{{ item.wine.name }}">
                                         {% endif %}
@@ -61,7 +61,7 @@
                                         {% csrf_token %}
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <button class="decrement-qty btn fa-sm rounded-0" 
+                                                <button class="decrement-qty btn fa-sm rounded-0" aria-label="Decrease quantity by one" 
                                                     data-item_id="{{ item.item_id }}" id="decrement-qty_{{ item.item_id }}">
                                                     <span>
                                                         <i class="fas fa-minus fa-sm"></i>
@@ -72,7 +72,7 @@
                                                     name="quantity" value="{{ item.quantity }}" min="1" max="99" 
                                                     data-item_id="{{ item.item_id }}" id="id_qty_{{ item.item_id }}">
                                         
-                                                <button class="increment-qty btn rounded-0"
+                                                <button class="increment-qty btn rounded-0" aria-label="Increase quantity by one"
                                                     data-item_id="{{ item.item_id }}" id="increment-qty_{{ item.item_id }}">
                                                     <span>
                                                         <i class="fas fa-plus fa-sm"></i>
@@ -82,8 +82,8 @@
                                         </div>
                                     </form>
                                     <div class="qty-form-buttons d-flex">
-                                        <a class="update-link text-info"><small>Update</small></a>
-                                        <a class="remove-item text-danger ms-auto" id="remove_{{ item.item_id }}"><small>Remove</small></a>
+                                        <a class="update-link text-info" aria-label="Update quantity in the shopping bag"><small>Update</small></a>
+                                        <a class="remove-item text-danger ms-auto" id="remove_{{ item.item_id }}" aria-label="Remove product from the shopping bag"><small>Remove</small></a>
                                     </div>              
                                 </td>
                                 <td class="py-3">
@@ -94,16 +94,16 @@
                     </table>
                 </div>
             </div>
-
+            <!--Small screen-->
             <div class="d-block d-md-none">
                 <div class="row">
                     {% for item in bag_items %}
                     <div class="col-12 mb-3">
                         <div class="d-flex flex-col w-100">
-                            <div class="card-body d-flex flex-row w-100"> <!-- Flexbox layout -->
+                            <div class="card-body d-flex flex-row w-100">
                                 <a href="{% url 'product_details' wine_id=item.wine.id %}" class="me-3">
                                     {% if item.wine.image %}
-                                    <img src="{{ item.wine.image.url }}" class="img-fluid rounded" alt="{{ item.wine.name }}" style="width: auto; max-height: 150px;"> <!-- Maintain aspect ratio -->
+                                    <img src="{{ item.wine.image.url }}" class="img-fluid rounded" alt="{{ item.wine.name }}" style="width: auto; max-height: 150px;" alt="Product image of Silver Sands quality {{ item.wine.name }}">
                                     {% else %}
                                     <img class="img-fluid rounded" src="{% static 'images/default-image.jpg' %}" alt="{{ item.wine.name }}" style="width: 80px; height: auto;">
                                     {% endif %}
@@ -115,7 +115,7 @@
                                         {% csrf_token %}
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <button class="decrement-qty-sm btn fa-sm rounded-0" 
+                                                <button class="decrement-qty-sm btn fa-sm rounded-0" aria-label="Decrease quantity by one"
                                                     data-item_id="{{ item.item_id }}" id="decrement-qty-sm_{{ item.item_id }}">
                                                     <span>
                                                         <i class="fas fa-minus fa-sm"></i>
@@ -126,7 +126,7 @@
                                                     name="quantity" value="{{ item.quantity }}" min="1" max="99" 
                                                     data-item_id="{{ item.item_id }}" id="id_qty_{{ item.item_id }}">
                                                 
-                                                <button class="increment-qty-sm btn rounded-0"
+                                                <button class="increment-qty-sm btn rounded-0" aria-label="Increase quantity by one"
                                                     data-item_id="{{ item.item_id }}" id="increment-qty-sm_{{ item.item_id }}">
                                                     <span>
                                                         <i class="fas fa-plus fa-sm"></i>
@@ -169,13 +169,13 @@
                 </tr>
                 <tr>
                     <td colspan="5" class="text-right d-flex">
-                        <a href="{{ product_list_url }}" class="btn btn-secondary rounded-0">
+                        <a href="{{ product_list_url }}" class="btn btn-secondary rounded-0" aria-label="Keep shopping for more wines">
                             <span class="icon">
                                 <i class="fas fa-chevron-left"></i>
                             </span>
                             <span>Keep Shopping</span>
                         </a>
-                        <a href="{{ checkout_url }}" class="btn btn-primary rounded-0 ms-2">
+                        <a href="{{ checkout_url }}" class="btn btn-primary rounded-0 ms-2" aria-label="Complete order and proceed to payment">
                             <span>Secure Checkout</span>
                             <span class="icon">
                                 <i class="fas fa-lock"></i>
@@ -186,7 +186,7 @@
             </table>
             {% else %}
             <p class="lead mb-5">Your bag is empty.</p>
-            <a href="{{ product_list_url }}" class="btn btn-secondary rounded-0 btn-lg">
+            <a href="{{ product_list_url }}" class="btn btn-secondary rounded-0 btn-lg" aria-label="Keep shopping">
                 <span class="icon">
                     <i class="fas fa-chevron-left"></i>
                 </span>
