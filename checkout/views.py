@@ -34,40 +34,80 @@ def checkout(request):
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
     
+    bag = request.session.get('bag', {})
+    if not bag:
+            messages.error(request, "Your bag is empty at the moment!")
+            return redirect(reverse('product_list'))
+        
+    current_bag = bag_contents(request)
+    total = current_bag['grand_total']
+    stripe_total = round(total * 100)
+    stripe.api_key = stripe_secret_key
+    intent = stripe.PaymentIntent.create(
+        amount=stripe_total,
+        currency=settings.STRIPE_CURRENCY,
+    )
+    client_secret = intent.client_secret
+
+    if request.user.is_authenticated:
+        profile = UserProfile.objects.filter(user=request.user).first()
+        if profile:
+            order_form = OrderForm(initial={
+                'full_name': profile.default_full_name,
+                'email': profile.user.email,
+                'phone_number': profile.default_phone_number,
+                'country': profile.default_country,
+                'postcode': profile.default_postcode,
+                'town_or_city': profile.default_town_or_city,
+                'street_address1': profile.default_street_address1,
+                'street_address2': profile.default_street_address2,
+                'county': profile.default_county,
+            })
+        else:
+            order_form = OrderForm()
+    else:
+        order_form = OrderForm()
+    
     if request.method == 'POST':
-        bag = request.session.get('bag', {})
         form_data = {
-            'full_name': request.POST['full_name'],
-            'email': request.POST['email'],
-            'phone_number': request.POST['phone_number'],
-            'country': request.POST['country'],
-            'postcode': request.POST['postcode'],
-            'town_or_city': request.POST['town_or_city'],
-            'street_address1': request.POST['street_address1'],
-            'street_address2': request.POST['street_address2'],
-            'county': request.POST['county'],
+            'full_name': request.POST.get('full_name', ''),
+            'email': request.POST.get('email', ''),
+            'phone_number': request.POST.get('phone_number', ''),
+            'country': request.POST.get('country', ''),
+            'postcode': request.POST.get('postcode', ''),
+            'town_or_city': request.POST.get('town_or_city', ''),
+            'street_address1': request.POST.get('street_address1', ''),
+            'street_address2': request.POST.get('street_address2', ''),
+            'county': request.POST.get('county', ''),
         }
         order_form = OrderForm(form_data)
         
         if order_form.is_valid():
             # Validate stock before saving the order
+            out_of_stock = False
+            insufficient_stock = False
+            
             for item_id, quantity in bag.items():
-                try:
-                    wine = Wine.objects.get(id=item_id)
-                    
-                    # Check if the wine is in stock and available
-                    if not wine.available or wine.stock == 0:
-                        messages.error(request, f'Sorry, {wine.name} is unfortunately out of stock.')
-                        return redirect(reverse('view_bag'))
-                    
-                    # Check if the requested quantity exceeds available stock
-                    if quantity > wine.stock:
-                        messages.error(request, f'Sorry, there are only {wine.stock} of {wine.name} left in stock. Please update your bag.')
-                        return redirect(reverse('view_bag'))
+                wine = Wine.objects.filter(id=item_id).first()  # Use filter and first to avoid exception
                 
-                except Wine.DoesNotExist:
-                    messages.error(request, f"One of the wines in your bag wasn't found in our database. Please contact us for assistance.")
+                if wine is None:
+                    messages.error(request, "One of the wines in your bag wasn't found in our database. Please contact us for assistance.")
                     return redirect(reverse('view_bag'))
+                
+                # Check if the wine is in stock and available
+                if not wine.available or wine.stock == 0:
+                    out_of_stock = True
+                    messages.error(request, f'Sorry, {wine.name} is unfortunately out of stock.')
+                    break
+                
+                # Check if the requested quantity exceeds available stock
+                if quantity > wine.stock:
+                    insufficient_stock = True
+                    messages.error(request, f'Sorry, there are only {wine.stock} of {wine.name} left in stock. Please update your bag.')
+                    break
+            
+            if out_of_stock or insufficient_stock:
+                return redirect(reverse('view_bag'))
 
             # If all items pass the stock check, proceed with order creation
             order = order_form.save(commit=False)
@@ -92,45 +132,10 @@ def checkout(request):
             request.session['save_info'] = 'save-info' in request.POST
             return redirect(reverse('checkout_success', args=[order.order_number]))
         else:
-            messages.error(request, 'There was an error with completing the order. Please double check your information.')
-                        
-    else:
-        bag = request.session.get('bag', {})
-        if not bag:
-            messages.error(request, "Your bag is empty at the moment!")
-            return redirect(reverse('product_list'))
-        
-        current_bag = bag_contents(request)
-        total = current_bag['grand_total']
-        stripe_total = round(total * 100)
-        stripe.api_key = stripe_secret_key
-        intent = stripe.PaymentIntent.create(
-            amount=stripe_total,
-            currency=settings.STRIPE_CURRENCY,
-        )
-        client_secret = intent.client_secret
-
-        if request.user.is_authenticated:
-            try:
-                profile = UserProfile.objects.get(user=request.user)
-                order_form = OrderForm(initial={
-                    'full_name': profile.default_full_name,
-                    'email': profile.user.email,
-                    'phone_number': profile.default_phone_number,
-                    'country': profile.default_country,
-                    'postcode': profile.default_postcode,
-                    'town_or_city': profile.default_town_or_city,
-                    'street_address1': profile.default_street_address1,
-                    'street_address2': profile.default_street_address2,
-                    'county': profile.default_county,
-                })
-            except UserProfile.DoesNotExist:
-                order_form = OrderForm()
-        else:
-            order_form = OrderForm()
+            messages.error(request, 'Failed to complete checkout. Please ensure the form is valid')
     
     if not stripe_public_key:
-        messages.warning(request, 'Oh no, something happend. Please contact us.')
+        messages.warning(request, 'Oh no, something happened. Please contact us.')
         
     template = 'checkout/checkout.html'
     context = {
@@ -140,7 +145,6 @@ def checkout(request):
     }
 
     return render(request, template, context)
-
 
 
 def checkout_success(request, order_number):
