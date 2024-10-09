@@ -18,9 +18,11 @@
         <!-- Wine Image -->
         <div class="col-md-6">
             {% if wine.image %}
-                <img src="{{ wine.image.url }}" class="img-fluid rounded" alt="{{ wine.name }}" alt="Product image of Silver Sands quality {{ item.wine.name }}">
+                <img src="{{ wine.image.url }}" class="img-fluid rounded" 
+                    alt="{{ wine.name }} from {{ wine.category }} category">
             {% else %}
-                <img class="img-fluid rounded" src="{% static 'images/default-image.jpg' %}" alt="{{ wine.name }}" alt="{{ item.wine.name }}">
+                <img class="img-fluid rounded" src="{% static 'images/default-image.jpg' %}" 
+                    alt="No image available for {{ wine.name }} from {{ wine.category }}">
             {% endif %}
         </div>
         
@@ -360,7 +362,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Cancel the action">Cancel</button>
-                <form id="deleteReviewForm" method="POST" action="">
+                <form id="deleteReviewForm" method="POST">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger" aria-label="Confirm removal of the review">Delete Review</button>
                 </form>
