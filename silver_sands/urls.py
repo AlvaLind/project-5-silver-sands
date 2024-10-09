@@ -12,7 +12,7 @@ urlpatterns = [
     path('products/', include('products.urls')),
     path('summernote/', include('django_summernote.urls')),
     path('bag/', include('bag.urls')),
-    path('checkout/',include('checkout.urls')),
+    path('checkout/', include('checkout.urls')),
     path('profile/', include('profiles.urls')),
     path('management_dashboard/', include('management_dashboard.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

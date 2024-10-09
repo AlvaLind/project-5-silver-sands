@@ -135,13 +135,6 @@ Although there were no error or warning messages displayed when after validating
 - [Order History - "/profile/order_history/"](documentation/testing/html_checks/html-checks-order-history.png)
 
 
-
-
-
-
-
-
-
 ### CSS Validation
 
 No warnings or errors were found when passing the css through the [W3C (Jigsaw)](https://jigsaw.w3.org/css-validator/#validate_by_uri). I have manually run these checks by copying each of the deployed page URLs and pasting them into the validator.
@@ -162,13 +155,16 @@ No warnings or errors were found when passing the css through the [W3C (Jigsaw)]
 
 - [Checkout - Report](documentation/testing/css_checks/css-check-checkout.png)
 
-- [Shopping Bag - Report](documentation/testing/css_checks/css-check-bag.png)
+- [Bag - Report](documentation/testing/css_checks/css-check-bag.png)
 
 - [Favourites - Report](documentation/testing/css_checks/css-check-favourites.png)
 
 - [Add Prodcut - Report](documentation/testing/css_checks/css-check-add-product.png)
 
+- [Edit Product - Report](documentation/testing/css_checks/css-check-edit-product.png)
+
 - [Manage Orders - Report](documentation/testing/css_checks/css-check-manage-orders.png)
+
 
 ### JS Validation
 
@@ -217,6 +213,9 @@ to the top of the javascript file being validated.
 
 ### Python Validation
 
-No warnings or errors were found when the python code was passed through [Code institutes Python Linter validation tool](https://pep8ci.herokuapp.com/). According to the reports, the code is [Pep 8-compliant](https://legacy.python.org/dev/peps/pep-0008/). This checking was done manually by copying python code and pasting it into the validator.
+No warnings or errors were found when the python code was passed through [Code institutes Python Linter validation tool](https://pep8ci.herokuapp.com/). According to the reports, the code is [Pep 8-compliant](https://legacy.python.org/dev/peps/pep-0008/). This checking was done manually by copying python code and pasting it into the validator. 
+
+Pasting in each of the python files within the project ultimately rendered the same results/report. [Click here](documentation/testing/py_checks/py-checks-checkout-views.png) to see the results from pasting in the checkout apps views.py file, returning a result of 'All clear, no errors found'. As mentioned this same method and results were followed for all python files within the project including all views, forms and models.
+
 
 ### Lighthouse validation

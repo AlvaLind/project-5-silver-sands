@@ -1,18 +1,20 @@
-from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
-from products.models import Wine
 from django.contrib.auth.models import User
+from django.db import models
+
+from products.models import Wine
 
 
 class Review(models.Model):
     """
     Stores a review for a wine with a rating and comment.
     """
-    # Relationships 
-    wine = models.ForeignKey(Wine, on_delete=models.CASCADE, related_name='reviews')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviewer')
+    # Relationships
+    wine = models.ForeignKey(
+        Wine, on_delete=models.CASCADE, related_name='reviews')
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='reviewer')
 
-    # Fields
     # Rating must be between 1 and 5
     rating = models.IntegerField(
         validators=[

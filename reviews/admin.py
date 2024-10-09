@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Review
 
+
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
     """
@@ -9,4 +10,4 @@ class ReviewAdmin(admin.ModelAdmin):
     """
     search_fields = ['wine__name']
     list_filter = ('approved', 'rating', 'wine',)
-    readonly_fields = ["wine", "user", "rating",]
+    readonly_fields = ["wine", "user", "rating"]

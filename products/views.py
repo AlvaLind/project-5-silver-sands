@@ -1,44 +1,55 @@
-from django.shortcuts import render, get_object_or_404, redirect, reverse
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
-from django.db.models import Avg, Value, FloatField, Q
-from django.db.models.functions import Coalesce, Lower 
-from django.core.paginator import Paginator
-
 from datetime import datetime
 
-from reviews.forms import ReviewForm
-from reviews.models import Review
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+from django.db.models import Avg, Value, FloatField, Q
+from django.db.models.functions import Coalesce, Lower
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404, redirect, reverse
+
 from .models import Wine, Category
 from profiles.models import Favourite
+from reviews.forms import ReviewForm
+from reviews.models import Review
 
 
 def product_list(request):
     """
-    View function to display a list of wines with optional filtering and sorting.
+    View function to display a list of wines with optional filter and sorting.
     Args:
-        request (HttpRequest): The HTTP request object containing query parameters for filtering and sorting.
+        request (HttpRequest): The HTTP request object containing query
+        parameters for filtering and sorting.
     Returns:
-        HttpResponse: The rendered 'product_list.html' template with the filtered and sorted list of wines and available categories.
+        HttpResponse: The rendered 'product_list.html' template with the
+        filtered and sorted list of wines and available categories.
     Query Parameters:
-        - category (str): Optional. Filters wines by the specified category name.
-        - rating (str): Optional. Filters wines by rating. Only wines with a rating greater than or equal to the specified value are included.
-        - sort (str): Optional. Specifies the sorting order of the wines. Possible values are:
-            - 'rating_desc': Sorts wines by rating in descending order (most popular first).
+        - category (str): Filters wines by the specified category name.
+        - rating (str): Optional. Filters wines by rating. Only wines with a
+        rating greater than or equal to the specified value are included.
+        - sort (str): Optional. Specifies the sorting order of the wines.
+        Possible values are:
+            - 'rating_desc': Sorts wines by rating in descending order
+            (most popular first).
             - 'name_asc': Sorts wines by name in ascending order.
-            - 'price_asc': Sorts wines by price in ascending order (cheapest first).
+            - 'price_asc': Sorts wines by price in ascending order
+            (cheapest first).
     Filters:
-        - category_filter: Filters wines based on the category name if provided.
+        - category_filter: Filters wines based on the category name if provided
         - rating_filter: Filters wines based on the minimum rating if provided.
     Sorting:
         - Orders wines based on the selected sorting option.
     """
-    # Fetch all Wine and Category items, and annotate with the average rating, set wine with rating null to 0
+    # Fetch all Wine and Category items, and annotate with the average rating,
+    # set wine with rating null to 0
     wines = Wine.objects.annotate(
-        average_rating=Coalesce(Avg('reviews__rating'), Value(0.0), output_field=FloatField())
+    average_rating=Coalesce(
+        Avg('reviews__rating'),
+        Value(0.0),
+        output_field=FloatField()
     )
-    categories = Category.objects.all() 
+)
+    categories = Category.objects.all()
 
     # Fetch all filter inputs
     category_filter = request.GET.get('category')
@@ -60,7 +71,7 @@ def product_list(request):
             wines = wines.filter(available=True)
         elif available.lower() == 'false':
             wines = wines.filter(available=False)
-    
+
     # Get the sorting parameter
     sort = request.GET.get('sort')
 
@@ -71,12 +82,12 @@ def product_list(request):
         wines = wines.order_by(Lower('name'))
     elif sort == 'price_asc':
         wines = wines.order_by('price')
-        
+
     # Pagination
     paginator = Paginator(wines, 9)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-        
+
     context = {
         'wines': wines,
         'page_obj': page_obj,
@@ -88,22 +99,23 @@ def product_list(request):
 
 def product_details(request, wine_id):
     """
-    View to display the details of a single wine item and handle adding it to user basket,
-    and handle the submission of a user review.
+    View to display the details of a single wine item and handle adding it
+    to user basket, and handle the submission of a user review.
     """
     wine = get_object_or_404(Wine, id=wine_id)
     existing_review = None
-    
+
     # Handle review form submission
     if request.method == 'POST':
         # Check if the user has already reviewed this wine
         existing_review = wine.reviews.filter(user=request.user).first()
-    
+
         if existing_review:
             # User already has a review, prevent submission
-            messages.error(request, 'You have already submitted a review for this wine.')
+            messages.error(request, 'You have already submitted a review \
+                for this wine.')
             return redirect('product_details', wine_id=wine.id)
-        
+
         review_form = ReviewForm(request.POST)
         if review_form.is_valid():
             # Create a new review but don't save to DB yet
@@ -119,19 +131,18 @@ def product_details(request, wine_id):
             return redirect('product_details', wine_id=wine.id)
     else:
         review_form = ReviewForm()
-        
+
     # Calculate the average rating for the wine, default to 0 if no reviews
     average_rating = wine.reviews.aggregate(Avg('rating'))['rating__avg'] or 0
 
     # Get all reviews for the wine (you might want to add pagination later)
     reviews = wine.reviews.filter(approved=True).order_by('-created_at')
     review_count = wine.reviews.filter(approved=True).count()
-    
+
     in_favourites = False
     if request.user.is_authenticated:
-        in_favourites = Favourite.objects.filter(user=request.user, wine=wine).exists()
-
-
+        in_favourites = (
+            Favourite.objects.filter(user=request.user, wine=wine).exists())
 
     context = {
         'wine': wine,
@@ -205,12 +216,14 @@ def edit_review(request, wine_id, review_id):
             messages.error(request, "Error, unable to update review.")
             print("Error: Failed to edit review")
 
-    return HttpResponseRedirect(reverse('products/product_details', args=[wine_id]))
+    return HttpResponseRedirect(
+        reverse('products:product_details', args=[wine_id])
+    )
 
 
 def search_products(request):
     """
-    Search for products by name and category with optional filtering and sorting.
+    Search for products by name and category with optional filter and sorting.
     """
     query = request.GET.get('query', '')
     wines = Wine.objects.all()
@@ -220,7 +233,7 @@ def search_products(request):
         wines = wines.filter(
             Q(name__icontains=query) | Q(category__name__icontains=query)
         )
-    
+
     # Capture filter inputs
     category_filter = request.GET.get('category')
     price_min = request.GET.get('price_min')
@@ -247,8 +260,13 @@ def search_products(request):
     # Apply sorting based on the selected option
     if sort == 'rating_desc':
         wines = wines.annotate(
-            average_rating=Coalesce(Avg('reviews__rating'), Value(0.0), output_field=FloatField())
+            average_rating=Coalesce(
+                Avg('reviews__rating'),
+                Value(0.0),
+                output_field=FloatField()
+            )
         ).order_by('-average_rating')
+
     elif sort == 'name_asc':
         wines = wines.order_by(Lower('name'))
     elif sort == 'price_asc':
@@ -258,7 +276,7 @@ def search_products(request):
     paginator = Paginator(wines, 9)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    
+
     categories = Category.objects.all()
 
     return render(request, 'products/search_products.html', {
