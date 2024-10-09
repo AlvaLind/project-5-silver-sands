@@ -175,7 +175,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Cancel the action">Cancel</button>
-                <form id="deleteProductForm" method="POST" action="">
+                <form id="deleteProductForm" method="POST">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger"aria-label="Confirm deleting product">Delete Product</button>
                 </form>

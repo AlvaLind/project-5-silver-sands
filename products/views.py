@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.db.models import Avg, Value, FloatField
+from django.db.models import Avg, Value, FloatField, Q
 from django.db.models.functions import Coalesce, Lower 
 from django.core.paginator import Paginator
 
@@ -210,20 +210,59 @@ def edit_review(request, wine_id, review_id):
 
 def search_products(request):
     """
-        Search for products by name and category
+    Search for products by name and category with optional filtering and sorting.
     """
     query = request.GET.get('query', '')
+    wines = Wine.objects.all()
+
     if query:
-        # Filter by wine name and category name
-        wine_list = Wine.objects.filter(
-            name__icontains=query
-        ) | Wine.objects.filter(
-            category__name__icontains=query  # Access the related model field correctly
+        # Use Q objects for a more efficient query
+        wines = wines.filter(
+            Q(name__icontains=query) | Q(category__name__icontains=query)
         )
-    else:
-        wine_list = Wine.objects.all()
-        
+    
+    # Capture filter inputs
+    category_filter = request.GET.get('category')
+    price_min = request.GET.get('price_min')
+    price_max = request.GET.get('price_max')
+    available = request.GET.get('available')
+
+    # Apply category, price, and availability filters
+    if category_filter:
+        wines = wines.filter(category__name=category_filter)
+    if price_min:
+        wines = wines.filter(price__gte=price_min)
+    if price_max:
+        wines = wines.filter(price__lte=price_max)
+    if available is not None:
+        # Only filter by availability if it is explicitly set
+        if available.lower() == 'true':
+            wines = wines.filter(available=True)
+        elif available.lower() == 'false':
+            wines = wines.filter(available=False)
+
+    # Get the sorting parameter
+    sort = request.GET.get('sort')
+
+    # Apply sorting based on the selected option
+    if sort == 'rating_desc':
+        wines = wines.annotate(
+            average_rating=Coalesce(Avg('reviews__rating'), Value(0.0), output_field=FloatField())
+        ).order_by('-average_rating')
+    elif sort == 'name_asc':
+        wines = wines.order_by(Lower('name'))
+    elif sort == 'price_asc':
+        wines = wines.order_by('price')
+
+    # Pagination: Show 9 wines per page
+    paginator = Paginator(wines, 9)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    categories = Category.objects.all()
+
     return render(request, 'products/search_products.html', {
         'query': query,
-        'wine_list': wine_list,
+        'page_obj': page_obj,
+        'categories': categories,
     })

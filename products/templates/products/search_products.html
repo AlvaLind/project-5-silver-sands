@@ -8,76 +8,82 @@
 {% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <div class="row mb-2">
-        <!-- Search Bar -->
-        <div>
-            <p><strong>Results for search: {{ query }}</strong></p>
-        </div>
-        <!-- Filter and Sort By Buttons -->
-        <div class="button-container d-flex justify-content-start mb-3">
-            <!-- Filters -->
-            <div class="dropdown me-3">
-                <button id="dropdown-btn" class="dropdown-btn btn btn-secondary">Filter By</button>
-                <div id="dropdown-content" class="dropdown-content m-2">
-                    <form method="get" action="{% url 'product_list' %}">
-                        <!-- Category Dropdown -->
-                        <div class="form-group m-3">
-                            <label for="category">Category:</label>
-                            <select id="category" name="category" class="form-control">
-                                <option value="">All Categories</option>
-                                {% for category in categories %}
-                                    <option value="{{ category.name }}" {% if category.name == request.GET.category %}selected{% endif %}>{{ category.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-
-                        <!-- Price Range Filter -->
-                        <div class="form-group m-3">
-                            <label for="price_min">Price Min:</label>
-                            <input type="number" id="price_min" name="price_min" class="form-control" value="{{ request.GET.price_min }}" step="0.01">
-                        </div>
-                        <div class="form-group m-3">
-                            <label for="price_max">Price Max:</label>
-                            <input type="number" id="price_max" name="price_max" class="form-control" value="{{ request.GET.price_max }}" step="0.01">
-                        </div>
-
-                        <!-- Availability Filter -->
-                        <div class="form-group m-3">
-                            <label for="available">Availability:</label>
-                            <select id="available" name="available" class="form-control">
-                                <option value="">All</option>
-                                <option value="true" {% if request.GET.available == 'true' %}selected{% endif %}>In Stock</option>
-                                <option value="false" {% if request.GET.available == 'false' %}selected{% endif %}>Out of Stock</option>
-                            </select>
-                        </div>
-            
-                        <!-- Submit Button -->
-                        <div class="form-group d-flex justify-content-start m-3">
-                            <button type="submit" class="btn btn-primary me-2">Apply Filters</button>
-                            <a href="{% url 'product_list' %}" class="btn btn-secondary">Clear Filters</a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <!-- Sort By -->
-            <div class="dropdown">
-                <button id="sortDropdownBtn" class="dropdown-btn btn btn-secondary">Sort By</button>
-                <div id="sortDropdownContent" class="sort-dropdown-content m-2">
-                    <form method="get" action="{% url 'product_list' %}" class="d-flex flex-column m-3">
-                        <button type="submit" name="sort" value="name_asc" class="btn btn-primary mb-2">Name</button>
-                        <button type="submit" name="sort" value="rating_desc" class="btn btn-primary mb-2">Most Popular</button>
-                        <button type="submit" name="sort" value="price_asc" class="btn btn-primary">Affordability</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
+<div class="container mt-4">        
     <!-- Product cards display -->
     <div class="row">
-        {% if wine_list %}
-            {% for wine in wine_list %}
+        {% if page_obj.object_list %}
+            <div class="row mb-2">
+                <div>
+                    <h3><strong>Results for search: {{ query }}</strong></h3>
+                </div>
+                <!-- Filter and Sort By Buttons -->
+                <div class="button-container d-flex justify-content-start mb-3">
+                    <!-- Filters -->
+                    <div class="dropdown me-3">
+                        <button id="dropdown-btn" class="dropdown-btn btn btn-secondary">Filter By</button>
+                        <div id="dropdown-content" class="dropdown-content m-2">
+                            <form method="get" action="{% url 'search_products' %}">
+                                <!-- Preserve the search query -->
+                                <input type="hidden" name="query" value="{{ query }}">
+
+                                <!-- Category Dropdown -->
+                                <div class="form-group m-3">
+                                    <label for="category">Category:</label>
+                                    <select id="category" name="category" class="form-control">
+                                        <option value="">All Categories</option>
+                                        {% for category in categories %}
+                                            <option value="{{ category.name }}" {% if category.name == request.GET.category %}selected{% endif %}>{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <!-- Price Range Filter -->
+                                <div class="form-group m-3">
+                                    <label for="price_min">Price Min:</label>
+                                    <input type="number" id="price_min" name="price_min" class="form-control" value="{{ request.GET.price_min }}" step="0.01">
+                                </div>
+                                <div class="form-group m-3">
+                                    <label for="price_max">Price Max:</label>
+                                    <input type="number" id="price_max" name="price_max" class="form-control" value="{{ request.GET.price_max }}" step="0.01">
+                                </div>
+
+                                <!-- Availability Filter -->
+                                <div class="form-group m-3">
+                                    <label for="available">Availability:</label>
+                                    <select id="available" name="available" class="form-control">
+                                        <option value="">All</option>
+                                        <option value="true" {% if request.GET.available == 'true' %}selected{% endif %}>In Stock</option>
+                                        <option value="false" {% if request.GET.available == 'false' %}selected{% endif %}>Out of Stock</option>
+                                    </select>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="form-group d-flex justify-content-start m-3">
+                                    <button type="submit" class="btn btn-primary me-2">Apply Filters</button>
+                                    <a href="{% url 'search_products' %}" class="btn btn-secondary">Clear Filters</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Sort By -->
+                    <div class="dropdown">
+                        <button id="sortDropdownBtn" class="dropdown-btn btn btn-secondary">Sort By</button>
+                        <div id="sortDropdownContent" class="sort-dropdown-content m-2">
+                            <form method="get" action="{% url 'search_products' %}" class="d-flex flex-column m-3">
+                                <!-- Preserve the search query -->
+                                <input type="hidden" name="query" value="{{ query }}">
+
+                                <button type="submit" name="sort" value="name_asc" class="btn btn-primary mb-2">Name</button>
+                                <button type="submit" name="sort" value="rating_desc" class="btn btn-primary mb-2">Most Popular</button>
+                                <button type="submit" name="sort" value="price_asc" class="btn btn-primary">Affordability</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+            {% for wine in page_obj.object_list %}
             <div class="col-12 col-sm-12 col-md-6 col-lg-4 mb-4">
                 <div class="card h-100 text-center p-3 wine-item">
                     <div class="card-img-container" style="position: relative; width: 100%; padding-top: 100%; overflow: hidden;">
@@ -124,9 +130,41 @@
                 </div>
             </div>
             {% endfor %}
+            <!-- Pagination controls -->
+            {% with query_params=request.GET.copy %}
+                <nav class="pagination-controls" aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?{{ query_params.urlencode }}&page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                
+                        {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <li class="page-item">
+                                <a class="page-link" href="?{{ query_params.urlencode }}&page={{ num }}">{{ num }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?{{ query_params.urlencode }}&page={{ page_obj.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endwith %}
         {% else %}
         <div class="col-md-12">
-            <p class="text-center">No wines available that match your search</p>
+            <h3 class="text-center">No wines available that match your search: {{ query }}</h3>
         </div>
         {% endif %}
     </div>
@@ -144,7 +182,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <form id="deleteProductForm" method="POST" action="">
+                <form id="deleteProductForm" method="POST">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger">Delete Product</button>
                 </form>
