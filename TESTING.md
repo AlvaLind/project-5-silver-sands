@@ -84,23 +84,63 @@ add text here
 ## Validation
 ### HTML Validation
 
-No warnings or errors were found when passing each of my HTML templates through the [W3C](https://validator.w3.org/) validator. I have manually run these checks by copying each of the HTML templates source code (Ctrl+U) and pasting it into the validator. I have also run the validator checks by directly passing in the deployed URL path of each deployed page. 
+The project HTML templates have been thoroughly checked by validating each deployed page using the [W3C Validator](https://validator.w3.org/nu/). To do this, I copied the deployed URL of each page directly from the browser's address bar. After obtaining the URL, I navigated to the W3C Validator, where I pasted the copied URL into the designated input field for validation. Once submitted, the validator checked the HTML structure of each page, ensuring compliance with web standards. This process confirmed that no warnings or errors were present in any of the HTML templates as shown in the reports below.
 
-#### Complete HTML Validation Reports
+Although there were no error or warning messages displayed when after validating the html templates there was the occasional 'Info' tag that indicted the same 'trailing slash on void elements has no effect'. This comes from the Allauth templates and as a result of its passive nature has not been changed in the multiple templates it occurs in. See the 'Edit Product' report in the list below for reference.
 
-- [Homepage - Report](documentation/testing/html_checks/html-checks-homepage.png)
+### Complete HTML Validation Reports
 
-- [Our Story - Report]
+#### Bag App - Reports
 
-- [All Wines - Report]
+- [Bag - "/bag/"](documentation/testing/html_checks/html-checks-bag.png)
 
-- [Wine Detail - Report]
+#### Checkout App - Reports
 
-- [Profile - Report]
+- [Check Out - "/checkout/"](documentation/testing/html_checks/html-checks-checkout.png)
 
-- [Check Out - Report]
+- [Checkout Success - "/checkout/checkout_success/order_number"](documentation/testing/html_checks/html-checks-checkout-success.png)
 
-- [Bag - Report]
+#### Home App - Reports
+
+- [Homepage - "/"](documentation/testing/html_checks/html-checks-homepage.png)
+
+- [Our Story - "/our_story/"](documentation/testing/html_checks/html-checks-our-story.png)
+
+- [Visit Us - "/visit_us/"](documentation/testing/html_checks/html-checks-visit-us.png)
+
+- [Access Denied - "/access-denied/"]
+
+#### Management Dashboard App - Reports
+
+- [Add Product - "/management_dashboard/add/"](documentation/testing/html_checks/html-checks-add-product.png)
+
+- [Edit Product - "/management_dashboard/edit/wine_id"](documentation/testing/html_checks/html-checks-edit-product.png)
+
+- [Manage Orders - "/management_dashboard/manage_orders/"](documentation/testing/html_checks/html-checks-manage-orders.png)
+
+#### Products App - Reports
+
+- [All Wines - "/products/"](documentation/testing/html_checks/html-checks-product-list.png)
+
+- [Product Details - "/products/wine_id/"](documentation/testing/html_checks/html-checks-product-details.png) 
+
+- [Search - "/products/search/"](documentation/testing/html_checks/html-checks-search.png)
+
+#### Profiles App - Reports
+
+- [Profile - "/profile/"](documentation/testing/html_checks/html-checks-profile.png) 
+
+- [Favourites - "profile/favourites/"](documentation/testing/html_checks/html-checks-favourite.png)
+
+- [Order History - "/profile/order_history/"](documentation/testing/html_checks/html-checks-order-history.png)
+
+
+
+
+
+
+
+
 
 ### CSS Validation
 
