@@ -14,16 +14,28 @@
 
                 <p class="text-center">{% trans 'Are you sure you want to sign out?' %}</p>
 
-                <form method="post" action="{% url 'account_logout' %}" class="text-center">
+                <form id="logout-form" method="post" action="{% url 'account_logout' %}" class="text-center">
                     {% csrf_token %}
                     {% if redirect_field_value %}
                     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                     {% endif %}
-                    <button class="btn btn-primary" type="submit">{% trans 'Sign Out' %}</button>
+                    <button class="btn btn-primary" type="button" id="logout-button">{% trans 'Sign Out' %}</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById('logout-button').addEventListener('click', function() {
+        // Submit the logout form
+        document.getElementById('logout-form').submit();
+        
+        // Redirect after a timeout
+        setTimeout(function() {
+            window.location.href = "{% url 'home' %}";
+        }, 3000); // 3000 ms = 3 seconds
+    });
+</script>
 
 {% endblock content %}

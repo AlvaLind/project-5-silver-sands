@@ -56,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'silver_sands.middleware.NoCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'silver_sands.urls'
@@ -160,36 +161,44 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 
-# Production settings
+# Point to the folder where you keep your local static files
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),  # This should be your root static folder
+]
+
+# Where to collect static files (this is not where your static files live, but where Django gathers them)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# If you're using AWS S3 for production
 if not DEBUG:
     AWS_STORAGE_BUCKET_NAME = 'silver-sands-estate'
     AWS_S3_REGION_NAME = 'eu-north-1'
     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-    AWS_S3_FILE_OVERWRITE = False
-
-    # S3 static file settings
-    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
-    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
+    AWS_S3_FILE_OVERWRITE = False  # Avoid overwriting files with the same name
     
     STORAGES = {
-    
-        "default":{
-            "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
         },
-        
-        "staticfiles":{
-            "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
+        "staticfiles": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
         },
     }
-    
-else:
-    STATIC_URL = '/static/'  # URL for static files
-    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # Path to local static files
 
+    # Static files settings for S3
+    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
+
+else:
+    # For development, use the local static folder
+    STATIC_URL = '/static/'
+
+
+# Media settings
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 # Stripe
 FREE_DELIVERY_THRESHOLD = 100
