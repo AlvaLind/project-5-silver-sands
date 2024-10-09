@@ -41,9 +41,11 @@
                         <div class="col-2 mb-1">
                             <a href="{% url 'product_details' item.wine.id %}">
                                 {% if item.wine.image %}
-                                    <img class="w-100" src="{{ item.wine.image.url }}" alt="{{ wine.name }}">
+                                    <img class="w-100" src="{{ item.wine.image.url }}" 
+                                        alt="{{ item.wine.name }} from {{ item.wine.category }} category">
                                 {% else %}
-                                    <img class="w-100" src="{{ MEDIA_URL }}noimage.png" alt="{{ wine.name }}">
+                                    <img class="w-100" src="{{ MEDIA_URL }}noimage.png" 
+                                        alt="No image available for {{ item.wine.name }} from {{ item.wine.category }}">
                                 {% endif %}
                             </a>
                         </div>

@@ -16,9 +16,12 @@
                         <div class="card-body">
                             <!-- Wine image -->
                             {% if fav.wine.image %}
-                                <img src="{{ fav.wine.image.url }}" class="img-fluid rounded" alt="{{ fav.wine.name }}">
+                                <img src="{{ fav.wine.image.url }}" class="img-fluid rounded" 
+                                    alt="{{ fav.wine.name }} from {{ fav.wine.category }} category.">
                             {% else %}
-                                <img class="img-fluid rounded" src="{% static 'images/default-image.jpg' %}" alt="{{ fav.wine.name }}">
+                                <img class="img-fluid rounded" src="{% static 'images/default-image.jpg' %}" 
+                                    alt="No image available for {{ fav.wine.name }}.">
+
                             {% endif %}
                             
                             <!-- Wine details -->

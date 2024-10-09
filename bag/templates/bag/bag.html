@@ -41,9 +41,11 @@
                                 <td class="p-3 w-25">
                                     <a href ="{% url 'product_details' wine_id=item.wine.id %}">
                                         {% if item.wine.image %}
-                                        <img src="{{ item.wine.image.url }}" class="img-fluid rounded" alt="{{ item.wine.name }}" alt="Product image of Silver Sands quality {{ item.wine.name }}>
+                                        <img src="{{ item.wine.image.url }}" class="img-fluid rounded" 
+                                            alt="{{ item.wine.name }} from {{ item.wine.category }} category">
                                         {% else %}
-                                        <img class="img-fluid rounded" src="{% static 'images/default-image.jpg' %}" alt="{{ item.wine.name }}">
+                                        <img class="img-fluid rounded" src="{% static 'images/default-image.jpg' %}" 
+                                            alt="No image available for {{ item.wine.name }} from {{ item.wine.category }}">
                                         {% endif %}
                                     </a>
                                 </td>
@@ -103,9 +105,9 @@
                             <div class="card-body d-flex flex-row w-100">
                                 <a href="{% url 'product_details' wine_id=item.wine.id %}" class="me-3">
                                     {% if item.wine.image %}
-                                    <img src="{{ item.wine.image.url }}" class="img-fluid rounded" alt="{{ item.wine.name }}" style="width: auto; max-height: 150px;" alt="Product image of Silver Sands quality {{ item.wine.name }}">
+                                    <img src="{{ item.wine.image.url }}" class="img-fluid rounded" style="width: auto; max-height: 150px;" alt="Product image of Silver Sands quality {{ item.wine.name }}">
                                     {% else %}
-                                    <img class="img-fluid rounded" src="{% static 'images/default-image.jpg' %}" alt="{{ item.wine.name }}" style="width: 80px; height: auto;">
+                                    <img class="img-fluid rounded" src="{% static 'images/default-image.jpg' %}" alt="{{ item.wine.name }} default image" style="width: 80px; height: auto;">
                                     {% endif %}
                                 </a>
                                 <div>
