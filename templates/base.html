@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html lang="en">
+    
 {% load static %}
 
 <!-- Add URL links -->
@@ -14,8 +17,6 @@
 {% url 'manage_orders' as manage_orders_url %}
 {% url 'favourites' as favourites_url %}
 
-<!DOCTYPE html>
-<html lang="en">
 <head>
     {% block meta %}
     <meta charset="UTF-8">
@@ -24,7 +25,6 @@
     <meta name="keywords" content="wines, McLaren Vale, wine club, winery, premium wines, Silver Sands Estate, online wine store">
 
     <title>Silver Sands Estate - {% block extra_title %}McLaren Vale Wines{% endblock %}</title>
-
     {% endblock %}
 
     {% block extra_meta %}
@@ -103,12 +103,12 @@
                     </li> 
                     <!-- Search Form -->
                     <form class="form-inline d-none" method="GET" action="{% url 'search_products' %}">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search for products..." aria-label="Search" name="query">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search for products..." aria-label="Search for products" name="query">
                     </form>       
 
                     <li class="nav-item">
-                        <form class="form-inline my-2 my-lg-0 d-none" method="GET" action="">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                        <form class="form-inline my-2 my-lg-0 d-none" method="GET" action="{% url 'search_products' %}">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search for products..." aria-label="Search for products" name="query">
                         </form>
                     </li>
                     {% if user.is_authenticated %}
@@ -314,7 +314,7 @@
 
     <!-- Base JS -->
     <script src="{% static 'js/base.js' %}"></script>
-    <script type="text/javascript">
+    <script>
         $(document).ready(function() {
             $('.toast').toast('show');
         });
