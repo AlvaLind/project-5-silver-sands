@@ -40,13 +40,11 @@ card.addEventListener('change', function (event) {
     }
 });
 
-// Handle form submit
 var form = document.getElementById('payment-form');
 
 form.addEventListener('submit', function (ev) {
     ev.preventDefault();
 
-    // Clear previous error messages
     clearFormErrors();
 
     // Validate required fields
@@ -67,15 +65,15 @@ form.addEventListener('submit', function (ev) {
         const field = document.getElementById(fieldId);
         if (!field.value.trim()) {
             allFilled = false;
-            field.classList.add("is-invalid"); // Add Bootstrap invalid class
+            field.classList.add("is-invalid");
         } else {
-            field.classList.remove("is-invalid"); // Remove invalid class if filled
+            field.classList.remove("is-invalid");
         }
     });
 
     if (!allFilled) {
         alert("Please fill out all required fields.");
-        return; // Exit the function if validation fails
+        return;
     }
 
     // Disable form fields to prevent duplicate submissions
@@ -93,12 +91,9 @@ form.addEventListener('submit', function (ev) {
         'save_info': saveInfo,
     };
 
-    // URL to post the above data to the cache checkout data view
     var url = '/checkout/cache_checkout_data/';
 
-    // Post the postData to the view which updates the payment intent and returns a 200 response
     $.post(url, postData).done(function () {
-        // Call the confirm card payment method from stripe
         stripe.confirmCardPayment(clientSecret, {
             payment_method: {
                 card: card,
@@ -128,7 +123,6 @@ form.addEventListener('submit', function (ev) {
                 }
             },
         }).then(function (result) {
-            // If there are errors allow user to update the form and try again
             if (result.error) {
                 var errorDiv = document.getElementById('card-errors');
                 var html = `
@@ -137,7 +131,6 @@ form.addEventListener('submit', function (ev) {
                     </span>
                     <span>${result.error.message}</span>`;
                 $(errorDiv).html(html);
-                // Show the loading overlay and enable form fields again
                 $('#payment-form').fadeToggle(100);
                 $('#loading-overlay').fadeToggle(100);
                 card.update({ 'disabled': false });
@@ -148,16 +141,13 @@ form.addEventListener('submit', function (ev) {
                 }
             }
         }).fail(function () {
-            // Handle errors during post request
             location.reload();
         });
     }).fail(function () {
-        // Handle errors during the post request
         location.reload();
     });
 });
 
-// Function to clear form validation errors
 function clearFormErrors() {
     const requiredFields = [
         'id_full_name',
@@ -172,6 +162,6 @@ function clearFormErrors() {
 
     requiredFields.forEach(function (fieldId) {
         const field = document.getElementById(fieldId);
-        field.classList.remove("is-invalid"); // Remove invalid class if present
+        field.classList.remove("is-invalid");
     });
 }

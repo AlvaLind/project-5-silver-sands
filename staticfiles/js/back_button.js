@@ -1,5 +1,7 @@
+// Stores the referrer URL for the product_detail page and provides a way to navigate back to it.
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if referrer is available and the user is landing on the book_detail page for the first time
+    // Store the referrer URL in localStorage if it's available and not already stored
     if (document.referrer && !localStorage.getItem('productDetailsReferrer')) {
         localStorage.setItem('productDetailsReferrer', document.referrer);
     }
@@ -7,18 +9,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 function goBack() {
-    // Get the stored referrer URL
+    // Retrieve the stored referrer URL from localStorage
     const referrer = localStorage.getItem('productDetailsReferrer');
     
-    // Check if the referrer URL is available
+    // If the referrer URL exists, navigate to it and clear it from localStorage
     if (referrer) {
-        // Navigate back to the referrer URL
         window.location.href = referrer;
-        
-        // Optionally, clear the stored referrer after navigating back
         localStorage.removeItem('productDetailsReferrer');
-    } else {
-        // Fallback if there is no stored referrer
+    } 
+    else {
+        // If no referrer is stored, go back to the previous page in history
         window.history.back();
     }
 }

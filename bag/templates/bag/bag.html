@@ -199,7 +199,6 @@
 {% endblock %}
 
 {% block extra_js %}
-    {% include 'products/includes/quantity_input_script.html' %}
-    {% include 'bag/includes/bag_quantity_update_script.html' %}
-
+    <script src="{% static 'bag/js/bag_quantity_update.js' %}"></script>
+    <script src="{% static 'products/js/quantity_input.js' %}"></script>
 {% endblock %}

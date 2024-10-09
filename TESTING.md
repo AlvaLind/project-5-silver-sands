@@ -88,7 +88,7 @@ No warnings or errors were found when passing each of my HTML templates through 
 
 #### Complete HTML Validation Reports
 
-- [Homepage - Report]
+- [Homepage - Report](documentation/testing/html_checks/html-checks-homepage.png)
 
 - [Our Story - Report]
 
@@ -100,7 +100,7 @@ No warnings or errors were found when passing each of my HTML templates through 
 
 - [Check Out - Report]
 
-- [Bag - Report](documentation/testing/)
+- [Bag - Report]
 
 ### CSS Validation
 
@@ -108,37 +108,72 @@ No warnings or errors were found when passing the css through the [W3C (Jigsaw)]
 
 #### Complete CSS Validation Reports
 
-- [Homepage - Report](documentation/testing/css-check-home.png)
+- [Homepage - Report](documentation/testing/css_checks/css-check-home.png)
 
-- [Our Story - Report](documentation/testing/css-check-about.png)
+- [Our Story - Report](documentation/testing/css_checks/css-check-about.png)
 
-- [Visit Us - Report](documentation/testing/css-check-visit.png)
+- [Visit Us - Report](documentation/testing/css_checks/css-check-visit.png)
 
-- [All Wines - Report](documentation/testing/css-check-productlist.png)
+- [All Wines - Report](documentation/testing/css_checks/css-check-productlist.png)
 
-- [Wines Detail - Report](documentation/testing/css-check-details.png)
+- [Wines Detail - Report](documentation/testing/css_checks/css-check-details.png)
 
-- [Profile - Report](documentation/testing/css-check-profiles.png)
+- [Profile - Report](documentation/testing/css_checks/css-check-profiles.png)
 
-- [Checkout - Report](documentation/testing/css-check-checkout.png)
+- [Checkout - Report](documentation/testing/css_checks/css-check-checkout.png)
 
-- [Shopping Bag - Report](documentation/testing/css-check-bag.png)
+- [Shopping Bag - Report](documentation/testing/css_checks/css-check-bag.png)
 
-- [Favourites - Report](documentation/testing/css-check-favourites.png)
+- [Favourites - Report](documentation/testing/css_checks/css-check-favourites.png)
 
-- [Add Prodcut - Report](documentation/testing/css-check-add-product.png)
+- [Add Prodcut - Report](documentation/testing/css_checks/css-check-add-product.png)
 
-- [Manage Orders - Report](documentation/testing/css-check-manage-orders.png)
+- [Manage Orders - Report](documentation/testing/css_checks/css-check-manage-orders.png)
 
 ### JS Validation
 
-No warning or error messages were found when passing the java script files through the [JSHint](https://www.jshint.com/) validator. However, the validator has picked up in the comments.js that the bootstrap variable is not defined, but this variable is needed for the generation of the modal. 
+All javascript files were validated and no warning or error messages were found when passing the java script files through the [JSHint](https://www.jshint.com/) validator. However there were informational messages/notices indicating  useful insights into code that does not necesarily affect its functionality.
+
+During the validation of JavaScript code using JSHint, a handfull of 'unused variable' messages were found. It is important to note that these variables correspond to functions invoked within the HTML templates, which were not included in the JSHint validation context. Consequently, JSHint is unable to recognize that these functions are actively utilized in the application's user interface. To confirm the use of these functions the corresponding html templates have been manually checked for the function invoking. 
+
+To ensure JSHint correctly validated jQuery \$ functions within some of the javascript files, JSHint has been configured to recognise \$ as a global variable by adding,
+```
+/* jshint jquery: true */
+/* global $ */
+```
+to the top of the javascript file being validated.
+
+To ensure JSHint recognises the bootstrap variable (from the bootstrap library/framework) refered to in the manage_orders.js file a similar approach has been taken to configure JSHint it recognise bootstrap as a global variable by adding,
+```
+/* global bootstrap */
+```
+to the top of the javascript file being validated.
+
 
 #### Complete Java Script Validation Reports
 
-- 
-- 
-- 
+- [Age Verification JS - Report](documentation/testing/js_checks/js-checks-age-verification.png)
+
+- [Back Button JS - Report](documentation/testing/js_checks/js-checks-back-button.png)
+
+- [Bag Quantity Update JS - Report](documentation/testing/js_checks/js-checks-bag-quantity-update.png)
+
+- [Base JS - Report](documentation/testing/js_checks/js-checks-base.png)
+
+- [Country Field JS - Report](documentation/testing/js_checks/js-checks-countryfield.png)
+
+- [Manage Orders JS - Report](documentation/testing/js_checks/js-checks-manage-orders.png)
+
+- [Product Details JS - Report](documentation/testing/js_checks/js-checks-product-details.png)
+
+- [Product List JS - Report](documentation/testing/js_checks/js-checks-product-list.png)
+
+- [Quantity Input JS- Report](documentation/testing/js_checks/js-checks-quantity-input.png)
+
+- [Ratings JS - Report](documentation/testing/js_checks/js-checks-ratings.png)
+
+- [Stripe Elements JS - Report](documentation/testing/js_checks/js-checks-stripe-elements.png)
+
 
 ### Python Validation
 

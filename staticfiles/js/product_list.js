@@ -1,18 +1,20 @@
-// Filter and Sort by dropdown box functionality
+// Dropdown functionality for filtering and sorting items
+
 document.addEventListener('DOMContentLoaded', function() {
-    const dropdownBtn = document.querySelector('.dropdown-btn');  // Filter button
-    const dropdownContent = document.querySelector('.dropdown-content'); // Filter dropdown content
-    const sortDropdownBtn = document.getElementById('sortDropdownBtn'); // Sort button
-    const sortDropdownContent = document.getElementById('sortDropdownContent'); // Sort dropdown content
+    // Selecting necessary DOM elements
+    const dropdownBtn = document.querySelector('.dropdown-btn');
+    const dropdownContent = document.querySelector('.dropdown-content');
+    const sortDropdownBtn = document.getElementById('sortDropdownBtn');
+    const sortDropdownContent = document.getElementById('sortDropdownContent');
     
-    // Filter button click to toggle filter dropdown and close sort by dropdown if open
+    // Toggle filter dropdown and close sort dropdown if it's open
     dropdownBtn.addEventListener('click', function(event) {
         event.stopPropagation();
         dropdownContent.classList.toggle('show');
         sortDropdownContent.classList.remove('show'); 
     });
 
-    // Sort button click to toggle sort dropdown and close filter dropdown if open
+    // Toggle sort dropdown and close filter dropdown if it's open
     sortDropdownBtn.addEventListener('click', function(event) {
         event.stopPropagation();
         sortDropdownContent.classList.toggle('show');
@@ -30,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Delete a product from the product list - admin user
 function setDeleteProductAction(wineId) {
     const form = document.getElementById('deleteProductForm');
     form.action = `/management_dashboard/delete/${wineId}/`;

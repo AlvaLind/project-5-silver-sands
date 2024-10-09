@@ -393,7 +393,7 @@
 {% endblock %}
 
 {% block extra_js %}
-    {% include 'products/includes/quantity_input_script.html' %}
+    <script src="{% static 'products/js/quantity_input.js' %}"></script>
     <script src="{% static 'js/product_details.js' %}"></script>
     <script src="{% static 'js/back_button.js' %}"></script>
     <script src="{% static 'js/ratings.js' %}"></script>
