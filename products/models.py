@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from cloudinary.models import CloudinaryField
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -52,7 +54,7 @@ class Wine(models.Model):
     sku = models.CharField(max_length=254, null=True, blank=True)
     slug = models.SlugField(max_length=50, unique=True, blank=True)
     description = models.TextField()
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+    price = models.DecimalField(max_digits=6, decimal_places=2, default=Decimal('0.00'))
     vintage = models.PositiveIntegerField()
     volume = models.PositiveIntegerField()  # Volume in millilitres
     closure = models.CharField(max_length=20, choices=CLOSURE_CHOICES)
