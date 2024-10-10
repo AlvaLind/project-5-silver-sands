@@ -100,14 +100,9 @@ def delete_product(request, wine_id):
         return redirect(reverse('home'))
 
     wine = get_object_or_404(Wine, pk=wine_id)
-    wines = Wine.objects.all()
     wine.delete()
     messages.success(request, 'Product deleted!')
-
-    context = {
-        'wines': wines,
-    }
-    return render(request, 'products/product_list.html', context)
+    return redirect('product_list')
 
 
 @login_required
@@ -277,15 +272,13 @@ def delete_order(request, order_id):
         messages.error(request, 'Sorry, only store owners can do that.')
         return redirect('home')
 
-    order = get_object_or_404(Order, pk=order_id)
+    order = get_object_or_404(Order, id=order_id)
 
-    # Only allow deletion if the status is 'pending'
-    if order.status != 'pending':
-        messages.error(request, 'Order can only be deleted if \
-            the status is "Pending".')
-        return redirect('manage_orders')
+    if request.method == 'POST':
+        if order.status.lower() == 'pending':
+            order.delete()
+            messages.success(request, "Order deleted successfully.")
+        else:
+            messages.error(request, 'Order can only be deleted if the status is "Pending".')
 
-    # Delete the order
-    order.delete()
-    messages.success(request, 'Order deleted successfully.')
     return redirect('manage_orders')

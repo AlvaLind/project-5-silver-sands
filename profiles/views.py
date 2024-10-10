@@ -94,10 +94,9 @@ def remove_from_favourites(request, wine_id):
     messages.success(request, f'{wine.name} has been removed from your \
         favourites')
 
-    referer_url = (
-        request.META.get('HTTP_REFERER') or
-        reverse('products:product_details', args=[wine_id])
-    )
+    referer_url = request.META.get('HTTP_REFERER')
+    if not referer_url:
+        referer_url = reverse('product_details', args=[wine_id])
 
     return HttpResponseRedirect(referer_url)
 
@@ -110,8 +109,11 @@ def favourites(request):
 
     # Get all the favourite wines of the logged-in user
     favourite_wines = (
-        Favourite.objects.filter(user=request.user).select_related('wine'))
-
+        Favourite.objects.filter(user=request.user)
+        .select_related('wine')
+        .order_by('wine__name')
+    )
+    
     # Paginate the favourite wines, 9 per page
     paginator = Paginator(favourite_wines, 9)
     page_number = request.GET.get('page')

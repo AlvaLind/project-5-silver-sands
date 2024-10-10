@@ -81,12 +81,13 @@ class Wine(models.Model):
     # Override the save method to auto generate the slug and check uniqueness
     def save(self, *args, **kwargs):
         # Automatically generate the slug from the name if not provided
-        if not self.slug or not self.slug == slugify(self.name):
+        if not self.slug or self.slug != slugify(self.name):
             self.slug = slugify(self.name)
 
         # Check if the slug is unique before saving
         if Wine.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
             raise ValidationError(
-                f"A wine with the slug '{self.slug}' already exists.")
+                f"A wine with the slug '{self.slug}' already exists."
+            )
 
         super(Wine, self).save(*args, **kwargs)

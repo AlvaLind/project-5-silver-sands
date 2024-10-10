@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 from django.db.models import Avg, Value, FloatField, Q
 from django.db.models.functions import Coalesce, Lower
@@ -172,13 +173,13 @@ def delete_review(request, wine_id, review_id):
     review = get_object_or_404(Review, pk=review_id)
 
     # Ensure the logged-in user is the review owner
-    if review.user == request.user:
-        review.delete()
-        messages.success(request, 'Your review has been deleted.')
-        print("Review deleted successfully")
-    else:
-        messages.error(request, 'You can only delete your own reviews.')
+    if review.user != request.user:
         print("Error: Review delete failed - not user's review")
+        raise PermissionDenied  # Raise 403 Forbidden for unauthorized users
+
+    review.delete()
+    messages.success(request, 'Your review has been deleted.')
+    print("Review deleted successfully")
 
     return redirect('product_details', wine_id=wine.id)
 

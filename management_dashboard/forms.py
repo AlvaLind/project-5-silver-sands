@@ -36,6 +36,29 @@ class ProductForm(forms.ModelForm):
         self.fields['volume'].required = True
         self.fields['closure'].required = True
         self.fields['stock'].required = True
+        
+        # Customize error messages for required fields overwrite html5
+        self.fields['name'].error_messages = {
+            'required': 'Name is required.'
+        }
+        self.fields['description'].error_messages = {
+            'required': 'Description is required.'
+        }
+        self.fields['price'].error_messages = {
+            'required': 'Price is required.'
+        }
+        self.fields['vintage'].error_messages = {
+            'required': 'Vintage is required.'
+        }
+        self.fields['volume'].error_messages = {
+            'required': 'Volume is required.'
+        }
+        self.fields['closure'].error_messages = {
+            'required': 'Closure is required.'
+        }
+        self.fields['stock'].error_messages = {
+            'required': 'Stock is required.'
+        }
 
         if self.instance.pk:  # Check if the instance exists (is being edited)
             self.fields['slug'].widget.attrs['readonly'] = True
@@ -66,8 +89,8 @@ class ProductForm(forms.ModelForm):
         if len(name) > 50:
             raise ValidationError('Name cannot exceed 50 characters.')
         if not re.match(r"^[a-zA-Z0-9\s]*$", name):
-            raise ValidationError('Name must contain only letters, \
-                numbers and spaces.')
+            raise ValidationError(
+                'Name must contain only letters, numbers and spaces.')
         return name
 
     def clean_sku(self):
