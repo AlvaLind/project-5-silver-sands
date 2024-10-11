@@ -94,6 +94,11 @@ def product_list(request):
         'page_obj': page_obj,
         'categories': categories,
         'show_signup_form': True,
+        'category_filter': category_filter,
+        'price_min': price_min,
+        'price_max': price_max,
+        'available': available,
+        'sort': sort,
     }
     return render(request, 'products/product_list.html', context)
 
