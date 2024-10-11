@@ -2,5 +2,4 @@ User-agent: *
 Disallow: /profiles/
 Disallow: /checkout/
 Disallow: /management_dashboard/
-Disallow: /templates/
 Sitemap: https://silver-sands-estate-27b0dac465b2.herokuapp.com/sitemap.xml
