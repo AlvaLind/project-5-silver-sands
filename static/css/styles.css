@@ -144,6 +144,10 @@ footer a:hover {
     background-color: rgba(255, 234, 74, 0.4);
 }
 
+.btn-red {
+    background-color: #dc3545;
+}
+
 /* Errors in form fields */
 input.is-invalid {
     border-color: #dc3545 !important;

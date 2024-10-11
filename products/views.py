@@ -289,4 +289,9 @@ def search_products(request):
         'query': query,
         'page_obj': page_obj,
         'categories': categories,
+        'category_filter': category_filter,
+        'price_min': price_min,
+        'price_max': price_max,
+        'available': available,
+        'sort': sort,
     })
