@@ -89,7 +89,7 @@
         </div>
     </div>
 
-    <div id="age-modal" class="modal">
+    <div id="age-modal" class="modal" data-access-denied-url="{% url 'access_denied' %}">
         <div class="modal-content">
             <h2>Age Verification</h2>
             <p>You must be 18 years or older to enter this site. Please confirm your age.</p>
@@ -104,5 +104,33 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'home/js/age_verification.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ageModal = document.getElementById('age-modal');
+        const confirmAgeBtn = document.getElementById('confirm-age');
+        const exitSiteBtn = document.getElementById('exit-site');
+        
+        // Get the access denied URL from the modal's data attribute
+        const accessDeniedUrl = ageModal.getAttribute('data-access-denied-url');
+    
+        // Check if the user has already confirmed their age
+        if (!localStorage.getItem('ageVerified')) {
+            ageModal.style.display = 'flex';
+        } else {
+            ageModal.style.display = 'none';
+        }
+    
+        // Event listener for the "I am 18 or older" button
+        confirmAgeBtn.addEventListener('click', function () {
+            localStorage.setItem('ageVerified', 'true');
+            ageModal.style.display = 'none';
+        });
+    
+        // Event listener for the "I am under 18" button
+        exitSiteBtn.addEventListener('click', function () {
+            // Redirect to the access denied URL
+            window.location.href = accessDeniedUrl;
+        });
+    });    
+</script>
 {% endblock%}
