@@ -512,11 +512,11 @@ I used GitHub Project Management to manage this project. This approach allowed m
 
 ![User story](documentation/user-story.jpg)
 
-![Github Board ](documentation/user-stories-board.png)
-You can locate the Silver Sands Estate backlog through [this link](https://github.com/users/AlvaLind/projects/7)
+![Github Board ](documentation/project-board.png)
+You can locate the Silver Sands Estate backlog through [this link](https://github.com/users/AlvaLind/projects/7/views/1)
 
 ## Testing
-Please refer to the [TESTING.md](https://github.com/AlvaLind/page-turner/blob/main/TESTING.md) for test-related documentation.
+Please refer to the [TESTING.md](https://github.com/AlvaLind/project-5-silver-sands/blob/main/TESTING.md) for test-related documentation.
 
 ## Deployment
 
@@ -524,7 +524,7 @@ Please refer to the [TESTING.md](https://github.com/AlvaLind/page-turner/blob/ma
 - The PostgreSQL database was provided by [Code Institute](https://codeinstitute.net/se/).
 - You can access the app through [this link](ADD LINK)
 
-Please refer to the [DEPLOYMENT.md]() file for all deployment and payment-related documentation.
+Please refer to the [DEPLOYMENT.md](https://github.com/AlvaLind/project-5-silver-sands/blob/main/DEPLOYMENT.md) file for all deployment and payment-related documentation.
 
 ## Credits
 
