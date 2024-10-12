@@ -139,7 +139,7 @@ def product_details(request, wine_id):
         review_form = ReviewForm()
 
     # Calculate the average rating for the wine, default to 0 if no reviews
-    average_rating = wine.reviews.aggregate(Avg('rating'))['rating__avg'] or 0
+    average_rating = wine.reviews.filter(approved=True).aggregate(Avg('rating'))['rating__avg'] or 0
 
     # Get all reviews for the wine (you might want to add pagination later)
     reviews = wine.reviews.filter(approved=True).order_by('-created_at')
