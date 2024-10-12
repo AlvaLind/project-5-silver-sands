@@ -79,48 +79,49 @@
                     </table>
 
                     <!-- Pagination controls -->
-                    <nav aria-label="Order history pagination">
-                        <ul class="pagination justify-content-center">
-                            {% if orders.has_previous %}
-                                <li class="page-item">
-                                    <a class="page-link custom-pagination" href="?page=1" aria-label="First">
-                                        <span aria-hidden="true">&laquo;&laquo;</span>
-                                    </a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link custom-pagination" href="?page={{ orders.previous_page_number }}" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                            {% endif %}
-                    
-                            {% for i in orders.paginator.page_range %}
-                                {% if orders.number == i %}
-                                    <li class="page-item active" aria-current="page">
-                                        <span class="page-link custom-pagination">{{ i }}</span>
-                                    </li>
-                                {% else %}
+                    {% if orders %}
+                        <nav aria-label="Order history pagination">
+                            <ul class="pagination justify-content-center">
+                                {% if orders.has_previous %}
                                     <li class="page-item">
-                                        <a class="page-link custom-pagination" href="?page={{ i }}">{{ i }}</a>
+                                        <a class="page-link custom-pagination" href="?page=1" aria-label="First">
+                                            <span aria-hidden="true">&laquo;&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link custom-pagination" href="?page={{ orders.previous_page_number }}" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
                                     </li>
                                 {% endif %}
-                            {% endfor %}
-                    
-                            {% if orders.has_next %}
-                                <li class="page-item">
-                                    <a class="page-link custom-pagination" href="?page={{ orders.next_page_number }}" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link custom-pagination" href="?page={{ orders.paginator.num_pages }}" aria-label="Last">
-                                        <span aria-hidden="true">&raquo;&raquo;</span>
-                                    </a>
-                                </li>
-                            {% endif %}
-                        </ul>
-                    </nav>
-                    
+                        
+                                {% for i in orders.paginator.page_range %}
+                                    {% if orders.number == i %}
+                                        <li class="page-item active" aria-current="page">
+                                            <span class="page-link custom-pagination">{{ i }}</span>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item">
+                                            <a class="page-link custom-pagination" href="?page={{ i }}">{{ i }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                        
+                                {% if orders.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link custom-pagination" href="?page={{ orders.next_page_number }}" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link custom-pagination" href="?page={{ orders.paginator.num_pages }}" aria-label="Last">
+                                            <span aria-hidden="true">&raquo;&raquo;</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    {% endif %}
                 </div>
             </div>
         </div>
