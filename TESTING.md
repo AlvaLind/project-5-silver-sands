@@ -588,3 +588,32 @@ Pasting in each of the python files within the project ultimately rendered the s
 
 
 ### Lighthouse validation
+
+Silver-Sands-Estate has generally good scores when testing through Lighthouse.
+
+![lighthouse test](documentation/index-lighthouse.png)
+
+
+## Bugs 
+
+### Solved Bugs
+#### Issue: Sorting and Filtering together
+I encountered issues with sorting and filtering the wine products database on the `product_list.html`. All filters applied correctly but as soon as the page was refreshed by either navigating through to a product details page or using the pagination buttons to go to the next page the filters where cleared. This made for a bad user experience as users would need to re-apply their filters and sort by's constantly. 
+I resolved the issue by using query parameters in the form's GET method. The filter values (category, price range, availability) are passed through the URL as query parameters, and I dynamically populated the form fields based on these values using request.GET. 
+``` html
+  <select id="category" name="category" class="form-control">
+      <option value="">All Categories</option>
+      {% for category in categories %}
+          <option value="{{ category.name }}" {% if category.name == request.GET.category %}
+          selected{% endif %}>{{ category.name }}</option>
+      {% endfor %}
+  </select>
+```
+Additionally, I added hidden fields in the sorting form to ensure the filters persisted when applying different sorting options. This approach ensures that filters and sort preferences remain intact across page reloads, improving user experience.
+``` html
+  <input type="hidden" name="category" value="{{ request.GET.category }}">
+  <input type="hidden" name="price_min" value="{{ request.GET.price_min }}">
+  <input type="hidden" name="price_max" value="{{ request.GET.price_max }}">
+  <input type="hidden" name="available" value="{{ request.GET.available }}">
+```
+

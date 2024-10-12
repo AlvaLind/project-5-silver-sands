@@ -2,7 +2,7 @@
 
 You can find the link to [Silver Sands here](https://silver-sands-estate-27b0dac465b2.herokuapp.com/)!
 
-![SilverSands responsiveness](documentation/features/responsivenes-pageturner.jpg)
+![SilverSands responsiveness](documentation/responsive.png)
 
 Welcome to Silver Sands Estate, your go-to spot for discovering delicious wines straight from our vineyard! Nestled in a stunning location, we take pride in crafting a diverse range of wines, from smooth reds and crisp whites to vibrant rosés. Each bottle is made with care, capturing the unique flavors and character of our vineyard.
 
